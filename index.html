@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Takahami Cheat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #151821;
+    --surface2: #1c2030;
+    --border: #252b3b;
+    --accent: #4f8ef7;
+    --accent2: #f7b34f;
+    --accent3: #4ff7a8;
+    --accent4: #f74f7b;
+    --text: #e2e8f0;
+    --muted: #6b7a99;
+    --tag: #1e2a4a;
+    --header-bg: linear-gradient(135deg, #0d1220 0%, #151a2e 50%, #0d1220 100%);
+    --logo-text-color: #e2e8f0;
+    --logo-sub-color: #6b7a99;
+  }
+  body.light {
+    --bg: #f0f2f7;
+    --surface: #ffffff;
+    --surface2: #e8ecf4;
+    --border: #d1d9e8;
+    --accent: #2563eb;
+    --accent2: #d97706;
+    --accent3: #059669;
+    --accent4: #e11d48;
+    --text: #111827;
+    --muted: #6b7280;
+    --tag: #dbeafe;
+    --header-bg: linear-gradient(135deg, #e8ecf4 0%, #f0f2f7 50%, #e8ecf4 100%);
+    --logo-text-color: #111827;
+    --logo-sub-color: #6b7280;
+  }
+  .theme-toggle {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--accent); background: var(--tag); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--logo-text-color); }
+  .logo-sub { font-size: 12px; color: var(--logo-sub-color); font-family: 'Inter', sans-serif; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .nav-tab {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.3px;
+  }
+  .nav-tab:hover { color: var(--text); border-color: var(--accent); background: var(--tag); }
+  .nav-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* LAYOUT */
+  .container { max-width: 1400px; margin: 0 auto; padding: 36px 40px; }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .section-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 28px; font-family: 'Inter', sans-serif; }
+
+  /* SEARCH */
+  .search-wrap { position: relative; margin-bottom: 24px; }
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px 14px 48px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 20px;
+    pointer-events: none;
+  }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--surface2); }
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 13px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(79,142,247,0.04); }
+  td a { color: var(--accent); text-decoration: none; }
+  td a:hover { text-decoration: underline; }
+
+  /* COMPACT TABLE */
+  .compact-table th {
+    padding: 8px 10px;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+  }
+  .compact-table td {
+    padding: 7px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    vertical-align: middle;
+  }
+  .compact-table .name-cell {
+    font-weight: 600;
+    font-size: 12px;
+    min-width: 160px;
+    max-width: 220px;
+  }
+  .compact-table .phone-cell {
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+  }
+  .compact-table .notes-cell {
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 260px;
+  }
+  .compact-table .hours-cell {
+    white-space: nowrap;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    color: var(--muted);
+  }
+  .compact-table .tfl-cell, .compact-table .tat-cell {
+    white-space: nowrap;
+    font-size: 11px;
+    text-align: center;
+  }
+  .compact-table .dept-cell {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .badge-blue { background: rgba(79,142,247,0.15); color: #7eb3ff; }
+  .badge-green { background: rgba(79,247,168,0.15); color: #4ff7a8; }
+  .badge-yellow { background: rgba(247,179,79,0.15); color: #f7b34f; }
+  .badge-red { background: rgba(247,79,123,0.15); color: #f74f7b; }
+  .badge-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* FLOW CARDS */
+  .flow-grid { display: flex; flex-direction: column; gap: 16px; }
+  .flow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .flow-card:hover { border-color: var(--accent); }
+  .flow-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+  }
+  .flow-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .flow-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .flow-sub-section {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-top: 12px;
+  }
+  .flow-sub-section h4 { font-size: 13px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+  .flow-sub-section p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .flow-fork { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+
+  /* SHORTCUT GRID */
+  .shortcut-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .shortcut-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+  .shortcut-card:hover { border-color: var(--accent2); }
+  .shortcut-word { font-size: 13px; color: var(--muted); }
+  .shortcut-abbr { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--accent2); font-weight: 500; }
+
+  /* LINKS GRID */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px;
+  }
+  .link-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .link-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .link-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--tag);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .link-body { flex: 1; min-width: 0; }
+  .link-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .link-url { font-size: 11px; color: var(--accent); font-family: 'Inter', sans-serif; word-break: break-all; line-height: 1.4; }
+
+  /* TEMPLATES */
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .template-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .template-header {
+    background: var(--surface2);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .template-header span { font-size: 13px; font-weight: 700; }
+  .template-body { padding: 16px 18px; }
+  .template-text {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .copy-btn {
+    margin-top: 10px;
+    padding: 7px 14px;
+    background: var(--tag);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: rgba(79,142,247,0.2); }
+  .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
+
+  /* THRESHOLD */
+  .threshold-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent2);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .threshold-info strong { color: var(--accent2); }
+
+  /* HOME DASHBOARD */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .dash-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .dash-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,142,247,0.12); }
+  .dash-emoji { font-size: 32px; margin-bottom: 12px; }
+  .dash-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .dash-card p { font-size: 12px; color: var(--muted); }
+  .announcement {
+    background: linear-gradient(135deg, rgba(79,142,247,0.1), rgba(79,247,168,0.05));
+    border: 1px solid rgba(79,142,247,0.25);
+    border-radius: 12px;
+    padding: 18px 22px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .announcement strong { color: var(--text); }
+
+  /* COUNT BADGE */
+  .count { background: var(--tag); color: var(--accent); border-radius: 20px; padding: 2px 9px; font-size: 11px; font-family: 'Inter', sans-serif; margin-left: 8px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .header { flex-direction: column; gap: 16px; padding: 20px; }
+    .container { padding: 20px; }
+    .template-grid { grid-template-columns: 1fr; }
+    .flow-fork { grid-template-columns: 1fr; }
+  }
+
+  /* GLOBAL SEARCH */
+  .global-search-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    position: sticky;
+    top: 97px;
+    z-index: 99;
+  }
+  .global-search-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .global-search-wrap input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 20px 11px 44px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .global-search-wrap input:focus { border-color: var(--accent); }
+  .global-search-wrap input::placeholder { color: var(--muted); }
+  .global-search-wrap::before {
+    content: '🔍';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    pointer-events: none;
+  }
+  /* SEARCH RESULTS OVERLAY */
+  #global-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 200;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .gr-section-label {
+    padding: 8px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+  .gr-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .gr-item:last-child { border-bottom: none; }
+  .gr-item:hover { background: var(--tag); }
+  .gr-item-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .gr-item-detail { font-size: 11px; color: var(--muted); font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gr-no-results { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
+  mark { background: rgba(79,142,247,0.25); color: var(--text); border-radius: 2px; padding: 0 2px; }
+
+  /* COPY PHONE BUTTON */
+  .copy-phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 6px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    background: var(--tag);
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .copy-phone-btn:hover { background: rgba(79,142,247,0.15); border-color: var(--accent); }
+  .copy-phone-btn.copied { color: var(--accent3); border-color: var(--accent3); background: rgba(79,247,168,0.1); }
+
+  /* A-Z ALPHABET FILTER */
+  .alpha-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+  .alpha-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    min-width: 26px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .alpha-btn:hover { color: var(--text); border-color: var(--accent); background: var(--tag); }
+  .alpha-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .alpha-btn.all-btn { min-width: 36px; }
+  .alpha-btn.disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">T</div>
+    <div>
+      <div class="logo-text">Takahami Cheat Sheet</div>
+      <div class="logo-sub">Knowledge Base · Internal Reference</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+    <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="showSection('flows')">🔄 Flows</button>
+    <button class="nav-tab" onclick="showSection('facility')">🏥 Facility</button>
+    <button class="nav-tab" onclick="showSection('carriers')">📞 Carriers</button>
+    <button class="nav-tab" onclick="showSection('pricing')">💲 Pricing Vendors</button>
+    <button class="nav-tab" onclick="showSection('tpas')">🏢 TPAs</button>
+    <button class="nav-tab" onclick="showSection('threshold')">📊 Threshold</button>
+    <button class="nav-tab" onclick="showSection('templates')">📝 Templates</button>
+    <button class="nav-tab" onclick="showSection('links')">🔗 Links</button>
+  </nav>
+  </div>
+</header>
+
+<div class="global-search-bar">
+  <div class="global-search-wrap">
+    <input type="text" id="global-search-input" placeholder="Search everything — carriers, TPAs, pricing vendors, facilities…" oninput="globalSearch(this.value)" onkeydown="globalSearchKey(event)" autocomplete="off">
+    <div id="global-results"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div class="section active" id="home">
+    <div class="section-title">Welcome to Takahami Cheat Sheet</div>
+    <div class="section-desc">// Your internal reference hub for claims, appeals, negotiations & contacts</div>
+    <div class="dash-grid">
+      <div class="dash-card" onclick="showSection('flows')">
+        <div class="dash-emoji">🔄</div>
+        <h3>Process Flows</h3>
+        <p>Step-by-step workflows</p>
+      </div>
+      <div class="dash-card" onclick="showSection('facility')">
+        <div class="dash-emoji">🏥</div>
+        <h3>Facility Info</h3>
+        <p>TIN, NPI, Addresses</p>
+      </div>
+      <div class="dash-card" onclick="showSection('carriers')">
+        <div class="dash-emoji">📞</div>
+        <h3>Carrier Contacts</h3>
+        <p>Phone, Fax, Appeal info</p>
+      </div>
+      <div class="dash-card" onclick="showSection('pricing')">
+        <div class="dash-emoji">💲</div>
+        <h3>Pricing Vendors</h3>
+        <p>Negotiation contacts</p>
+      </div>
+      <div class="dash-card" onclick="showSection('tpas')">
+        <div class="dash-emoji">🏢</div>
+        <h3>TPAs</h3>
+        <p>Third-party administrators</p>
+      </div>
+      <div class="dash-card" onclick="showSection('threshold')">
+        <div class="dash-emoji">📊</div>
+        <h3>Thresholds</h3>
+        <p>Negotiation targets</p>
+      </div>
+      <div class="dash-card" onclick="showSection('templates')">
+        <div class="dash-emoji">📝</div>
+        <h3>Notes & Templates</h3>
+        <p>Copy-ready templates</p>
+      </div>
+      <div class="dash-card" onclick="showSection('links')">
+        <div class="dash-emoji">🔗</div>
+        <h3>Links & Shortcuts</h3>
+        <p>Portals, forms, abbreviations</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FLOWS -->
+  <div class="section" id="flows">
+    <div class="section-title">Process & Work Flows</div>
+    <div class="section-desc">// Follow these steps for every claim review and action</div>
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="flow-number">1</div>
+          <h3>Access the Spreadsheet or Account</h3>
+        </div>
+        <p>You will be advised to access a spreadsheet or an account will be given to you directly by the Onshore Manager.</p>
+      </div>
+      <div class="flow-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="flow-number">2</div>
+          <h3>Review ALL Claims</h3>
+        </div>
+        <p>ALL CLAIMS need to be reviewed — Status, Claim Notes, Appeal Documents, Signed Contracts, Web Portals.</p>
+      </div>
+      <div class="flow-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="flow-number">3</div>
+          <h3>Check Claim Statuses</h3>
+        </div>
+        <p>If status of all claims are correct, jump to Step 5 to choose which process you're about to do. Otherwise, proceed with the next step.</p>
+      </div>
+      <div class="flow-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="flow-number">4</div>
+          <h3>Request Onshore Approval</h3>
+        </div>
+        <p>Request approval from the onshore manager which claims you will be changing and for what reason. Once approved, proceed to Step 5. If not, endorse the claims to the Onshore Manager.</p>
+      </div>
+      <div class="flow-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="flow-number">5</div>
+          <h3>Choose Your Process</h3>
+        </div>
+        <p>Your process will depend on whether negotiation is allowed, especially if there is a Pricing Vendor (TPA).</p>
+        <div class="flow-fork">
+          <div class="flow-sub-section">
+            <h4>5.A — NEGOTIATIONS</h4>
+            <p>Identify which Pricing Vendor to contact and how to submit the negotiation inquiry. See the Pricing Vendors tab for contact info.</p>
+          </div>
+          <div class="flow-sub-section">
+            <h4>5.B — APPEALS</h4>
+            <p>View the list of carriers and workflow in creating the appeal. See the Carriers tab for contact info including Appeal TFL and TAT.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACILITY -->
+  <div class="section" id="facility">
+    <div class="section-title">Facility Information</div>
+    <div class="section-desc">// TIN, NPI, and address for all facilities</div>
+    <div class="alpha-filter" id="facility-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('facility-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Z', this)">Z</button></div>
+    <div class="search-wrap">
+      <input type="text" id="facility-search" placeholder="Search facility name, TIN, NPI, or address…" oninput="filterTable('facility-table', this.value)">
+    </div>
+    <div class="table-wrap">
+      <table id="facility-table">
+        <thead>
+          <tr>
+            <th>Facility Name</th>
+            <th>TIN</th>
+            <th>NPI</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Boston Rehabilitation Center</td><td><span class="badge badge-blue">934253949</span></td><td><span class="badge badge-green">1013725910</span></td><td>2523 Cranberry Hwy. Wareham, MA 02571</td></tr>
+          <tr><td>California Detox and Recovery Center</td><td><span class="badge badge-blue">993252067</span></td><td><span class="badge badge-green">1215758438</span></td><td>1237 South Wilton Pl., Los Angeles, CA 90019-3542</td></tr>
+          <tr><td>Choicepoint, LLC</td><td><span class="badge badge-blue">823644902</span></td><td><span class="badge badge-green">1831702562</span></td><td>23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558</td></tr>
+          <tr><td>Elevate Wellness Center, LLC</td><td><span class="badge badge-blue">991537607</span></td><td><span class="badge badge-green">1942066162</span></td><td>12037 Rialto St. Sun Valley, CA 91352-3042</td></tr>
+          <tr><td>Empower Recovery Center New Jersey</td><td><span class="badge badge-blue">872365502</span></td><td><span class="badge badge-green">1669229118</span></td><td>200 Independence Blvd. Sicklerville, NJ 08081</td></tr>
+          <tr><td>Legacy Healing and Treatment New Jersey, LLC</td><td><span class="badge badge-blue">843798890</span></td><td><span class="badge badge-green">1417588203</span></td><td>800 Kings Hwy N., Ste. 100 Cherry Hill, NJ 08034</td></tr>
+          <tr><td>Legacy Healing Center California, LLC</td><td><span class="badge badge-blue">922019341</span></td><td><span class="badge badge-green">1003699752</span></td><td>2462 Solar Dr. Los Angeles, CA 90046</td></tr>
+          <tr><td>Legacy Healing Center Los Angeles, LLC</td><td><span class="badge badge-blue">992924505</span></td><td><span class="badge badge-green">1427877216</span></td><td>1924 Wattles Dr. Los Angeles, CA 90046</td></tr>
+          <tr><td>Legacy Healing Center Margate, LLC</td><td><span class="badge badge-blue">813661016</span></td><td><span class="badge badge-green">1811447832</span></td><td>1425 W Cypress Crk Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
+          <tr><td>Legacy Healing Center Ohio, LLC</td><td><span class="badge badge-blue">873581824</span></td><td><span class="badge badge-green">1295466266</span></td><td>4990 E. Galbraith Rd. Cincinnati, OH 45236</td></tr>
+          <tr><td>Legacy Healing Detox, LLC</td><td><span class="badge badge-blue">831513664</span></td><td><span class="badge badge-green">1831662352</span></td><td>1425 West Cypress Creek Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
+          <tr><td>Legacy Healing North Jersey, LLC</td><td><span class="badge badge-blue">874362887</span></td><td><span class="badge badge-green">1255037487</span></td><td>300 Littleton Rd., Ste. 200 Parsippany, NJ 07054</td></tr>
+          <tr><td>New Leaf Recovery Center</td><td><span class="badge badge-blue">994763551</span></td><td><span class="badge badge-green">1952263857</span></td><td>628 Shrewsbury Ave Tinton Falls, NJ 07701-4932</td></tr>
+          <tr><td>New Spirit Recovery, LLC</td><td><span class="badge badge-blue">831547080</span></td><td><span class="badge badge-green">1437634466</span></td><td>17856 Cathedral Pl. Encino, CA 91316</td></tr>
+          <tr><td>Revive Premier Recovery, INC</td><td><span class="badge badge-blue">923170172</span></td><td><span class="badge badge-green">1427749910</span></td><td>3630 Potosi Ave. Studio City, CA 91604-4059</td></tr>
+          <tr><td>Revive Premier Treatment Center</td><td><span class="badge badge-blue">882311706</span></td><td><span class="badge badge-green">1184354946</span></td><td>13111 Ventura Blvd Studio City, CA 91604-2218</td></tr>
+          <tr><td>Southeastern Recovery Center</td><td><span class="badge badge-blue">921028195</span></td><td><span class="badge badge-green">1124703988</span></td><td>1018 Lee Ann Dr., NE Concord, NC 28025</td></tr>
+          <tr><td>The Hope Institute, LLC</td><td><span class="badge badge-blue">352700579</span></td><td><span class="badge badge-green">1275239261</span></td><td>179 Cahill Cross Rd., Ste. 210 West Milford, NJ 07480</td></tr>
+          <tr><td>White Lotus Landing, LLC</td><td><span class="badge badge-blue">921535284</span></td><td><span class="badge badge-green">1568216356</span></td><td>58 Grove Ave Leominster, MA 01453-3108</td></tr>
+          <tr><td>Worthy Recovery Center, LLC</td><td><span class="badge badge-blue">884091661</span></td><td><span class="badge badge-green">1598459869</span></td><td>2562 State St., Ste. D Carlsbad, CA 92008</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CARRIERS -->
+  <div class="section" id="carriers">
+    <div class="section-title">Carrier Phone Numbers <span class="count" id="carrier-count">145</span></div>
+    <div class="section-desc">// Phone, fax, appeal TFL/TAT, mailing addresses for all carriers</div>
+    <div class="alpha-filter" id="carrier-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('carrier-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Z', this)">Z</button></div>
+    <div class="search-wrap">
+      <input type="text" id="carrier-search" placeholder="Search carrier, phone, department…" oninput="filterTable('carrier-table', this.value, 'carrier-count')">
+    </div>
+    <div class="table-wrap">
+      <table id="carrier-table" class="compact-table">
+        <thead>
+          <tr>
+            <th style="width:18%">Name</th>
+            <th style="width:14%">Phone / Fax</th>
+            <th style="width:10%">Department</th>
+            <th style="width:10%">Hours (EST)</th>
+            <th style="width:7%">TFL</th>
+            <th style="width:7%">TAT</th>
+            <th style="width:34%">Address / Notes</th>
+          </tr>
+        </thead>
+        <tbody id="carrier-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PRICING VENDORS -->
+  <div class="section" id="pricing">
+    <div class="section-title">Pricing Vendors <span class="count" id="pv-count">23</span></div>
+    <div class="section-desc">// Negotiation contacts and submission info by pricing vendor</div>
+    <div class="alpha-filter" id="pv-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('pv-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Z', this)">Z</button></div>
+    <div class="search-wrap">
+      <input type="text" id="pv-search" placeholder="Search vendor name or details…" oninput="filterTable('pv-table', this.value, 'pv-count')">
+    </div>
+    <div class="table-wrap">
+      <table id="pv-table" class="compact-table">
+        <thead>
+          <tr>
+            <th style="width:18%">Name</th>
+            <th style="width:14%">Phone / Fax</th>
+            <th style="width:10%">Department</th>
+            <th style="width:10%">Hours (EST)</th>
+            <th style="width:7%">TFL</th>
+            <th style="width:7%">TAT</th>
+            <th style="width:34%">Address / Notes</th>
+          </tr>
+        </thead>
+        <tbody id="pv-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TPAS -->
+  <div class="section" id="tpas">
+    <div class="section-title">Third-Party Administrators (TPAs) <span class="count" id="tpa-count">63</span></div>
+    <div class="section-desc">// Appeal contact details for all TPAs</div>
+    <div class="alpha-filter" id="tpa-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('tpa-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Z', this)">Z</button></div>
+    <div class="search-wrap">
+      <input type="text" id="tpa-search" placeholder="Search TPA name, phone, or details…" oninput="filterTable('tpa-table', this.value, 'tpa-count')">
+    </div>
+    <div class="table-wrap">
+      <table id="tpa-table" class="compact-table">
+        <thead>
+          <tr>
+            <th style="width:18%">Name</th>
+            <th style="width:14%">Phone / Fax</th>
+            <th style="width:10%">Department</th>
+            <th style="width:10%">Hours (EST)</th>
+            <th style="width:7%">TFL</th>
+            <th style="width:7%">TAT</th>
+            <th style="width:34%">Address / Notes</th>
+          </tr>
+        </thead>
+        <tbody id="tpa-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- THRESHOLD -->
+  <div class="section" id="threshold">
+    <div class="section-title">Negotiation Thresholds</div>
+    <div class="section-desc">// CPT/HCPCS threshold amounts by code type</div>
+    <div class="threshold-info">
+      <strong>CA Claims:</strong> All CA claims have the same threshold of at least <strong>50%</strong> of the billed amount and a target of <strong>65%</strong> of the billed amount.<br>
+      <strong>UMR Claims (Detox & Residential):</strong> At least <strong>$5,000</strong> or <strong>65%</strong> of the billed amount even if Non-CA — whichever is higher.<br>
+      <strong>MA Claims:</strong> Follow Non-CA rules except for Detoxification and Residential which should be at least 50% of the billed amount and target of 65% — whichever is higher.
+    </div>
+    <div class="table-wrap" style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>CPT / HCPCS</th>
+            <th>Description</th>
+            <th>Threshold ($)</th>
+            <th>Sample Billed Amt</th>
+            <th>Sample Allowed Amt</th>
+            <th>Sample Balance</th>
+            <th>Additional Needed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="badge badge-blue">0126</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$7,990</td><td>$1,836.89</td><td>$6,153.11</td><td>$3,356.61</td></tr>
+          <tr><td><span class="badge badge-blue">0126</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$34,900</td><td>$11,195.72</td><td>$23,704.28</td><td>$11,489.28</td></tr>
+          <tr><td><span class="badge badge-blue">0126</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$7,990</td><td>$2,683.06</td><td>$5,306.94</td><td>$2,510.44</td></tr>
+          <tr><td><span class="badge badge-blue">0126</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$7,195</td><td>$2,301.65</td><td>$4,893.35</td><td>$2,375.10</td></tr>
+          <tr><td><span class="badge badge-blue">H0010</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$8,800</td><td>$1,372.51</td><td>$7,427.49</td><td>$4,347.49</td></tr>
+          <tr><td><span class="badge badge-blue">H0011</span></td><td>Detoxification</td><td><span class="badge badge-red">$2,000</span></td><td>$7,250</td><td>$1,001.29</td><td>$6,248.71</td><td>$3,711.21</td></tr>
+          <tr><td><span class="badge badge-yellow">1000</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$7,195</td><td>$1,372.51</td><td>$5,822.49</td><td>$3,304.24</td></tr>
+          <tr><td><span class="badge badge-yellow">1002</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$7,790</td><td>$1,541.28</td><td>$6,248.72</td><td>$3,522.22</td></tr>
+          <tr><td><span class="badge badge-yellow">1002</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$7,790</td><td>$3,127.11</td><td>$4,662.89</td><td>$1,936.39</td></tr>
+          <tr><td><span class="badge badge-yellow">1002</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$7,790</td><td>$2,355.07</td><td>$5,434.93</td><td>$2,708.43</td></tr>
+          <tr><td><span class="badge badge-yellow">H0017</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$7,790</td><td>$2,683.06</td><td>$5,106.94</td><td>$2,380.44</td></tr>
+          <tr><td><span class="badge badge-yellow">H0018</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$8,500</td><td>$1,372.51</td><td>$7,127.49</td><td>$4,152.49</td></tr>
+          <tr><td><span class="badge badge-yellow">H0019</span></td><td>Residential</td><td><span class="badge badge-red">$1,500</span></td><td>$4,814</td><td>$1,005.61</td><td>$3,808.39</td><td>$2,123.49</td></tr>
+          <tr><td><span class="badge badge-green">S0201</span></td><td>PHP</td><td><span class="badge badge-red">$1,500</span></td><td>$5,925</td><td>$218.04</td><td>$5,706.96</td><td>$3,633.21</td></tr>
+          <tr><td><span class="badge badge-green">H0035</span></td><td>PHP</td><td><span class="badge badge-red">$1,500</span></td><td>$130,875</td><td>$10,412</td><td>$120,463</td><td>$74,656.75</td></tr>
+          <tr><td><span class="badge badge-green">H2012</span></td><td>PHP</td><td><span class="badge badge-red">$1,500</span></td><td>$5,925</td><td>$910.87</td><td>$5,014.13</td><td>$2,940.38</td></tr>
+          <tr><td><span class="badge badge-green">H2036</span></td><td>PHP</td><td><span class="badge badge-red">$1,500</span></td><td>$2,800</td><td>$375</td><td>$2,425</td><td>$1,445</td></tr>
+          <tr><td><span class="badge badge-purple">H0015</span></td><td>IOP</td><td><span class="badge badge-red">$1,200</span></td><td>$4,814</td><td>$211</td><td>$4,603</td><td>$2,918.10</td></tr>
+          <tr><td><span class="badge badge-purple">H0015</span></td><td>IOP</td><td><span class="badge badge-red">$1,200</span></td><td>$4,814</td><td>$218.04</td><td>$4,595.96</td><td>$2,911.06</td></tr>
+          <tr><td><span class="badge badge-purple">H0015</span></td><td>IOP</td><td><span class="badge badge-red">$1,200</span></td><td>$4,814</td><td>$275</td><td>$4,539</td><td>$2,854.10</td></tr>
+          <tr><td><span class="badge badge-purple">H0015</span></td><td>IOP</td><td><span class="badge badge-red">$1,200</span></td><td>$2,904</td><td>$0</td><td>$218.04</td><td>$1,887.60</td></tr>
+          <tr><td><span class="badge badge-purple">H0015</span></td><td>IOP</td><td><span class="badge badge-red">$1,200</span></td><td>$4,814</td><td>$1,005.51</td><td>$3,808.49</td><td>$2,123.59</td></tr>
+          <tr><td><span class="badge badge-blue">90837</span></td><td>Indi-Psycho</td><td><span class="badge badge-red">$600</span></td><td>$1,573</td><td>$201.61</td><td>$1,371.39</td><td>$820.84</td></tr>
+          <tr><td><span class="badge badge-blue">90853</span></td><td>OP Group</td><td><span class="badge badge-red">$600</span></td><td>$1,200</td><td>$207.58</td><td>$992.42</td><td>$572.42</td></tr>
+          <tr><td><span class="badge badge-green">0907</span></td><td>PHP</td><td>—</td><td>$5,290</td><td>$212.75</td><td>$5,077.25</td><td>$3,225.75</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TEMPLATES -->
+  <div class="section" id="templates">
+    <div class="section-title">Notes &amp; Templates</div>
+    <div class="section-desc">// Copy-ready templates for negotiations, appeals, and contracts</div>
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-yellow">Negotiations</span>
+          <span>Generic Email Negotiation Template</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t1">Good day,
+
+We would like to open a negotiation for this member's claims. Please see the attached spreadsheet/Provider Template/Appeal Intake Form. Looking forward to hearing from you.</div>
+          <button class="copy-btn" onclick="copyTemplate('t1', this)">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-yellow">Negotiations</span>
+          <span>Generic Note – Initial Negotiation</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t2">Spreadsheet/APL Intake Form sent to [TPA] via [Method Of Delivery] to Inq if clm is negotiable. Please allow 7-10 (Clear Health) / 10-14 (Viant) / 30 (Zelis) / 20-30 (Data iSight) business days to process.</div>
+          <button class="copy-btn" onclick="copyTemplate('t2', this)">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-blue">CMD</span>
+          <span>CMD Template</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t3">Date: 
+Carrier: 
+TPA: 
+Billed Amount: 
+Original Allowed Amount: 
+Action: 
+Rep &amp; Ref#:</div>
+          <button class="copy-btn" onclick="copyTemplate('t3', this)">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-green">Contract</span>
+          <span>Contract – Signing Note</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t4">Negotiated $amt with [TPA] on [Date]. Contract saved in the Signed Proposal folder in Sharepoint. Please allow up to &lt;DD&gt; business days for payment to process but follow up after 10 business days.</div>
+          <button class="copy-btn" onclick="copyTemplate('t4', this)">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-green">Contract</span>
+          <span>Contract – Email Response (Signed Proposal)</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t5">Good day,
+
+Please see the attached signed proposal.</div>
+          <button class="copy-btn" onclick="copyTemplate('t5', this)">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-header">
+          <span class="badge badge-green">Contract</span>
+          <span>Contract – Counteroffer</span>
+        </div>
+        <div class="template-body">
+          <div class="template-text" id="t6">Good day,
+
+We would like to counter with $amt.</div>
+          <button class="copy-btn" onclick="copyTemplate('t6', this)">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="section" id="links">
+    <div class="section-title">Links, Portals &amp; Shortcuts</div>
+    <div class="section-desc">// Forms, portals, and abbreviation reference</div>
+
+    <h3 style="font-size:15px;font-weight:700;color:var(--accent2);margin-bottom:14px;margin-top:8px">📋 Appeal Forms</h3>
+    <div class="links-grid" style="margin-bottom:28px" id="appeal-links"></div>
+
+    <h3 style="font-size:15px;font-weight:700;color:var(--accent3);margin-bottom:14px">🌐 Portals &amp; Other Links</h3>
+    <div class="links-grid" style="margin-bottom:28px" id="portal-links"></div>
+
+    <h3 style="font-size:15px;font-weight:700;color:var(--muted);margin-bottom:14px">⌨️ Shortcut Words / Abbreviations</h3>
+    <div class="shortcut-grid" id="shortcut-grid"></div>
+  </div>
+
+</div>
+
+<script>
+// ===================== DATA =====================
+
+const carriers = [
+  ["1199 National Benefit Fund","888-819-1199","","","?","?","?","?","?"],
+  ["Adventist Health","800-441-2524","","","","8:00 AM-5:00 PM M-TH / 7:00 AM-3:00 PM F","","",""],
+  ["Aetna Health Plans (Appeals)","888-632-3862","859-455-8650","","Provider Resolution Team","8:00 AM-5:00 PM","60 Calendar","60 Calendar","PO Box 14020 Lexington, KY 40512 | Appeal inquiry Press 5"],
+  ["Aetna Health Plans","888-632-3862","859-455-8650","","Claims Department","8:00 AM-5:00 PM","180 Calendar","30 Calendar","PO Box 14020 Lexington, KY 40512 (IVR Option 5 for appeals) For MHBP: 981106 El Paso, TX 79998-1106"],
+  ["Aetna Health Plans (CVS / Claims)","800-558-0860","859-455-8650","","Claims Department","8:00 AM-5:00 PM","180 Calendar","30 Calendar","PO Box 14020 Lexington, KY 40512"],
+  ["Aetna Health Plans (SHP)","888-905-9500","859-455-8650","","Claims Department","8:00 AM-5:00 PM","180 Calendar","30 Calendar","PO Box 14020 Lexington, KY 40512"],
+  ["AmeriHealth New Jersey","888-968-7241","609-662-2480","","Appeals & Grievances Department","8:00 AM-5:00 PM","180 Calendar","60 Calendar","Unit 259 Prospect Plains Rd., Cranbury, NJ 08512-3706"],
+  ["AmeriHealth New Jersey (IBX)","800-688-1911","609-662-2610","","Claims Appeal Unit","8:00 AM-6:00 PM","180 Calendar","30 Calendar","PO Box 41820 Philadelphia, PA 19101-3652 | TFL is from original processed date"],
+  ["Ault Care Health / OHIO PPO CONNECT","800-344-8858","330-363-3066","aappeals@aultcare.com","Aultcare Appeals","7:30 AM–5:00 PM","180 Calendar","30 Calendar","PO Box 6029 Canton, OH 44706"],
+  ["Capital District Physicians Health Plan","518-641-3500 / 888-320-9584","","","?","8:00 AM-6:00 PM","?","?","?"],
+  ["Carelon (Anthem CA)","800-888-3944","855-378-8309","","Grievance & Appeals Department","8:00 AM-5:00 PM","180 Calendar","60 Calendar","PO Box 1851 Hicksville, NY 11802-1851 | 5 Claims/3 Patients per call | TFL is from DOS"],
+  ["Carelon (Emblem Health/GHI/Beacon Health)","888-447-2526","","","Claims Department","8:00 AM-5:00 PM","180 Calendar","45 Calendar","PO Box 1851 Hicksville, NY 11802-1851 | 5 Claims/3 Patients per call | TFL is from DOS"],
+  ["Carelon (Wellpoint-Amerigroup)","844-231-7951","","","Claims Department","8:00 AM-5:00 PM","180 Calendar","45 Calendar","PO Box 1851 Hicksville, NY 11802-1851 | 5 Claims/3 Patients per call | TFL is from DOS"],
+  ["Cigna Global Health Benefits","800-441-2668","800-243-6998","","CGHB Appeals","24/7","180 Calendar","30 Calendar","PO Box 15050 Wilmington, DE 19850 / PO Box 15800 Wilmington, DE 19850"],
+  ["Cigna Health Plans","800-244-6224","877-815-4827","","National Appeals Unit","7:00 AM-9:00 PM","180 Calendar","60 Calendar","PO Box 188011 Chattanooga, TN 37422-8011"],
+  ["Cigna Health Plans (CB&T)","855-444-4985","877-815-4827","","National Appeals Unit","7:00 AM-9:00 PM","180 Calendar","60 Calendar","PO Box 188011 Chattanooga, TN 37422-8011"],
+  ["Cigna Health Plans (EHP - Cognizant)","855-887-0028","?","?","?","?","?","?","?"],
+  ["Cigna Health Plans (GWH)","866-494-2111","877-804-1679","","National Appeals Unit","7:00 AM-9:00 PM","180 Calendar","60 Calendar","PO Box 188062 Chattanooga, TN 37422-8062"],
+  ["Cigna Health Plans (GWH-Contracts Submission)","866-494-2111","877-804-1443","","Claims Department","?","?","?","Re: (MID, PT Name, PT DOB)"],
+  ["Cigna Health Plans (SAD)","800-549-8908","?","?","?","7:00 AM-9:00 PM","?","?","?"],
+  ["Claimsbridge High Performance Network","410-349-3222","","","?","8:00 AM-5:30 PM","?","?","?"],
+  ["Consociate Health (Aetna)","800-798-2422","217-423-4575","","Appeals Department","9:00 AM-5:30 PM","180 Calendar","30 Calendar","PO Box 1068 Decatur, IL 62525"],
+  ["Dean Health Plan by Medica","800-279-1301","","","?","?","?","?","?"],
+  ["First Health","800-226-5116","","","?","?","?","?","?"],
+  ["Geisinger Health Plan","800-876-5357","","","?","?","?","?","Up to 3 claims only"],
+  ["Global Care","800-467-8484","","","?","12:00 PM-09:00 PM","?","?",""],
+  ["Group Management Service","844-202-8059","234-246-3038","","Appeals Department","8:00 AM-7:00 PM","180 Calendar","15 Business","PO Box 21933 Eagan, MN 55121 | Closed every 3rd Wed of the month from 2-3pm"],
+  ["Health Net IFP (Claims)","800-444-4281","","","Provider Appeals Dispute","11:00 AM-8:00 PM","365 Calendar","30 Business","PO Box 9040 Farmington, MO 63640-9040 (Market Place Plan)"],
+  ["Health Partners","800-444-4558","952-883-5250","negotiations@healthpartners.com","Claims Department","8:00 AM-4:00PM","?","?","Fax and Email are only for Negotiations"],
+  ["Health Partners MN","800-444-4558","952-883-9646","drt@healthpartners.com","HealthPartners Appeals, 21104G","8:00 AM-4:00PM","180 Calendar","30 Calendar","PO Box 1309 Minneapolis, MN 55440-1309"],
+  ["Health Scope Benefits","844-600-0921","877-293-4926","","Claim Appeals Unit","7:00 AM-7:00 PM","180 Calendar","45 Business","PO Box 30546 Salt Lake City, UT 84130"],
+  ["Healthcare MGMT Administrators","888-486-7927","855-462-8875","appeals@accesstpa.com","Appeals Department","9:00 AM-9:00 PM","180 Calendar","45 Calendar","PO Box 85016 Bellevue, WA 98015-5016 *ALWAYS ASK FOR THE GROUP NAME* | MAF Compliance: 365 from APL receipt date"],
+  ["Humana","800-448-6262","888-556-2128","","Humana Correspondence","?","?","?","PO BOX 14601 Lexington, KY 40512"],
+  ["IBEW-NECA SW Health Fund","800-527-0320","?","?","?","?","?","?","?"],
+  ["Imagine 360","866-206-3224","972-470-5450","www.mibenefits.imagine360.com","Appeals Department","?","?","?","Park Central 8 12770 Merit Dr. Ste. 200 Dallas, TX 75251"],
+  ["Imagine 360 (Moda Health)","844-776-1593","","","?","?","?","?","?"],
+  ["Insurance Management Services (IMS)","800-687-5944","806-373-0995","medical.records@imsm.net","Appeals Department","9:30 AM-6:00 PM","180 Calendar","60 Business","PO Box 15688 Amarillo, TX 79105"],
+  ["Kaiser Foundation Health Plan Of Washington","888-767-4670","?","?","?","11:00 AM-8:00 PM","?","?","?"],
+  ["Kaiser Permanente WA","888-767-4670","844-660-0747","","Appeals Department","8:00 AM-5:00 PM","24 mos","45 Calendar","PO Box 30766 Salt Lake City, UT 84130"],
+  ["Luminaire","614-292-4700 / 800-678-6269","","","?","?","?","?","?"],
+  ["Luminare Health","800-990-9058","877-411-6717","","Appeals Department","6:00 AM-6:00 PM","180 Calendar","60 Calendar","PO Box 2920 Clinton, IA 52733 | Press 1-2-Tax ID-Grp No-MID-DOB-Press 2-1-DOS-Press 3-4 / Only 1 claim per call"],
+  ["Magellan Behavioral Health","800-971-2273","?","?","?","?","?","?","?"],
+  ["Magellan Behavioral Health (Lowes)","800-537-5221","?","?","?","?","?","?","?"],
+  ["Magellan Behavioral Health (Provider Relations)","800-788-4005","","","?","?","?","?","?"],
+  ["Magellan Behavioral Health (Sharp Health Plan)","866-512-6190","888-656-5366","","Sharp Health Plan Appeals","24/7","180 Calendar","30 Calendar","PO Box 710430 San Diego, CA 92171"],
+  ["Magnacare","844-301-5272","","","Appeals Department","9:00 AM-6:00 PM","180 Calendar","30 Calendar","PO Box 8085 Garden City, NY 11530"],
+  ["Marine Division Medical - Local 25","267-351-4026","","","?","?","?","?","?"],
+  ["MedBen Newark OH","800-686-8425","740-522-5002","medben@medben.com","Claims Department","8:00 AM-6:30 PM","365 Calendar","30 Calendar","PO Box 1099 Newark, OH 43058-1099 / Only the member can do an appeal / Provider can send a letter to negotiate or request for review - TFL is not for appeal."],
+  ["MedCost Benefit Services","800-204-2085","336-774-4420","mbscs@medcost.com","Claims Department","8:00 AM-5:00 PM","180 Calendar","45 Business","PO Box 245307 Winston Salem, NC 27114"],
+  ["Medica Health Plan","866-214-6829","?","?","?","8:00 AM-6:00 PM","?","?","?"],
+  ["Medical Mutual Of Ohio","800-362-1279","","","?","?","?","?","PO Box 94917 Cleveland, OH 44101-4917"],
+  ["Meritain Health - Aetna","800-925-2272","716-541-6374","","Appeals Department","8:00 AM-7:25 PM","180 Calendar","30 Calendar","PO Box 660908 Dallas, TX 75266-0908 / TAT is from the assigned date / 5 claims per call"],
+  ["Moda Health","844-776-1593 / 877-277-7270","","ebt@modahealth.com","?","?","?","?","?"],
+  ["Mountain Health Co-op","800-299-6080","800-781-6260","","Appeals","10:00 AM-8:00 PM","180 Calendar","45 Business","PO Box 30311 Salt Lake City, UT 84130"],
+  ["National Association of Letter Carriers (NALC)","877-468-1016","","","?","?","?","?","?"],
+  ["Northwest Administrators","877-286-1291","","","?","?","?","?","?"],
+  ["Ohio Healthy","855-571-1378","877-411-5964","","Claims Processing","?","180 Calendar","60 Calendar","PO Box 4278 Clinton, IA 52733-4278 | 1. Use Fax Cover Sheet, 2. Attn: Claims Processing, 3. Include Claim#s"],
+  ["Optum (UHC-Railroad Employees) - 91XXXXXXX","866-850-6212","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["Optum Behavioral Health (claims TN, Dedicated / 8 char MID)","855-437-3486","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["Optum Behavioral Health (Dedicated / 8 char MID)","800-888-2998","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["Optum Behavioral Health (Motion Pictures Industry/ MXXXXXXXX)","800-888-2998","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["Optum Behavioral Health (Dedicated / Wells Fargo)","800-720-4158","855-312-1470","?","Appeals & Grievances Department","8:00 AM-6:00 PM","?","?","?"],
+  ["Optum Behavioral Health Provider Network Integrity (SIU)","877-972-8844","","","PNI Department","8:00 AM-5:30 PM","","",""],
+  ["Optum Network Services [N/P] (Network Services)","877-614-0484","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512 | say \"Appeals\""],
+  ["Personify Health (Formerly Health Comp West)","800-523-0582","708-799-7533","","Appeals & Grievances Department","?","?","45 Business","18861 90th Avenue Ste A, Mokena, IL 60448"],
+  ["Point C Health (IAA Group)","800-283-2524","856-888-2836","claims@iaatpa.com","IAA Claims Department","9:00 AM-6:00 PM","180 Calendar","60 Calendar","PO Box 25247 Overland Park, KS 66225"],
+  ["Primewell Health Services of Mississippi, Inc","833-799-1777","","","Appeals Department","9:00 AM-6:00 PM","180 Calendar","60 Calendar","130 DeSiard St, Ste 344, Monroe, LA 71201"],
+  ["Priority Health","800-942-4765","","","Priority Health Appeals Analyst","8:00 AM-5:00 PM","180 Calendar","45 Calendar","1231 East Beltline NE Grand Rapids, MI 49525"],
+  ["Priority Health Of Michigan (Outside of MI)","833-300-3628","","","?","?","?","?","Ph# not sure - contact and confirm; only uploading"],
+  ["Providence Health Plans","503-574-7500","503-574-8146","","Provider Reconsideration","11:00 AM-8:00 PM","545 Calendar","45 Calendar","PO Box 4327 Portland, OR 97208, Letter only and no AOR both."],
+  ["Providence Health Plans","503-574-7500","503-574-8146","","Non-Participating Provider Appeals","11:00 AM-8:00 PM","545 Calendar","30 Calendar","PO Box 4158 Portland, OR 97208 | try AVAILITY portal for claims"],
+  ["Quantum Health","866-885-2538","877-498-3681","","Appeals Department","?","?","?","5240 Blazer Parkway Dublin, OH 43017"],
+  ["Quest Behavioral Health","800-364-6352","","","?","8:00 AM-5:00 PM","?","?","?"],
+  ["S&S Healthcare","888-201-1795","","","?","?","?","?","?"],
+  ["Sentara Health","800-648-8420","","contactmyrep@sentara.com","Behavioral Health Claims Department","9:00 AM-6:00 PM","365 Calendar","65 Calendar","PO Box 8204 Kingston, NY 12402 | press 6 for appeals but it is VM"],
+  ["Southwest Service Administrators","800-474-3485","","","?","11:30 AM-8:30 PM","?","?","?"],
+  ["Summit Administration Services, Inc","888-690-2020","","","","","","",""],
+  ["Tall Tree Administration","877-453-4201","801-274-8900","","(Employee's name and Ref#) Appeals","10:00 AM-8:00 PM","180 Calendar","Unknown","PO Box 1807 Draper, UT 48020 / FLA from original, 60 Cal for SLA"],
+  ["Teamsters (MyTeamCare)","800-523-2846","","","?","?","?","?","?"],
+  ["The Alliance","800-223-4139","","","?","?","?","?","?"],
+  ["The Health Plan","888-816-3096","740-957-9290","","Appeals Department / Rachel","8:00 AM-6:00 PM","180 Business","45 Business","1110 Main St. Wheeling, WV 26003"],
+  ["The Holman Group","800-321-2843","","pr@holmangroup.com","?","?","?","?","?"],
+  ["Trustmark","800-522-1246","330-965-7599","?","Attn: Grievance Review Dept. 1146","?","180 Calendar","14 Business","400 N Field Dr. Lake Forest, IL 66045"],
+  ["UBH (Appeals Department)","866-556-8166","855-312-1470","","Appeals & Grievances Department","8:00 AM-7:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512 | say \"Appeals\""],
+  ["UBH (Claims Department)","800-557-5745","","","","","","",""],
+  ["UBH (Confidential Accounts Appeals Department)","877-447-6002","855-312-1470","","Appeals & Grievances Department","9:00 AM-6:00 PM","?","?","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["UHC Cirrus","877-797-8819","","","Appeals & Grievances Department","8:00 AM-8:00 PM","365 Calendar","30 Business","PO Box 31393 Salt Lake City, UT 84131"],
+  ["UHC Community Plan","877-542-9231/888-362-3368","","","Provider Appeals Dispute","9:00 AM-9:00 PM","180 Calendar","30 Business","PO Box 6111 Cypress, CA 90630"],
+  ["UHC One Exchange (Onex)","888-478-4760","888-404-0949","","Appeals & Grievances Department","10:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 6111 Cypress, CA 90630"],
+  ["UHC NexusACO","877-842-3210","","","Appeals & Grievances Department","8:00 AM-8:00 PM","180 Calendar","30 Business","PO Box 31393 Salt Lake City, UT 84131"],
+  ["UHC Oxford Health Plans","800-666-1353","","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 31387 Salt Lake City, UT 84131"],
+  ["UHC Oxford Health Plans (Level-Funded)","877-842-3210","","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 31393 Salt Lake City, UT 84131"],
+  ["UHC Railroad","877-842-3210 / 866-850-6212","855-312-1470","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["UHC Shared Services","866-596-8447","","","Appeals & Grievances Department","8:00 AM-6:00 PM","180 Calendar","60 Business","PO Box 30783 Salt Lake City, UT 84130-0783"],
+  ["UHC Surest","877-842-3210","","","Appeals & Grievances Department","8:00 AM-8:00 PM","180 Calendar","60 Calendar","PO Box 31393 Salt Lake City, UT 84131"],
+  ["UHCSS GEHA","800-821-6136","","","Appeals & Grievances Department","9:00 AM-5:30 PM","180 Calendar","30 Business","PO Box 21172 Eagan, MN 55121 | 2025 MID format | Needs Passcode from portal"],
+  ["UHCSS Harvard Pilgrim (w/in MA, ME, NH, VT, RI provider)","800-708-4414","","","Appeals & Grievances Department","9:00 AM-5:30 PM","180 Calendar","45 Calendar","PO BOX 699183 Quincy MA 02269-9183 (for state MA,ME,NH,VT,RI) | point32health.org/provider"],
+  ["UHCSS Harvard Pilgrim OUTSIDE the states above","800-693-5254","801-938-2100","","Appeals & Grievances Department","9:00 AM-5:30 PM","180 Calendar","30 Business","PO Box 30512 Salt Lake City, UT 84130-0512"],
+  ["UHCSS Select Health","800-222-6358","801-442-6708","appeals@imail.org","Appeals & Grievances Department","10:00 AM-8:00 PM","60 Calendar","?","PO Box 30192 Salt Lake City, UT 84130"],
+  ["UMR (Claims/Appeals Department)","877-233-1800","","","Claim Appeals Unit","9:00 AM-6:00 PM","180 Calendar","30 Business","PO Box 30546 Salt Lake City, UT 84130 | Use an APPEAL FORM in the Links tab"],
+  ["UMR (Harmony Health Plan - NV)","800-363-4874","","","?","12:00 PM-7:00 PM","?","?","Press 0 to speak with a rep, ask for claims department"],
+  ["UMR (NYCE employees) starts with K pol","844-849-5750","","n/a","NYCE Post Service Appeals","8:00 AM-5:00PM","180 Calendar","30 Calendar","PO Box 211381 Eagan, MN 55121 | USE the appeal form and AOR form provided"],
+  ["UMR (Plan Advisory Line)","800-207-3172","","","?","?","?","?","?"],
+  ["UMR (Provider Payment Dispute)","800-826-9781","","umr-claimsubmission@umr.com","","","","","Ask to speak with a claims processor or a claims specialist"],
+  ["UMR Compass Rose Benefits","888-438-9135","855-405-2189","","UMR - CRBG Claims","9:00 AM-6:00 PM","180 Calendar","90 Calendar","PO BOX 8080 Wausau, WI 54402-8080 | Dispute, in a formal letter request NOT APL"],
+  ["Unified Health Plan","800-259-8330","316-683-1271","","ATTN: Tina Martin","8:30 AM-4:30 PM","180 Calendar","60 Calendar","238 N Waco St. Wichita, KS 67202-1108"],
+  ["United Healthcare","877-842-3210","","","","","","",""],
+  ["UPMC Health Plan Commercial","866-918-1595","?","?","Provider Appeals","?","30 Business","60 Business","PO Box 2906 Pittsburgh, PA 15230"],
+  ["Wellpoint (Amerigroup)","800-442-9300","866-273-3692","","Grievance & Appeals Department","7:30 AM-6:00 PM","180 Calendar","55 Business","PO Box 4077 Woburn, MA 01888-4077"],
+  ["AMBETTER","833-863-1310","","n/a","CLAIMS","8:00 AM-8:00PM","180 Calendar","60 Business","ATTN CLAIM P.O. Box 5010 | Farmington, MO 63640-5010"],
+  ["Anthem BCBS CA (Bluecard)","800-444-2726","","","Grievance & Appeals Department","11:00 AM-08:00 PM","365 Calendar","45 Calendar","PO Box 4310 Woodland Hills, CA 91367 // PO Box 60007 Los Angeles, CA 90060-0007 // Always ask for the Appeal TFL and Appeal Mailing Address // PID: 47198 if thru Availity"],
+  ["Anthem BCBS CA (Home Plan)","800-677-6669","","","Appeals Department","10:00 AM-07:00 PM","365 Calendar","45 Calendar","PO Box 54159 Los Angeles, CA 90054 // Always ask for the Appeal TFL and Appeal Mailing Address"],
+  ["Anthem BCBS NY (Home Plan)","800-450-8753","","","","","","",""],
+  ["BCBS AL (Home Plan - OOS)","800-517-6425","","","","8:00 AM-7:00 PM","","",""],
+  ["BCBS HI","808-948-6280","","","","?","?","?","?"],
+  ["BCBS IL","800-972-8088","?","?","?","?","?","?","?"],
+  ["BCBS MA (Bluecard)","800-882-2060","617-246-7168","","Appeals Department","8:30 AM-4:30 PM","180 Calendar","45 Calendar","PO Box 986065 Boston, MA 02298"],
+  ["BCBS TX","800-451-0287","","","","","","",""],
+  ["Blue Shield of CA","800-541-6652","","","Appeals Department","10:00 AM-10:30 PM","65 Business","45 Business","PO Box 629011 El Dorado Hills, CA 95762-9011 | Only for Final Appeals"],
+  ["Bluecard CA - Blue Shield CA","800-622-0632","","","Appeals Department","10:00 AM-10:30 PM","365 Calendar","45 Business","PO Box 272620 Chico, CA 95927-2620 | For Initial Appeals"],
+  ["Bluecard NJ - Horizon BCBS","888-435-4383","","","OSC-Bluecard","8:00 AM-8:00 PM","365 Calendar","14 Business","3 Penn Plaza East, Ste. 1 Newark, NJ 07105 | 25 claims only | TAT 30 Bus from forwarded date"],
+  ["Bluecard OH - Anthem BCBS","800-677-6669","","","?","?","?","?","5 claims only"],
+  ["Bluecard OH - Midwest OH Anthem BCBS","866-594-0521","","","Grievance & Appeals Department","8:00 AM-5:00 PM","730 Calendar","45 Calendar","PO Box 105568 Atlanta, GA 30348-5568 | 5 claims only"],
+  ["Bluecard Services","800-676-2583","","","?","?","?","?","?"],
+  ["Capital BCBS","866-688-2242","?","?","?","?","?","?","?"],
+  ["Carefirst BCBS (Home Plan)","800-842-5975","","","?","?","?","?","?"],
+  ["Carefirst Network Leasing","667-899-6605","","","Claims Department","8:00 AM-5:00 PM","180 Calendar","30 Business","PO Box 34567 Seattle, WA 98124 | Letter head name: Heating, Piping and Refrigeration Medical Fund"],
+  ["Florida Blue","800-727-2227","","","Claims Department","8:00 AM-4:00 PM","?","?","PO Box 1798 Jacksonville, FL 32231-0014"],
+  ["Highmark BCBS WV (Home Plan)","800-544-6679","","","?","?","?","?","?"],
+  ["Horizon BCBS NJ - FEP (Federal Employee Program)","800-624-5078","973-274-4399","","Priority Case Unit","8:00 AM-8:00 PM","?","?","PO Box 10181 Newark, NJ 07101-3181"],
+  ["Horizon BCBS NJ (Home Plan - Behavioral Department)","800-991-5579","973-522-4678","","Appeals Department","?","?","?","PO Box 1010 Newark, NJ 07101"],
+  ["Horizon NJ Health","800-682-9091","973-522-4678","n/a","Appeals Department","8:00 AM-7:00 PM","90 Calendar","30 Business","PO Box 63000 Newark, NJ 07101"],
+  ["Independence Admin (Carpenters Med Ins)","833-242-3330","?","?","?","?","?","?","?"],
+  ["Independence BC","800-275-2583","609-662-2610","","Provider Appeals Unit","?","?","?","PO Box 41820 Philadelphia, PA 19101-3652"],
+  ["Pennsylvania Independence Keystone HP East","800-809-9954","888-671-5274","n/a","IBC Appeals department","7:00 AM-6:00 PM","90 Calendar","30 Business","PO Box 41820 Philadelphia, PA 19101"],
+  ["Premera Blue Cross (Bluecard)","503-574-7500","","","?","9:00 AM-8:00 PM","?","?","?"],
+  ["Premera WA (Homeplan)","877-342-5258","425-918-5592","","Provider Appeals Department","9:00 AM-8:00 PM","180 Calendar","30 Calendar","PO Box 91102 Seattle, WA 98111-9202 | Has its own APL FORM W/ AOR in it"],
+  ["Wellmark BCBS IA","800-362-2218","?","?","?","8:30 AM-6:00 PM","?","?","?"],
+  ["Horizon BCBS NJ Behavioral","800-851-7498","","","","","","",""],
+  ["Performance Health","877-585-8480","440-249-7276","customerservice@myperformancehlth.com","Claims Department","8:00 AM-05:00 PM","180 Calendar","30 Calendar","PO BOX 211405 Eagan MN, 55121"]
+];
+
+const pvData = [
+  ["Carelon (Wellpoint-Amerigroup)","844-231-7951","","","","","","","No negotiation"],
+  ["Claritev (Cigna)","866-233-0121","888-850-7604","","Billing Resolution Department","","","","301 N Broadway Ste 301 DePere, WI 54115 - disputed claims only / 5 claims only"],
+  ["Clear Health (GEHA/UMR/UHCSS)","888-550-8910/888-668-3950","888-585-4364","crs@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","10 Business",""],
+  ["Clear Health (Non-UMR / Voicemail)","866-236-4886","262-265-5686","claiminquiry@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","10 Business","Voicemail: your name and phone number, the healthcare provider's name and tax ID. The payer's name, the patient's name date of birth, date/s of service and the total amounts billed, please include the spelling of your last name."],
+  ["Clear Health (UMR / NV Accounts)","888-736-1504","888-585-4364","crs@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","10 Business","Supposedly 1 clm/call only"],
+  ["Clear Health (UMR / NV Accounts - NSA Claims)","866-722-3773","262-265-5686","claiminquiry@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","30 Business","10 Business","Voicemail: your name and phone number, the healthcare provider's name and tax ID. The payer's name, the patient's name date of birth date of service. And the total amount billed, please include the spelling of your last name."],
+  ["(Custom) Clear Health (NYCE)","800-280-0277","","claiminquiry@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","30 Business","10 Business","Voicemail: Member name, DOB, DOS, Provider TAX, Billed amount, Acnt number, contact no., name and fax number and email address. | From processed date ang 30 business days"],
+  ["Clear Health (UMR)","Check EOB / 888-413-3478","888-585-4364","crs@clearhealthcloud.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","10 Business",""],
+  ["Data iSight (Aetna)","800-498-3246","","discustomerservice@dataisight.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","45 Business",""],
+  ["Data iSight (BCBS)","866-835-4022","","discustomerservice@dataisight.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","45 Business",""],
+  ["Data iSight (Cigna)","877-489-5984","","discustomerservice@dataisight.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","45 Business","Vicki G at 469-291-6452 / 10 claims only (Cigna), 5 claims only (UHC/UMR)"],
+  ["Data iSight (Sentara / UHC)","800-355-7962","","discustomerservice@dataisight.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","45 Business",""],
+  ["Data iSight (UMR/Orlando Health)","888-847-7427","","discustomerservice@dataisight.com","Claims Department","9:00 AM-6:00 PM","365 Calendar","45 Business",""],
+  ["Global Claims Services (GCS)","877-252-4600","860-900-7247","gcsadvocacyfacilitylist@aetna.com","Claims Department","","","","PO Box 160 Glen Burnie, MD 21060 | 3 claims only"],
+  ["Naviguard","866-218-5205","","","","","","",""],
+  ["Phia","888-491-5644","?","prgrievances@phiagroup.com","","","","",""],
+  ["Valenz Health","855-264-1797","","","","","","",""],
+  ["Viant (Cigna)","866-233-0121","","viantcustservice@viant.com","Negotiations Department","10:30 AM-6:30 PM","365 Calendar","14 Business","5 Claims per Tax ID per day per call"],
+  ["Viant (UHC)","800-598-6888","630-799-3024","viantcustservice@viant.com","Negotiations Department","10:30 AM-6:30 PM","365 Calendar","14 Business","5 Claims per Tax ID per day per call"],
+  ["Zelis","888-346-8488 / 866-489-9444","855-250-3338","negotiationsdepartment@zelis.com","Negotiations Department","8:30 AM-5:00 PM","365 Calendar","30 Business","3 Claims per call / Spreadsheet which has the TIN and best to include EOBs | Press 8 for NEGO rate"],
+  ["Zelis Appeals","","855-787-2677","","Appeals Department","","","",""],
+  ["Greenlight Medicare","855-268-8804","855-307-4690","appeals@greenlightcm.com","Provider Services Department","11:00 AM-5:00 PM","180 Calendar","10 Business","17015 N Scottsdale RD. Suite 350 Scottsdale AZ, 85255"],
+  ["Carelon (Behavioral Health)","888-204-5581","855-378-8309","","Appeals Department","8:00 AM-8:00PM","365 Calendar","45 Business","PO Box 1856 Hicksville NY, 11802"]
+];
+
+const tpaData = [
+  ["32BJ Health Fund","800-551-3225","","","","","","",""],
+  ["All State Benefits Group Health","800-392-4561","","","","","","",""],
+  ["Allegiance Benefit Plan Management","800-877-1122","866-201-0522 / 406-523-3111","[Rep's Name]@askallegiance.com","Appeals Department","9:00 AM-8:00 PM","180 Calendar","curtsey","PO Box 21222 Eagan, MN 55121 / *Ask help from rep to send APL via secured email* | Press 7, APL inquiry"],
+  ["Allied Benefit Systems","800-288-2078","312-906-8359","","Appeals Department","9:00 AM-9:00 PM","180 Calendar","120 calendar","PO Box 211651 Eagan, MN 55121"],
+  ["Amerihealth Administrators","800-841-5328","","","","","","",""],
+  ["APWU Health Plan (American Postal Union - Cigna)","800-222-2798","","","","","","",""],
+  ["APWU Health Plan (American Postal Union - UHC)","866-204-8020","866-729-2460","","","","","",""],
+  ["Auxiant","800-475-2232","319-398-3292","","Claims Department","","180 Calendar","60 Calendar","424 1st Ave NE Cedar Rapids, IA 51401"],
+  ["Benefit & Risk Management Services Inc.","844-886-2392","","appeals@brmsonline.com","Appeals Department","12:00 PM-12:00AM","180 Calendar","45 Business","PO Box 2140 Folsom, CA 95763"],
+  ["Benefit Plan Administrators Inc (BPA)","800-277-8973","612-439-2508","","Appeals Department","","","","PO Box 11746, Roanoke, VA 24022"],
+  ["Benesys","844-989-2321","314-720-0514","","Appeals Department","","180 Calendar","",""],
+  ["BeneSys (Harrison Electrical Workers)","503-242-1618","503-242-1619","memberbenefitsonline.com/","","","","",""],
+  ["BeniComp Health Solutions","866-797-3343","260-475-4051","service@benicomp.com","Appeals Department","8:00 AM-8:00 PM","90 Calendar","90 Calendar","Benecomp 8310 Clinton Park Dr. Fort Wayne, IN 46825"],
+  ["Boon Chapman","800-252-9653","512-233-7718","","Appeals Department","9:00 AM-9:00 PM","180 Calendar","60 Business","PO Box 9201 Austin, TX 78766"],
+  ["Bywater, LTD","800-337-0792","440-295-6905","","Appeals Department","9:00 AM-6:00 PM","180 Calendar","60 Business","19621 Lake Road. Rocky River, OH 44116"],
+  ["Care Factor (Medical Mutual of Omaha)","567-200-2400","","","Appeals Department","","180 days","30 Calendar","8740 Orion Place suite 300 Columbus, OH 43240"],
+  ["Carolina Behavioral Health Alliance","800-475-7900","336-499-4006","","Appeals Department","8:30 AM-5:00 PM","365 Calendar","30 Calendar","PO Box 571137 Winstons Salem, NC 27157 / Will cease operations on 06/30/26"],
+  ["Centivo Commercial Pan","833-452-2888","716-219-1946","providers@centivo.com","Appeals Department","8:00 AM-5:00 PM","365 Calendar","45 Business","199 Scott Street. Suite 800. NY 14204 | \"Possible\" Zelis pricer"],
+  ["CO Laborers H&W Fund","720-575-4211","720-367-5112","colaborers@benefitresourcesinc.com","Claims Department","9:00 AM-5:30 PM","180 Calendar","45 Business","PO Box 188004 Chattanooga, TN 37422"],
+  ["Diversified Group","888-322-2524","860-295-0340","","","8:30 AM-4:30 PM","180 Calendar","","PO Box 299 Marlborough, CT 06447"],
+  ["Edison Health Solutions, LLC","866-978-8015","918-215-9326","","Appeals Department","7:00 AM-4:00 PM","180 Calendar","60 Calendar","2488 E 81st St. Ste. 1700 Tulsa, OK 74137-4225 / Email request must advise immediate c/b to EHS for APL receipt confirmation"],
+  ["ELAP Services","833-235-6889","","appeals@elapservices.com","","","","72 hrs","VOICEMAIL only, For claims status try sending it to: providerservices@elap.com"],
+  ["Eliance Administrators","844-203-8138","717-553-1125","","Appeals Department","8:00 AM-4:30 PM","180 Calendar","30 Calendar","Eliance Administrators PO Box 7046 Lancaster, PA 17604-7046"],
+  ["Enterprise Group Planning","888-229-2210","440-349-4268","","","9:00 AM-5:00 PM","180 Calendar","30 Business","5910 Harper rd Cleveland, OH 44139 | no forms only letter; NO TFL FOR NEGOT | Closes 04:30 PM EST on Fridays"],
+  ["Fabian Byrn","973-228-4200","800-926-2274","","Appeals Department","","","","Local 102 425 Eagle Rock Ave. Ste. 105., Rose Land, NJ 07068"],
+  ["FCE Benefit Administrators, Inc","800-298-7269","210-610-5468","claimsappeals@fcebenefit.com","Claims","8:30 AM-8:00 PM","180 Calendar","60 Business","4615 Walzem Rd. Ste. 300 San Antonio, TX 78218-1608"],
+  ["Harvard Pilgrim Healthcare (UHSS)","800-708-4414","","","Appeals Department","8:00 AM-6:00/5:30 PM","180 Calendar","45 Calendar","PO Box 699183 Quincy, MA 02269-9183"],
+  ["Hawaii Western Management Group","888-941-4622","","2:00 PM-10:00/9:00 PM","","",""],
+  ["Health Alliance Plan IL","800-851-3379","217-902-9702","","Appeals Department","","60 Calendar","45 Business","3310 Fields St. Dr., Champaign, IL 61822 | Opt 3, 3, 1, 0, 0"],
+  ["Health Alliance Plan MI","800-422-4641","213-664-5904","","Appeals Department","","60 Calendar","45 Business","1414 E Maple Rd. Troy, MI 48083"],
+  ["Health Plans Inc (HPi)","800-532-7575 / 877-906-5730","508-792-1188","","Appeals Department","8:00 AM-5:00 PM","180 Calendar","30 Calendar","PO Box 5199 Westborough, MA 01581"],
+  ["Health System Technology","888-837-2237","","","","","","",""],
+  ["HST","888-837-2237","949-891-0420","pac@hstechnology.com","","11:00 AM-8:00 PM","","","23382 Mill Creek Drive Suite 200 Laguna Hills, CA 92653"],
+  ["Independent Design Administrators","855-606-9294","","","Claims Department","","","","PO Box 875 Oakland, NJ 07436"],
+  ["Indiana Laborers Welfare Fund","812-238-2551","812-238-1563","info@indianalaborers.org","Appeals Department","7:30 AM-4:30PM","180 Calendar","","PO Box 1587 Terre Haute, IN 47808"],
+  ["Insurance Design Administration (IDA)","855-606-9294","","","","","","",""],
+  ["Intervention Strategies International (5 clms per DAY)","800-663-0404/973-228-4200 CLAIMS","201-225-9020","","Intervention Strategies","8:30 AM-4:30PM","365 Calendar","30 Calendar","351 Evelyn st Paramus, NJ 07652"],
+  ["Johns Hopkins Healthcare, LLC (EHP)","800-261-2393","410-424-2800","","Adjustment Department","","","","7231 Parkway Dr., Ste. 100 Hanover, MD 21076"],
+  ["Kaiser Permanente Southern California","855-839-7613","","","Claims Administration Department","","60 Calendar","45 Business","PO Box 7006 Downey, CA 90242-7006"],
+  ["Kempton Group Administrators","800-324-9396","","customerservice@kemptongroup.com","","9:00 AM-6:00 PM","","",""],
+  ["Lucent Health (PT ALL OTHER state)","800-331-5301","916-669-0572","lucentappeals@lucenthealth.com","Appeals Department","09:30 AM - 10:30 PM","180 Calendar","60 Business","PO Box 2318 Rancho Cordova, CA 95741"],
+  ["Lucent Health (PT state TN)","800-411-3650","916-669-0572","lucentappeals@lucenthealth.com","Appeals Department","09:30 AM - 10:30 PM","180 Calendar","60 Business","PO Box 2318 Rancho Cordova, CA 95741"],
+  ["Magnacare / Brighton Health Plan Solutions, LLC","800-352-6465","","","Appeals Department","8:00 AM-5:00 PM","180 Calendar","30 Calendar","PO Box 8085 Garden City, NY 11530"],
+  ["Medica Health Plans","800-458-5512","","","","","","",""],
+  ["Mental Health Consultants Inc","800-255-3081","215-343-8983","providerrelations@mhconsultants.com","Claims Department","9:00 AM-4:00 PM","365 Calendar","Unknown","3031-A Walton Rd., Ste. 300, Plymouth Meeting, PA 19462"],
+  ["MHBP Postal Service Health Benefits","833-497-2416","","","Claims/Appeals Department","24 hrs","180 Calendar","45 Business",""],
+  ["Mines and Associates","800-873-7138","","","","","","",""],
+  ["New York City Employees PPO","844-849-5750","","","","","180 Calendar","30 Calendar","PO Box 211381 Eagan, MN 55121"],
+  ["Personify Health","833-838-8062","","","","","","","Consociate has been acquired by Personify starting Plan Year 2026"],
+  ["PHP Freedom","800-551-7334","","tpaservices@phpni.com","","","","",""],
+  ["Populytics","484-862-3505","484-862-3502","","Appeals Department","?","180 Calendar","20 Calendar","PO Box 1830 Allentown, PA 18105-1830"],
+  ["Reflect / Angle Health","855-937-1811","855-938-4540","appeals@anglehealth.com","Appeals Department","8:30 AM-7:00 PM","180 Calendar","30 Business","2261 Market St #4265 San Francisco, CA 94114 | 3 Claims per call"],
+  ["Reliant HP","877-294-2064","888-628-8301","appeals@relianthp.com","Appeals Department","","","",""],
+  ["S & S Healthcare","888-201-1795","513-772-9174","","Claims Department","8:00 AM-8:00 PM","180 Calendar","30 Business","PO Box 46511 Cincinnati, OH 45246"],
+  ["Southwest Service Administrators","800-474-3485","","","","","","","PO Box 46511 Cincinnati, OH 45246"],
+  ["Tres Health, Inc by The Loomis Company","866-340-7183","610-643-8742","benefits@loomisco.com","Appeals Department","8:00 AM - 4:30 PM","180 Calendar","45 Business","PO Box 7011, Wyomissing PA 19610-6011"],
+  ["UFCW & Employers KS And MO (Cigna Shared)","954-266-6322","954-266-2079","www.nebainc.com","Appeals Department","8:00 AM-5:00 PM","","","2010 NW 150 Ave., STE 200 Pembroke Pines FL 33028"],
+  ["Unified Group Services, Inc","765-608-6680","765-608-6689","","Appeals Department","","180 Calendar","Unknown","3131 E 67th St. Anderson, IN 46013"],
+  ["Unite Here Health","855-405-3863","","","","","","",""],
+  ["UPMC Health Plan","866-918-1595","","","Provider appeal","8:00 AM-5:00 PM","30 Business","60 Business","UPMC Health Plan: PO Box 2906 Pittsburgh, PA 15230 , No AOR"],
+  ["WEB TPA","855-688-1308","469-417-1960","helpme@webtpa.com","Claims Department","8:00 AM-6:00 PM","180 Calendar","45 Business","PO Box 1808 Grapevine, TX 76099"],
+  ["Welfare & Pension Administration Service, Inc.","800-735-7053 / 800-544-5085","206-441-9110","claimsappeals@wpas-inc.com","Appeals Department","11:00 AM-8:00 PM","180 Calendar","n/a","PO Box 981106 El Paso, TX 79998"],
+  ["Yuzu Health Inc (Securus Benefits)","877-420-0785","","claims@yuzu.health","Claims Department","8:00 AM-5:00/4:00 PM","180 Calendar","30 Calendar","n/a"],
+  ["Zenith / Teamster","855-354-4057","","","","","","",""]
+];
+
+const appealLinks = [
+  {label:"Appeal Form - Aetna", url:"https://www.aetna.com/content/dam/aetna/pdfs/aetnacom/healthcare-professionals/documents-forms/provider-complaint-appeal-request.pdf"},
+  {label:"Appeal Form - Anthem CA", url:"https://www.anthem.com/content/dam/digital/docs/anthembluecross/provider/commercial/forms/P_CA_00088.pdf"},
+  {label:"Appeal Form - Cigna", url:"https://static.cigna.com/assets/chcp/pdf/resourceLibrary/medical/RequestForHealthCareProfessionalPaymentReview.pdf"},
+  {label:"Appeal Form - Florida Blue", url:"https://files.guidewell.com/m/4b318512e6afec96/original/providers-forms-appeals-instructions-for-the-provider-reconsideration-administrative-appeal-form.pdf"},
+  {label:"Appeal Form - GEHA", url:"https://www.mygeha.com/print/UMF0010-GEHA.pdf"},
+  {label:"Appeal Form - Harvard Pilgrim", url:"https://masscollaborative.org/Attach/MKTD-1340PR_UniversalProviderRequestForm_1025_FINAL3.pdf"},
+  {label:"Appeal Form - Horizon", url:"https://www.horizonblue.com/sites/default/files/2016-10/Horizon-BCBSNJ-5373-Appeal-Form-Medical-BlueCard_0.pdf"},
+  {label:"Appeal Form - Johns Hopkins EHP", url:"https://www.hopkinsmedicine.org/-/media/johns-hopkins-health-plans/documents/all_plans/provider-appeal-submission-form.pdf"},
+  {label:"Appeal Form - Meritain Health", url:"https://www.meritain.com/wp-content/uploads/2022/03/Meritain_Appeal-Form_interactive_0322.pdf"},
+  {label:"Appeal Form - UMR", url:"https://www.umr.com/print/UMF0010.pdf"},
+  {label:"Inquiry Form - Horizon", url:"https://www.horizonblue.com/sites/default/files/2021-08/Inquiry_Request_Adjustment_579_1.pdf"},
+  {label:"Negotiation Form - Horizon", url:"https://www.horizonblue.com/sites/default/files/2020-10/32435_OONSurpriseBill.pdf"}
+];
+
+const portalLinks = [
+  {label:"Availity", url:"https://apps.availity.com/"},
+  {label:"United Healthcare", url:"https://secure.uhcprovider.com"},
+  {label:"Cigna", url:"https://cignaforhcp.cigna.com/"},
+  {label:"UMR", url:"https://provider.umr.com/"},
+  {label:"UHCSS", url:"https://provider-uhss.umr.com/"},
+  {label:"Meritain Health", url:"https://account.meritain.com/"},
+  {label:"GEHA Portal", url:"https://provider.mygeha.com/"},
+  {label:"Data iSight", url:"https://action.dataisight.com/create-inquiries-login"},
+  {label:"Allegiance Benefit Plan Management", url:"https://www.askallegiance.com/Account/Auth/Login"},
+  {label:"Allied Benefits System (NSR only)", url:"https://www.alliedbenefit.com/providers/"},
+  {label:"Angle Health (Claim Status)", url:"https://www.anglehealth.com/providers"},
+  {label:"Auxiant", url:"https://auxiant.com/"},
+  {label:"Benefit Plan Administrators Inc (BPA)", url:"https://www.hap.org/providers"},
+  {label:"BeneSys (Cigna)", url:"https://memberbenefitsonline.com/"},
+  {label:"BeneSys", url:"https://benesys-prod.webspyglass.com/logonE.jsp"},
+  {label:"Boon Chapman (Aetna)", url:"https://bconline.boonchapman.com/healthx/provider"},
+  {label:"Bywater, LTD", url:"https://admin.choosebywater.com/"},
+  {label:"Consociate Health", url:"https://consociate.veriben.net/portal/Framework3/Login.aspx"},
+  {label:"Diversified Group", url:"https://portal.dgb-online.com/providerportal"},
+  {label:"Emblem Health / NYCE PPO", url:"https://provider.nyceppo.com/"},
+  {label:"Harvard Pilgrim", url:"https://point32health.org/provider"},
+  {label:"Healthscope Benefits", url:"https://hsb.tpa.com/tpa-ap-web/?navDeepDive=HSB_publicHomeDefaultContentMenu"},
+  {label:"Lucent Health", url:"https://mylucenthealth.com/v3app/publicservice/loginv1/login.aspx"},
+  {label:"Luminare Health", url:"https://luminarehealth.com"},
+  {label:"Medical Mutual", url:"https://www.medmutual.com/"},
+  {label:"Navinet", url:"https://navinet.navimedix.com/"},
+  {label:"Ohio Healthy", url:"https://portal.hlthben.com/"},
+  {label:"Southwest Service Administrators", url:"https://www.ssatpa.com/"},
+  {label:"Trustmark", url:"https://www.trustmarkbenefits.com/providers"},
+  {label:"Unified Health Plan", url:"https://qc.unifiedhealthplan.net/php/general/index.php"},
+  {label:"Prefix Check - BCBS", url:"https://www.bcbs.com/member-services"},
+  {label:"Prefix Check - BCBS 2", url:"https://www.healthquestbilling.com/bcbs-alpha-prefix-from-caa-to-czz/"},
+  {label:"BCBS Remark Codes", url:"https://www.wpas-inc.com/payerpolicy/"}
+];
+
+const shortcuts = [
+  ["Amount","amt"],["Appeal","APL"],["Because","bec"],["Business Days","BD"],
+  ["Calendar Days","CD"],["CARRIER","INS"],["Claim","clm"],["Claims","clms"],
+  ["Corrected Claim","CC"],["Counter-offer","c-offer"],["Denied","DND"],
+  ["Determination Letter","LOD"],["Document","Doc"],["Documents","Docs"],
+  ["First Level","FLA"],["Inquire/d","inq"],["Letter Of Terms","LOT"],
+  ["Level of Care","LOC"],["Member ID","MID"],["Negotiations","Nego"],
+  ["Not on file","NOF"],["Please","Pls or pls"],["Policy#","Pol#"],
+  ["Pricing Vendor","PV"],["Receive","rcv"],["Received","rcvd"],
+  ["Reconsideration","Recon"],["Request","reqst"],["Requested","reqstd"],
+  ["Revenue Code","REV"],["Second Level","SLR"],["Single Case Agreement","SCA"],
+  ["Spoke With","s/w"],["Underpaid","UP"],["Which","w/c"],["With","w/"],["Within","w/in"]
+];
+
+// ===================== FUNCTIONS =====================
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabMap = {home:'🏠 Home',flows:'🔄 Flows',facility:'🏥 Facility',carriers:'📞 Carriers',pricing:'💲 Pricing Vendors',tpas:'🏢 TPAs',threshold:'📊 Threshold',templates:'📝 Templates',links:'🔗 Links'};
+  document.querySelectorAll('.nav-tab').forEach(t => { if(t.textContent.trim() === tabMap[id]) t.classList.add('active'); });
+  window.scrollTo(0,0);
+}
+
+function filterTable(tableId, query, countId) {
+  const q = query.toLowerCase();
+  const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+  let visible = 0;
+  rows.forEach(row => {
+    const show = row.textContent.toLowerCase().includes(q);
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  if (countId) { const el = document.getElementById(countId); if (el) el.textContent = visible; }
+}
+
+function copyTemplate(id, btn) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋 Copy'; }, 2000);
+  });
+}
+
+function copyPhone(btn, phone) {
+  navigator.clipboard.writeText(phone).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋'; }, 1800);
+  });
+}
+
+function buildTable(tbodyId, data, showCopyPhone) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  // Original cols: 0=Name,1=Phone,2=Fax,3=Email,4=Dept,5=Hours,6=TFL,7=TAT,8=Notes
+  // Merged layout: Name | Phone/Fax | Dept | Hours | TFL | TAT | Notes+Email
+  data.forEach(row => {
+    const [name, phone, fax, email, dept, hours, tfl, tat, notes] = row;
+    const tr = document.createElement('tr');
+
+    // Col 0: Name
+    const tdName = document.createElement('td');
+    tdName.className = 'name-cell';
+    tdName.textContent = name || '';
+    tr.appendChild(tdName);
+
+    // Col 1: Phone / Fax merged
+    const tdPhone = document.createElement('td');
+    tdPhone.className = 'phone-cell';
+    if (phone && phone !== '?' && phone !== 'n/a') {
+      const phoneSpan = document.createElement('span');
+      phoneSpan.textContent = phone;
+      tdPhone.appendChild(phoneSpan);
+      if (showCopyPhone) {
+        const btn = document.createElement('button');
+        btn.className = 'copy-phone-btn';
+        btn.textContent = '📋';
+        btn.title = 'Copy phone';
+        btn.onclick = function() { copyPhone(this, phone); };
+        tdPhone.appendChild(btn);
+      }
+    }
+    if (fax && fax !== '?' && fax !== 'n/a' && fax !== '') {
+      const faxRow = document.createElement('div');
+      faxRow.style.cssText = 'margin-top:3px;font-size:10px;color:var(--muted)';
+      faxRow.textContent = 'Fax: ' + fax;
+      tdPhone.appendChild(faxRow);
+    }
+    if (email && email !== 'n/a' && email !== '' && email !== '?') {
+      const emailRow = document.createElement('div');
+      emailRow.style.cssText = 'margin-top:2px;font-size:10px';
+      const a = document.createElement('a');
+      a.href = 'mailto:' + email;
+      a.textContent = email;
+      emailRow.appendChild(a);
+      tdPhone.appendChild(emailRow);
+    }
+    tr.appendChild(tdPhone);
+
+    // Col 2: Department
+    const tdDept = document.createElement('td');
+    tdDept.className = 'dept-cell';
+    tdDept.textContent = (dept && dept !== '?') ? dept : '';
+    tr.appendChild(tdDept);
+
+    // Col 3: Hours
+    const tdHours = document.createElement('td');
+    tdHours.className = 'hours-cell';
+    tdHours.textContent = (hours && hours !== '?') ? hours : '';
+    tr.appendChild(tdHours);
+
+    // Col 4: TFL
+    const tdTfl = document.createElement('td');
+    tdTfl.className = 'tfl-cell';
+    tdTfl.textContent = (tfl && tfl !== '?') ? tfl : '';
+    tr.appendChild(tdTfl);
+
+    // Col 5: TAT
+    const tdTat = document.createElement('td');
+    tdTat.className = 'tat-cell';
+    tdTat.textContent = (tat && tat !== '?') ? tat : '';
+    tr.appendChild(tdTat);
+
+    // Col 6: Notes
+    const tdNotes = document.createElement('td');
+    tdNotes.className = 'notes-cell';
+    tdNotes.textContent = notes || '';
+    tr.appendChild(tdNotes);
+
+    tbody.appendChild(tr);
+  });
+}
+
+function buildLinks() {
+  const appealEl = document.getElementById('appeal-links');
+  const portalEl = document.getElementById('portal-links');
+  if (appealEl) {
+    appealEl.innerHTML = appealLinks.map(l =>
+      `<div class="link-card"><div class="link-icon">📄</div><div class="link-body"><div class="link-label">${l.label}</div><a class="link-url" href="${l.url}" target="_blank">${l.url}</a></div></div>`
+    ).join('');
+  }
+  if (portalEl) {
+    portalEl.innerHTML = portalLinks.map(l =>
+      `<div class="link-card"><div class="link-icon">🌐</div><div class="link-body"><div class="link-label">${l.label}</div><a class="link-url" href="${l.url}" target="_blank">${l.url}</a></div></div>`
+    ).join('');
+  }
+  const scEl = document.getElementById('shortcut-grid');
+  if (scEl) {
+    scEl.innerHTML = shortcuts.map(s =>
+      `<div class="shortcut-card"><span class="shortcut-word">${s[0]}</span><span class="shortcut-abbr">${s[1]}</span></div>`
+    ).join('');
+  }
+}
+
+// ===================== THEME =====================
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  const btn = document.getElementById('theme-btn');
+  btn.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+(function() {
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('theme-btn');
+      if (btn) btn.textContent = '🌙 Dark Mode';
+    });
+  }
+})();
+
+
+// ===================== GLOBAL SEARCH =====================
+const SEARCH_SOURCES = [
+  { section: 'carriers', label: '📞 Carriers', data: () => carriers },
+  { section: 'pricing',  label: '💲 Pricing Vendors', data: () => pvData },
+  { section: 'tpas',     label: '🏢 TPAs', data: () => tpaData },
+];
+
+const FACILITY_DATA = [
+  ["Boston Rehabilitation Center","934253949","1013725910","2523 Cranberry Hwy. Wareham, MA 02571"],
+  ["California Detox and Recovery Center","993252067","1215758438","1237 South Wilton Pl., Los Angeles, CA 90019-3542"],
+  ["Choicepoint, LLC","823644902","1831702562","23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558"],
+  ["Elevate Wellness Center, LLC","991537607","1942066162","12037 Rialto St. Sun Valley, CA 91352-3042"],
+  ["Empower Recovery Center New Jersey","872365502","1669229118","200 Independence Blvd. Sicklerville, NJ 08081"],
+  ["Legacy Healing and Treatment New Jersey, LLC","843798890","1417588203","800 Kings Hwy N., Ste. 100 Cherry Hill, NJ 08034"],
+  ["Legacy Healing Center California, LLC","922019341","1003699752","2462 Solar Dr. Los Angeles, CA 90046"],
+  ["Legacy Healing Center Los Angeles, LLC","992924505","1427877216","1924 Wattles Dr. Los Angeles, CA 90046"],
+  ["Legacy Healing Center Margate, LLC","813661016","1811447832","1425 W Cypress Crk Rd., Ste. 201 Ft. Lauderdale, FL 33309"],
+  ["Legacy Healing Center Ohio, LLC","873581824","1295466266","4990 E. Galbraith Rd. Cincinnati, OH 45236"],
+  ["Legacy Healing Detox, LLC","831513664","1831662352","1425 West Cypress Creek Rd., Ste. 201 Ft. Lauderdale, FL 33309"],
+  ["Legacy Healing North Jersey, LLC","874362887","1255037487","300 Littleton Rd., Ste. 200 Parsippany, NJ 07054"],
+  ["New Leaf Recovery Center","994763551","1952263857","628 Shrewsbury Ave Tinton Falls, NJ 07701-4932"],
+  ["New Spirit Recovery, LLC","831547080","1437634466","17856 Cathedral Pl. Encino, CA 91316"],
+  ["Revive Premier Recovery, INC","923170172","1427749910","3630 Potosi Ave. Studio City, CA 91604-4059"],
+  ["Revive Premier Treatment Center","882311706","1184354946","13111 Ventura Blvd Studio City, CA 91604-2218"],
+  ["Southeastern Recovery Center","921028195","1124703988","1018 Lee Ann Dr., NE Concord, NC 28025"],
+  ["The Hope Institute, LLC","352700579","1275239261","179 Cahill Cross Rd., Ste. 210 West Milford, NJ 07480"],
+  ["White Lotus Landing, LLC","921535284","1568216356","58 Grove Ave Leominster, MA 01453-3108"],
+  ["Worthy Recovery Center, LLC","884091661","1598459869","2562 State St., Ste. D Carlsbad, CA 92008"]
+];
+
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+
+function globalSearch(query) {
+  const box = document.getElementById('global-results');
+  const q = query.trim();
+  if (q.length < 2) { box.style.display = 'none'; return; }
+  const ql = q.toLowerCase();
+  let html = '';
+  let totalHits = 0;
+
+  // Facility
+  const facHits = FACILITY_DATA.filter(r => r.join(' ').toLowerCase().includes(ql));
+  if (facHits.length) {
+    html += '<div class="gr-section-label">🏥 Facility</div>';
+    facHits.slice(0, 5).forEach(r => {
+      html += `<div class="gr-item" onclick="goToResult('facility')">
+        <div class="gr-item-name">${highlight(r[0], q)}</div>
+        <div class="gr-item-detail">TIN: ${r[1]} · NPI: ${r[2]} · ${highlight(r[3], q)}</div>
+      </div>`;
+    });
+    totalHits += facHits.length;
+  }
+
+  // Contacts tables
+  SEARCH_SOURCES.forEach(src => {
+    const hits = src.data().filter(r => r.join(' ').toLowerCase().includes(ql));
+    if (hits.length) {
+      html += `<div class="gr-section-label">${src.label}</div>`;
+      hits.slice(0, 6).forEach(r => {
+        const detail = [r[1], r[2], r[4], r[5]].filter(Boolean).join(' · ');
+        html += `<div class="gr-item" onclick="goToResult('${src.section}')">
+          <div class="gr-item-name">${highlight(r[0], q)}</div>
+          <div class="gr-item-detail">${highlight(detail, q)}</div>
+        </div>`;
+      });
+      totalHits += hits.length;
+    }
+  });
+
+  if (!totalHits) {
+    html = '<div class="gr-no-results">No results found for "<strong>' + q + '</strong>"</div>';
+  }
+
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+
+function goToResult(section) {
+  showSection(section);
+  document.getElementById('global-search-input').value = '';
+  document.getElementById('global-results').style.display = 'none';
+}
+
+function globalSearchKey(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('global-results').style.display = 'none';
+    document.getElementById('global-search-input').value = '';
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const wrap = document.querySelector('.global-search-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('global-results').style.display = 'none';
+  }
+});
+
+
+// ===================== ALPHA FILTER =====================
+function alphaFilter(tableId, letter, btn) {
+  // Update active button
+  const bar = document.getElementById(tableId + '-alpha');
+  if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+  rows.forEach(row => {
+    if (letter === 'ALL') {
+      row.style.display = '';
+    } else {
+      const name = row.cells[0] ? row.cells[0].textContent.trim().toUpperCase() : '';
+      row.style.display = name.startsWith(letter) ? '' : 'none';
+    }
+  });
+}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded', () => {
+  buildTable('carrier-tbody', carriers, true);
+  buildTable('pv-tbody', pvData, true);
+  buildTable('tpa-tbody', tpaData, true);
+  buildLinks();
+});
+</script>
+</body>
+</html>
