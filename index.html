@@ -389,6 +389,57 @@
   .copy-btn:hover { background: rgba(79,142,247,0.2); }
   .copy-btn.copied { color: var(--accent3); border-color: var(--accent3); }
 
+  /* TEMPLATE QUICK NAV */
+  .template-quicknav {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .template-quicknav-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    margin-bottom: 12px;
+  }
+  .template-quicknav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .template-quicknav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.18s;
+    text-decoration: none;
+  }
+  .template-quicknav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(79,142,247,0.08);
+    transform: translateY(-1px);
+  }
+  .template-quicknav-btn .qn-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
   /* THRESHOLD */
   .threshold-info {
     background: var(--surface);
@@ -883,8 +934,25 @@
   <div class="section" id="templates">
     <div class="section-title">Notes &amp; Templates</div>
     <div class="section-desc">// Copy-ready templates for negotiations, appeals, and contracts</div>
+
+    <!-- QUICK NAVIGATION -->
+    <div class="template-quicknav">
+      <div class="template-quicknav-title">⚡ Quick Navigation</div>
+      <div class="template-quicknav-list">
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t1');return false;"><span class="qn-badge badge badge-yellow">Negotiations</span> Generic Email Negotiation Template</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t2');return false;"><span class="qn-badge badge badge-yellow">Negotiations</span> Generic Note – Initial Negotiation</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t3');return false;"><span class="qn-badge badge badge-blue">CMD</span> CMD Template</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t4');return false;"><span class="qn-badge badge badge-green">Contract</span> Contract – Signing Note</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t5');return false;"><span class="qn-badge badge badge-green">Contract</span> Contract – Email Response (Signed Proposal)</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t6');return false;"><span class="qn-badge badge badge-green">Contract</span> Contract – Counteroffer</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t7');return false;"><span class="qn-badge badge badge-red">Status Change</span> Status Change Request – Email Template</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t8');return false;"><span class="qn-badge badge badge-purple">Legacy</span> Legacy Facilities – Status Change Note</a>
+        <a class="template-quicknav-btn" href="#" onclick="scrollToTemplate('tcard-t9');return false;"><span class="qn-badge badge badge-blue">AOR</span> AOR to Follow – Signed DOR Submission Request by Fax</a>
+      </div>
+    </div>
+
     <div class="template-grid">
-      <div class="template-card">
+      <div class="template-card" id="tcard-t1">
         <div class="template-header">
           <span class="badge badge-yellow">Negotiations</span>
           <span>Generic Email Negotiation Template</span>
@@ -896,7 +964,7 @@ We would like to open a negotiation for this member's claims. Please see the att
           <button class="copy-btn" onclick="copyTemplate('t1', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card">
+      <div class="template-card" id="tcard-t2">
         <div class="template-header">
           <span class="badge badge-yellow">Negotiations</span>
           <span>Generic Note – Initial Negotiation</span>
@@ -906,7 +974,7 @@ We would like to open a negotiation for this member's claims. Please see the att
           <button class="copy-btn" onclick="copyTemplate('t2', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card">
+      <div class="template-card" id="tcard-t3">
         <div class="template-header">
           <span class="badge badge-blue">CMD</span>
           <span>CMD Template</span>
@@ -922,7 +990,7 @@ Rep &amp; Ref#:</div>
           <button class="copy-btn" onclick="copyTemplate('t3', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card">
+      <div class="template-card" id="tcard-t4">
         <div class="template-header">
           <span class="badge badge-green">Contract</span>
           <span>Contract – Signing Note</span>
@@ -932,7 +1000,7 @@ Rep &amp; Ref#:</div>
           <button class="copy-btn" onclick="copyTemplate('t4', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card">
+      <div class="template-card" id="tcard-t5">
         <div class="template-header">
           <span class="badge badge-green">Contract</span>
           <span>Contract – Email Response (Signed Proposal)</span>
@@ -944,7 +1012,7 @@ Please see the attached signed proposal.</div>
           <button class="copy-btn" onclick="copyTemplate('t5', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card">
+      <div class="template-card" id="tcard-t6">
         <div class="template-header">
           <span class="badge badge-green">Contract</span>
           <span>Contract – Counteroffer</span>
@@ -956,7 +1024,7 @@ We would like to counter with $amt.</div>
           <button class="copy-btn" onclick="copyTemplate('t6', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card" style="grid-column: 1 / -1;">
+      <div class="template-card" id="tcard-t7" style="grid-column: 1 / -1;">
         <div class="template-header">
           <span class="badge badge-red">Status Change</span>
           <span>Status Change Request – Email Template</span>
@@ -986,7 +1054,7 @@ Rep/Ref#: </div>
           <button class="copy-btn" onclick="copyTemplate('t7', this)">📋 Copy Template</button>
         </div>
       </div>
-      <div class="template-card" style="grid-column: 1 / -1;">
+      <div class="template-card" id="tcard-t8" style="grid-column: 1 / -1;">
         <div class="template-header">
           <span class="badge badge-purple">Legacy</span>
           <span>Legacy Facilities – Status Change Note (No Appeal / TPA Check Required)</span>
@@ -999,7 +1067,7 @@ Rep/Ref#: </div>
           <button class="copy-btn" onclick="copyTemplate('t8', this)">📋 Copy</button>
         </div>
       </div>
-      <div class="template-card" style="grid-column: 1 / -1;">
+      <div class="template-card" id="tcard-t9" style="grid-column: 1 / -1;">
         <div class="template-header">
           <span class="badge badge-blue">AOR</span>
           <span>AOR to Follow – Signed DOR Submission Request by Fax</span>
@@ -1509,6 +1577,21 @@ function toggleTheme() {
   }
 })();
 
+
+// ===================== TEMPLATE QUICK NAV =====================
+function scrollToTemplate(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Briefly highlight the card
+  el.style.transition = 'box-shadow 0.3s, border-color 0.3s';
+  el.style.borderColor = 'var(--accent)';
+  el.style.boxShadow = '0 0 0 3px rgba(79,142,247,0.2)';
+  setTimeout(() => {
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+  }, 1600);
+}
 
 // ===================== GLOBAL SEARCH =====================
 const SEARCH_SOURCES = [
