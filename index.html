@@ -642,7 +642,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</button>
     <nav class="nav-tabs">
     <button class="nav-tab active" onclick="showSection('home')">🏠 Home</button>
     <button class="nav-tab" onclick="showSection('flows')">🔄 Flows</button>
@@ -1413,7 +1413,8 @@ const portalLinks = [
   {label:"Unified Health Plan", url:"https://qc.unifiedhealthplan.net/php/general/index.php"},
   {label:"Prefix Check - BCBS", url:"https://www.bcbs.com/member-services"},
   {label:"Prefix Check - BCBS 2", url:"https://www.healthquestbilling.com/bcbs-alpha-prefix-from-caa-to-czz/"},
-  {label:"BCBS Remark Codes", url:"https://www.wpas-inc.com/payerpolicy/"}
+  {label:"BCBS Remark Codes", url:"https://www.wpas-inc.com/payerpolicy/"},
+  {label:"Populytics", url:"https://www.mypopulytics.com/v3app/a/?6713520D04184E041C0D022C0D140C1C130C11166E1E0A300C0B18584A1F4E2F0C0F42151B110C563B217817410B0D581E4217761652340457435E534211655102084145594C5F0B43700B5F085B550344177346552A43160D00010B1C78431209061E08170C060A78155F5B5B5057174B225F56635207435D074117655C540A464507150B0E5A270854590B51000F55290A163E02582F505D42120C5C555B355C2545582B5E735C252C5A212736437731231324502C2F5240187F562229/&redir=1"}
 ];
 
 const shortcuts = [
@@ -1578,7 +1579,7 @@ function buildLinks() {
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light');
   const btn = document.getElementById('theme-btn');
-  btn.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+  btn.textContent = isLight ? '🌙' : '☀️';
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 (function() {
@@ -1586,7 +1587,7 @@ function toggleTheme() {
     document.body.classList.add('light');
     document.addEventListener('DOMContentLoaded', () => {
       const btn = document.getElementById('theme-btn');
-      if (btn) btn.textContent = '🌙 Dark Mode';
+      if (btn) btn.textContent = '🌙';
     });
   }
 })();
