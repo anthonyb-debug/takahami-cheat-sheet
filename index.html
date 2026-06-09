@@ -121,15 +121,15 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    border: 1px solid #7c3aed;
-    background: #7c3aed;
-    color: #fff;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
     transition: all 0.2s;
     font-family: 'Inter', sans-serif;
     letter-spacing: 0.3px;
   }
-  .nav-tab:hover { background: #6d28d9; border-color: #6d28d9; color: #fff; }
-  .nav-tab.active { background: #4ade80; border-color: #4ade80; color: #fff; }
+  .nav-tab:hover { background: var(--tag); border-color: var(--accent); color: var(--text); }
+  .nav-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
   /* LAYOUT */
   .container { max-width: 1400px; margin: 0 auto; padding: 36px 40px; }
@@ -629,6 +629,25 @@
   .alpha-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
   .alpha-btn.all-btn { min-width: 36px; }
   .alpha-btn.disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+  /* COPY NUMBER BUTTON (TIN/NPI) */
+  .copy-num-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 5px;
+    padding: 2px 6px;
+    font-size: 11px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .copy-num-btn:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
+  .copy-num-btn.copied { color: var(--accent3); border-color: var(--accent3); background: rgba(79,247,168,0.08); }
 </style>
 </head>
 <body>
@@ -787,26 +806,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Boston Rehabilitation Center</td><td><span class="badge badge-blue">934253949</span></td><td><span class="badge badge-green">1013725910</span></td><td>2523 Cranberry Hwy. Wareham, MA 02571</td></tr>
-          <tr><td>California Detox and Recovery Center</td><td><span class="badge badge-blue">993252067</span></td><td><span class="badge badge-green">1215758438</span></td><td>1237 South Wilton Pl., Los Angeles, CA 90019-3542</td></tr>
-          <tr><td>Choicepoint, LLC</td><td><span class="badge badge-blue">823644902</span></td><td><span class="badge badge-green">1831702562</span></td><td>23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558</td></tr>
-          <tr><td>Elevate Wellness Center, LLC</td><td><span class="badge badge-blue">991537607</span></td><td><span class="badge badge-green">1942066162</span></td><td>12037 Rialto St. Sun Valley, CA 91352-3042</td></tr>
-          <tr><td>Empower Recovery Center New Jersey</td><td><span class="badge badge-blue">872365502</span></td><td><span class="badge badge-green">1669229118</span></td><td>200 Independence Blvd. Sicklerville, NJ 08081</td></tr>
-          <tr><td>Legacy Healing and Treatment New Jersey, LLC</td><td><span class="badge badge-blue">843798890</span></td><td><span class="badge badge-green">1417588203</span></td><td>800 Kings Hwy N., Ste. 100 Cherry Hill, NJ 08034</td></tr>
-          <tr><td>Legacy Healing Center California, LLC</td><td><span class="badge badge-blue">922019341</span></td><td><span class="badge badge-green">1003699752</span></td><td>2462 Solar Dr. Los Angeles, CA 90046</td></tr>
-          <tr><td>Legacy Healing Center Los Angeles, LLC</td><td><span class="badge badge-blue">992924505</span></td><td><span class="badge badge-green">1427877216</span></td><td>1924 Wattles Dr. Los Angeles, CA 90046</td></tr>
-          <tr><td>Legacy Healing Center Margate, LLC</td><td><span class="badge badge-blue">813661016</span></td><td><span class="badge badge-green">1811447832</span></td><td>1425 W Cypress Crk Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
-          <tr><td>Legacy Healing Center Ohio, LLC</td><td><span class="badge badge-blue">873581824</span></td><td><span class="badge badge-green">1295466266</span></td><td>4990 E. Galbraith Rd. Cincinnati, OH 45236</td></tr>
-          <tr><td>Legacy Healing Detox, LLC</td><td><span class="badge badge-blue">831513664</span></td><td><span class="badge badge-green">1831662352</span></td><td>1425 West Cypress Creek Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
-          <tr><td>Legacy Healing North Jersey, LLC</td><td><span class="badge badge-blue">874362887</span></td><td><span class="badge badge-green">1255037487</span></td><td>300 Littleton Rd., Ste. 200 Parsippany, NJ 07054</td></tr>
-          <tr><td>New Leaf Recovery Center</td><td><span class="badge badge-blue">994763551</span></td><td><span class="badge badge-green">1952263857</span></td><td>628 Shrewsbury Ave Tinton Falls, NJ 07701-4932</td></tr>
-          <tr><td>New Spirit Recovery, LLC</td><td><span class="badge badge-blue">831547080</span></td><td><span class="badge badge-green">1437634466</span></td><td>17856 Cathedral Pl. Encino, CA 91316</td></tr>
-          <tr><td>Revive Premier Recovery, INC</td><td><span class="badge badge-blue">923170172</span></td><td><span class="badge badge-green">1427749910</span></td><td>3630 Potosi Ave. Studio City, CA 91604-4059</td></tr>
-          <tr><td>Revive Premier Treatment Center</td><td><span class="badge badge-blue">882311706</span></td><td><span class="badge badge-green">1184354946</span></td><td>13111 Ventura Blvd Studio City, CA 91604-2218</td></tr>
-          <tr><td>Southeastern Recovery Center</td><td><span class="badge badge-blue">921028195</span></td><td><span class="badge badge-green">1124703988</span></td><td>1018 Lee Ann Dr., NE Concord, NC 28025</td></tr>
-          <tr><td>The Hope Institute, LLC</td><td><span class="badge badge-blue">352700579</span></td><td><span class="badge badge-green">1275239261</span></td><td>179 Cahill Cross Rd., Ste. 210 West Milford, NJ 07480</td></tr>
-          <tr><td>White Lotus Landing, LLC</td><td><span class="badge badge-blue">921535284</span></td><td><span class="badge badge-green">1568216356</span></td><td>58 Grove Ave Leominster, MA 01453-3108</td></tr>
-          <tr><td>Worthy Recovery Center, LLC</td><td><span class="badge badge-blue">884091661</span></td><td><span class="badge badge-green">1598459869</span></td><td>2562 State St., Ste. D Carlsbad, CA 92008</td></tr>
+          <tr><td>Boston Rehabilitation Center</td><td>934253949 <button class="copy-num-btn" onclick="copyNum(this, '934253949')" title="Copy TIN">📋</button></td><td>1013725910 <button class="copy-num-btn" onclick="copyNum(this, '1013725910')" title="Copy NPI">📋</button></td><td>2523 Cranberry Hwy. Wareham, MA 02571</td></tr>
+          <tr><td>California Detox and Recovery Center</td><td>993252067 <button class="copy-num-btn" onclick="copyNum(this, '993252067')" title="Copy TIN">📋</button></td><td>1215758438 <button class="copy-num-btn" onclick="copyNum(this, '1215758438')" title="Copy NPI">📋</button></td><td>1237 South Wilton Pl., Los Angeles, CA 90019-3542</td></tr>
+          <tr><td>Choicepoint, LLC</td><td>823644902 <button class="copy-num-btn" onclick="copyNum(this, '823644902')" title="Copy TIN">📋</button></td><td>1831702562 <button class="copy-num-btn" onclick="copyNum(this, '1831702562')" title="Copy NPI">📋</button></td><td>23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558</td></tr>
+          <tr><td>Elevate Wellness Center, LLC</td><td>991537607 <button class="copy-num-btn" onclick="copyNum(this, '991537607')" title="Copy TIN">📋</button></td><td>1942066162 <button class="copy-num-btn" onclick="copyNum(this, '1942066162')" title="Copy NPI">📋</button></td><td>12037 Rialto St. Sun Valley, CA 91352-3042</td></tr>
+          <tr><td>Empower Recovery Center New Jersey</td><td>872365502 <button class="copy-num-btn" onclick="copyNum(this, '872365502')" title="Copy TIN">📋</button></td><td>1669229118 <button class="copy-num-btn" onclick="copyNum(this, '1669229118')" title="Copy NPI">📋</button></td><td>200 Independence Blvd. Sicklerville, NJ 08081</td></tr>
+          <tr><td>Legacy Healing and Treatment New Jersey, LLC</td><td>843798890 <button class="copy-num-btn" onclick="copyNum(this, '843798890')" title="Copy TIN">📋</button></td><td>1417588203 <button class="copy-num-btn" onclick="copyNum(this, '1417588203')" title="Copy NPI">📋</button></td><td>800 Kings Hwy N., Ste. 100 Cherry Hill, NJ 08034</td></tr>
+          <tr><td>Legacy Healing Center California, LLC</td><td>922019341 <button class="copy-num-btn" onclick="copyNum(this, '922019341')" title="Copy TIN">📋</button></td><td>1003699752 <button class="copy-num-btn" onclick="copyNum(this, '1003699752')" title="Copy NPI">📋</button></td><td>2462 Solar Dr. Los Angeles, CA 90046</td></tr>
+          <tr><td>Legacy Healing Center Los Angeles, LLC</td><td>992924505 <button class="copy-num-btn" onclick="copyNum(this, '992924505')" title="Copy TIN">📋</button></td><td>1427877216 <button class="copy-num-btn" onclick="copyNum(this, '1427877216')" title="Copy NPI">📋</button></td><td>1924 Wattles Dr. Los Angeles, CA 90046</td></tr>
+          <tr><td>Legacy Healing Center Margate, LLC</td><td>813661016 <button class="copy-num-btn" onclick="copyNum(this, '813661016')" title="Copy TIN">📋</button></td><td>1811447832 <button class="copy-num-btn" onclick="copyNum(this, '1811447832')" title="Copy NPI">📋</button></td><td>1425 W Cypress Crk Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
+          <tr><td>Legacy Healing Center Ohio, LLC</td><td>873581824 <button class="copy-num-btn" onclick="copyNum(this, '873581824')" title="Copy TIN">📋</button></td><td>1295466266 <button class="copy-num-btn" onclick="copyNum(this, '1295466266')" title="Copy NPI">📋</button></td><td>4990 E. Galbraith Rd. Cincinnati, OH 45236</td></tr>
+          <tr><td>Legacy Healing Detox, LLC</td><td>831513664 <button class="copy-num-btn" onclick="copyNum(this, '831513664')" title="Copy TIN">📋</button></td><td>1831662352 <button class="copy-num-btn" onclick="copyNum(this, '1831662352')" title="Copy NPI">📋</button></td><td>1425 West Cypress Creek Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
+          <tr><td>Legacy Healing North Jersey, LLC</td><td>874362887 <button class="copy-num-btn" onclick="copyNum(this, '874362887')" title="Copy TIN">📋</button></td><td>1255037487 <button class="copy-num-btn" onclick="copyNum(this, '1255037487')" title="Copy NPI">📋</button></td><td>300 Littleton Rd., Ste. 200 Parsippany, NJ 07054</td></tr>
+          <tr><td>New Leaf Recovery Center</td><td>994763551 <button class="copy-num-btn" onclick="copyNum(this, '994763551')" title="Copy TIN">📋</button></td><td>1952263857 <button class="copy-num-btn" onclick="copyNum(this, '1952263857')" title="Copy NPI">📋</button></td><td>628 Shrewsbury Ave Tinton Falls, NJ 07701-4932</td></tr>
+          <tr><td>New Spirit Recovery, LLC</td><td>831547080 <button class="copy-num-btn" onclick="copyNum(this, '831547080')" title="Copy TIN">📋</button></td><td>1437634466 <button class="copy-num-btn" onclick="copyNum(this, '1437634466')" title="Copy NPI">📋</button></td><td>17856 Cathedral Pl. Encino, CA 91316</td></tr>
+          <tr><td>Revive Premier Recovery, INC</td><td>923170172 <button class="copy-num-btn" onclick="copyNum(this, '923170172')" title="Copy TIN">📋</button></td><td>1427749910 <button class="copy-num-btn" onclick="copyNum(this, '1427749910')" title="Copy NPI">📋</button></td><td>3630 Potosi Ave. Studio City, CA 91604-4059</td></tr>
+          <tr><td>Revive Premier Treatment Center</td><td>882311706 <button class="copy-num-btn" onclick="copyNum(this, '882311706')" title="Copy TIN">📋</button></td><td>1184354946 <button class="copy-num-btn" onclick="copyNum(this, '1184354946')" title="Copy NPI">📋</button></td><td>13111 Ventura Blvd Studio City, CA 91604-2218</td></tr>
+          <tr><td>Southeastern Recovery Center</td><td>921028195 <button class="copy-num-btn" onclick="copyNum(this, '921028195')" title="Copy TIN">📋</button></td><td>1124703988 <button class="copy-num-btn" onclick="copyNum(this, '1124703988')" title="Copy NPI">📋</button></td><td>1018 Lee Ann Dr., NE Concord, NC 28025</td></tr>
+          <tr><td>The Hope Institute, LLC</td><td>352700579 <button class="copy-num-btn" onclick="copyNum(this, '352700579')" title="Copy TIN">📋</button></td><td>1275239261 <button class="copy-num-btn" onclick="copyNum(this, '1275239261')" title="Copy NPI">📋</button></td><td>179 Cahill Cross Rd., Ste. 210 West Milford, NJ 07480</td></tr>
+          <tr><td>White Lotus Landing, LLC</td><td>921535284 <button class="copy-num-btn" onclick="copyNum(this, '921535284')" title="Copy TIN">📋</button></td><td>1568216356 <button class="copy-num-btn" onclick="copyNum(this, '1568216356')" title="Copy NPI">📋</button></td><td>58 Grove Ave Leominster, MA 01453-3108</td></tr>
+          <tr><td>Worthy Recovery Center, LLC</td><td>884091661 <button class="copy-num-btn" onclick="copyNum(this, '884091661')" title="Copy TIN">📋</button></td><td>1598459869 <button class="copy-num-btn" onclick="copyNum(this, '1598459869')" title="Copy NPI">📋</button></td><td>2562 State St., Ste. D Carlsbad, CA 92008</td></tr>
         </tbody>
       </table>
     </div>
@@ -1592,6 +1611,15 @@ function toggleTheme() {
   }
 })();
 
+
+// ===================== COPY NUMBER (TIN/NPI) =====================
+function copyNum(btn, num) {
+  navigator.clipboard.writeText(num).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋'; }, 1500);
+  });
+}
 
 // ===================== TEMPLATE QUICK NAV =====================
 function scrollToTemplate(id) {
