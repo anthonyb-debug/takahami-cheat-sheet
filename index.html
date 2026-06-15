@@ -672,6 +672,7 @@
     <button class="nav-tab" onclick="showSection('threshold')">📊 Threshold</button>
     <button class="nav-tab" onclick="showSection('templates')">📝 Templates</button>
     <button class="nav-tab" onclick="showSection('links')">🔗 Links</button>
+    <button class="nav-tab" onclick="showSection('hipaa')">🔒 HIPAA</button>
   </nav>
   </div>
 </header>
@@ -729,6 +730,11 @@
         <div class="dash-emoji">🔗</div>
         <h3>Links & Shortcuts</h3>
         <p>Portals, forms, abbreviations</p>
+      </div>
+      <div class="dash-card" onclick="showSection('hipaa')">
+        <div class="dash-emoji">🔒</div>
+        <h3>HIPAA Reference</h3>
+        <p>Covered entities, BAs & compliance</p>
       </div>
     </div>
 
@@ -1147,6 +1153,88 @@ Fax Number:</div>
 
     <h3 style="font-size:15px;font-weight:700;color:var(--muted);margin-bottom:14px">⌨️ Shortcut Words / Abbreviations</h3>
     <div class="shortcut-grid" id="shortcut-grid"></div>
+  </div>
+
+  <!-- HIPAA -->
+  <div class="section" id="hipaa">
+    <div class="section-title">HIPAA Reference</div>
+    <div class="section-desc">// Covered Entities, Business Associates, and compliance overview</div>
+
+    <div class="flow-grid">
+
+      <div class="flow-card">
+        <h3 style="margin-bottom:10px;font-size:16px;">📋 Covered Entities</h3>
+        <p>Covered entities include health plans, health care clearinghouses, and health care providers who store or transmit any health information in electronic form in connection with a HIPAA transaction (billing, insurance inquiries, etc.).</p>
+      </div>
+
+      <div class="flow-card">
+        <h3 style="margin-bottom:10px;font-size:16px;">🤝 Business Associates (BAs)</h3>
+        <p>Business Associates provide services to Covered Entities and may come into contact with PHI. Some BAs may use patient data for research or quality analysis. Others may encounter it as part of IT support, accreditation, practice management, quality assurance, legal services, or document shredding. Covered Entities are required to identify their Business Associates and have them sign contracts.</p>
+        <div class="flow-sub-section" style="margin-top:14px;">
+          <h4>BA Responsibilities</h4>
+          <p>Business Associates' responsibilities under HIPAA arise through statutory, regulatory, and contractual requirements — usually in the form of required Business Associate Agreements (BAAs). BAs often use subcontractors (sub-BAs) who also have direct HIPAA requirements. Cloud service providers, data storage facilities, and paper storage companies all have HIPAA responsibilities even if they do not access the PHI or hold an encryption key.</p>
+        </div>
+      </div>
+
+      <div class="flow-card">
+        <h3 style="margin-bottom:10px;font-size:16px;">⚙️ HIPAA Security Rule</h3>
+        <p>Implementation specifications vary considerably in complexity. Some requirements are straightforward (e.g., designating a security compliance officer), while others are more complex (e.g., creating an Emergency Mode Operations Plan). The HITECH Act requires Business Associates and their subcontractors to comply to the same extent as Covered Entities.</p>
+        <div class="flow-fork" style="margin-top:14px;">
+          <div class="flow-sub-section">
+            <h4>Required Specifications</h4>
+            <p>Must be implemented — no exceptions. These are mandatory compliance items for all Covered Entities and BAs.</p>
+          </div>
+          <div class="flow-sub-section">
+            <h4>Addressable Specifications</h4>
+            <p>Not strictly optional. Covered Entities and BAs must either implement the specification or document why it does not apply and describe any alternate procedure being used.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-card">
+        <h3 style="margin-bottom:10px;font-size:16px;">🔍 Identifying Business Associates</h3>
+        <p>A Business Associate is a person or organization that performs services for a Covered Entity involving the use or disclosure of PHI. Prior to HITECH (2009), CEs bore responsibility for all breaches caused by their BAs. HITECH extended federal enforcement and penalties directly to BAs. In 2016, the OCR clarified that data centers and cloud services storing ePHI are HIPAA Business Associates even if they never access the data.</p>
+        <div class="flow-sub-section" style="margin-top:14px;">
+          <h4>BA Functions &amp; Activities</h4>
+          <p>Claims processing or administration · Data analysis, processing, or administration · Utilization review · Quality assurance · Billing · Benefit management · Practice management · Repricing · Legal, actuarial, accounting, consulting, data aggregation · IT/EHR support · Document shredding · Technology disposal · Accreditation · Financial services</p>
+        </div>
+        <div class="flow-sub-section" style="margin-top:10px;">
+          <h4>CE vs. BA Distinction</h4>
+          <p>If two CEs collaborate on patient treatment or payment, neither is considered a BA. Clinicians are almost always CEs, not BAs — unless acting as consultants. A BA only accesses PHI as part of services rendered to a CE. Individuals and organizations directly involved in patient treatment, payment, or operations are CEs.</p>
+        </div>
+      </div>
+
+      <div class="flow-card">
+        <h3 style="margin-bottom:10px;font-size:16px;">📂 Examples of Business Associates</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+          <div class="flow-sub-section">
+            <h4>Common Examples</h4>
+            <p style="line-height:1.9;">
+              • Computer hardware / MSPs with PHI access<br>
+              • Software vendors (e.g., EHR companies)<br>
+              • Third-party claims administrators<br>
+              • CPA firms with PHI access<br>
+              • Attorneys providing legal services involving PHI<br>
+              • Consultants performing utilization reviews
+            </p>
+          </div>
+          <div class="flow-sub-section">
+            <h4>Additional Examples</h4>
+            <p style="line-height:1.9;">
+              • Independent medical transcriptionists<br>
+              • Pharmacy benefits managers<br>
+              • Accreditation agencies (e.g., JCAHO)<br>
+              • Data centers / cloud services storing PHI<br>
+              • Billing services with PHI access<br>
+              • Non-facility consultants (HIM, Dietary, Infection Control)<br>
+              • Shredding services for paper records<br>
+              • Phone system support companies (storing patient voicemails/call recordings)
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
 </div>
