@@ -674,6 +674,18 @@
   }
   .copy-num-btn:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
   .copy-num-btn.copied { color: var(--accent3); border-color: var(--accent3); background: rgba(79,247,168,0.08); }
+
+  /* ===== Sheet sync bar ===== */
+  #sync-bar{position:fixed;right:14px;bottom:14px;z-index:999;display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:6px 8px 6px 12px;box-shadow:0 4px 16px rgba(0,0,0,.35);font-size:11px;color:var(--muted);max-width:78vw}
+  #sync-bar .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
+  #sync-bar.state-ok .sync-dot{background:var(--accent3)}
+  #sync-bar.state-syncing .sync-dot{background:var(--accent2);animation:syncpulse 1s infinite}
+  #sync-bar.state-offline .sync-dot{background:var(--accent4)}
+  #sync-bar .sync-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #sync-bar button{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
+  #sync-bar button:disabled{opacity:.55;cursor:default}
+  @keyframes syncpulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @media(max-width:640px){#sync-bar .sync-text{max-width:44vw}}
 </style>
 </head>
 <body>
@@ -838,28 +850,7 @@
             <th>Address</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>Boston Rehabilitation Center</td><td>934253949 <button class="copy-num-btn" onclick="copyNum(this, '934253949')" title="Copy TIN">📋</button></td><td>1013725910 <button class="copy-num-btn" onclick="copyNum(this, '1013725910')" title="Copy NPI">📋</button></td><td>2523 Cranberry Hwy. Wareham, MA 02571</td></tr>
-          <tr><td>California Detox and Recovery Center</td><td>993252067 <button class="copy-num-btn" onclick="copyNum(this, '993252067')" title="Copy TIN">📋</button></td><td>1215758438 <button class="copy-num-btn" onclick="copyNum(this, '1215758438')" title="Copy NPI">📋</button></td><td>1237 South Wilton Pl., Los Angeles, CA 90019-3542</td></tr>
-          <tr><td>Choicepoint, LLC</td><td>823644902 <button class="copy-num-btn" onclick="copyNum(this, '823644902')" title="Copy TIN">📋</button></td><td>1831702562 <button class="copy-num-btn" onclick="copyNum(this, '1831702562')" title="Copy NPI">📋</button></td><td>23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558</td></tr>
-          <tr><td>Elevate Wellness Center, LLC</td><td>991537607 <button class="copy-num-btn" onclick="copyNum(this, '991537607')" title="Copy TIN">📋</button></td><td>1942066162 <button class="copy-num-btn" onclick="copyNum(this, '1942066162')" title="Copy NPI">📋</button></td><td>12037 Rialto St. Sun Valley, CA 91352-3042</td></tr>
-          <tr><td>Empower Recovery Center New Jersey</td><td>872365502 <button class="copy-num-btn" onclick="copyNum(this, '872365502')" title="Copy TIN">📋</button></td><td>1669229118 <button class="copy-num-btn" onclick="copyNum(this, '1669229118')" title="Copy NPI">📋</button></td><td>200 Independence Blvd. Sicklerville, NJ 08081</td></tr>
-          <tr><td>Legacy Healing and Treatment New Jersey, LLC</td><td>843798890 <button class="copy-num-btn" onclick="copyNum(this, '843798890')" title="Copy TIN">📋</button></td><td>1417588203 <button class="copy-num-btn" onclick="copyNum(this, '1417588203')" title="Copy NPI">📋</button></td><td>800 Kings Hwy N., Ste. 100 Cherry Hill, NJ 08034</td></tr>
-          <tr><td>Legacy Healing Center California, LLC</td><td>922019341 <button class="copy-num-btn" onclick="copyNum(this, '922019341')" title="Copy TIN">📋</button></td><td>1003699752 <button class="copy-num-btn" onclick="copyNum(this, '1003699752')" title="Copy NPI">📋</button></td><td>2462 Solar Dr. Los Angeles, CA 90046</td></tr>
-          <tr><td>Legacy Healing Center Los Angeles, LLC</td><td>992924505 <button class="copy-num-btn" onclick="copyNum(this, '992924505')" title="Copy TIN">📋</button></td><td>1427877216 <button class="copy-num-btn" onclick="copyNum(this, '1427877216')" title="Copy NPI">📋</button></td><td>1924 Wattles Dr. Los Angeles, CA 90046</td></tr>
-          <tr><td>Legacy Healing Center Margate, LLC</td><td>813661016 <button class="copy-num-btn" onclick="copyNum(this, '813661016')" title="Copy TIN">📋</button></td><td>1811447832 <button class="copy-num-btn" onclick="copyNum(this, '1811447832')" title="Copy NPI">📋</button></td><td>1425 W Cypress Crk Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
-          <tr><td>Legacy Healing Center Ohio, LLC</td><td>873581824 <button class="copy-num-btn" onclick="copyNum(this, '873581824')" title="Copy TIN">📋</button></td><td>1295466266 <button class="copy-num-btn" onclick="copyNum(this, '1295466266')" title="Copy NPI">📋</button></td><td>4990 E. Galbraith Rd. Cincinnati, OH 45236</td></tr>
-          <tr><td>Legacy Healing Detox, LLC</td><td>831513664 <button class="copy-num-btn" onclick="copyNum(this, '831513664')" title="Copy TIN">📋</button></td><td>1831662352 <button class="copy-num-btn" onclick="copyNum(this, '1831662352')" title="Copy NPI">📋</button></td><td>1425 West Cypress Creek Rd., Ste. 201 Ft. Lauderdale, FL 33309</td></tr>
-          <tr><td>Legacy Healing North Jersey, LLC</td><td>874362887 <button class="copy-num-btn" onclick="copyNum(this, '874362887')" title="Copy TIN">📋</button></td><td>1255037487 <button class="copy-num-btn" onclick="copyNum(this, '1255037487')" title="Copy NPI">📋</button></td><td>300 Littleton Rd., Ste. 200 Parsippany, NJ 07054</td></tr>
-          <tr><td>New Leaf Recovery Center</td><td>994763551 <button class="copy-num-btn" onclick="copyNum(this, '994763551')" title="Copy TIN">📋</button></td><td>1952263857 <button class="copy-num-btn" onclick="copyNum(this, '1952263857')" title="Copy NPI">📋</button></td><td>628 Shrewsbury Ave Tinton Falls, NJ 07701-4932</td></tr>
-          <tr><td>New Spirit Recovery, LLC</td><td>831547080 <button class="copy-num-btn" onclick="copyNum(this, '831547080')" title="Copy TIN">📋</button></td><td>1437634466 <button class="copy-num-btn" onclick="copyNum(this, '1437634466')" title="Copy NPI">📋</button></td><td>17856 Cathedral Pl. Encino, CA 91316</td></tr>
-          <tr><td>Revive Premier Recovery, INC</td><td>923170172 <button class="copy-num-btn" onclick="copyNum(this, '923170172')" title="Copy TIN">📋</button></td><td>1427749910 <button class="copy-num-btn" onclick="copyNum(this, '1427749910')" title="Copy NPI">📋</button></td><td>3630 Potosi Ave. Studio City, CA 91604-4059</td></tr>
-          <tr><td>Revive Premier Treatment Center</td><td>882311706 <button class="copy-num-btn" onclick="copyNum(this, '882311706')" title="Copy TIN">📋</button></td><td>1184354946 <button class="copy-num-btn" onclick="copyNum(this, '1184354946')" title="Copy NPI">📋</button></td><td>13111 Ventura Blvd Studio City, CA 91604-2218</td></tr>
-          <tr><td>Southeastern Recovery Center</td><td>921028195 <button class="copy-num-btn" onclick="copyNum(this, '921028195')" title="Copy TIN">📋</button></td><td>1124703988 <button class="copy-num-btn" onclick="copyNum(this, '1124703988')" title="Copy NPI">📋</button></td><td>1018 Lee Ann Dr., NE Concord, NC 28025</td></tr>
-          <tr><td>The Hope Institute, LLC</td><td>352700579 <button class="copy-num-btn" onclick="copyNum(this, '352700579')" title="Copy TIN">📋</button></td><td>1275239261 <button class="copy-num-btn" onclick="copyNum(this, '1275239261')" title="Copy NPI">📋</button></td><td>179 Cahill Cross Rd., Ste. 210 West Milford, NJ 07480</td></tr>
-          <tr><td>White Lotus Landing, LLC</td><td>921535284 <button class="copy-num-btn" onclick="copyNum(this, '921535284')" title="Copy TIN">📋</button></td><td>1568216356 <button class="copy-num-btn" onclick="copyNum(this, '1568216356')" title="Copy NPI">📋</button></td><td>58 Grove Ave Leominster, MA 01453-3108</td></tr>
-          <tr><td>Worthy Recovery Center, LLC</td><td>884091661 <button class="copy-num-btn" onclick="copyNum(this, '884091661')" title="Copy TIN">📋</button></td><td>1598459869 <button class="copy-num-btn" onclick="copyNum(this, '1598459869')" title="Copy NPI">📋</button></td><td>2562 State St., Ste. D Carlsbad, CA 92008</td></tr>
-        </tbody>
+        <tbody id="facility-tbody"></tbody>
       </table>
     </div>
   </div>
@@ -1275,7 +1266,7 @@ Fax Number:</div>
 <script>
 // ===================== DATA =====================
 
-const carriers = [
+let carriers = [
   ["1199 National Benefit Fund","888-819-1199","","","?","?","?","?","?"],
   ["Adventist Health","800-441-2524","","","","8:00 AM-5:00 PM M-TH / 7:00 AM-3:00 PM F","","",""],
   ["Aetna Health Plans (Appeals)","888-632-3862","859-455-8650","","Provider Resolution Team","8:00 AM-5:00 PM","60 Calendar","60 Calendar","PO Box 14020 Lexington, KY 40512 | Appeal inquiry Press 5"],
@@ -1420,7 +1411,7 @@ const carriers = [
   ["Performance Health","877-585-8480","440-249-7276","customerservice@myperformancehlth.com","Claims Department","8:00 AM-05:00 PM","180 Calendar","30 Calendar","PO BOX 211405 Eagan MN, 55121"]
 ];
 
-const pvData = [
+let pvData = [
   ["AMPS","800-425-9373","866-861-9227","info@amps.com","","","180 Calendar","10 Business",""],
   ["Carelon (Wellpoint-Amerigroup)","844-231-7951","","","","","","","No negotiation"],
   ["Claritev (Cigna)","866-233-0121","888-850-7604","","Billing Resolution Department","","","","301 N Broadway Ste 301 DePere, WI 54115 - disputed claims only / 5 claims only"],
@@ -1447,7 +1438,7 @@ const pvData = [
   ["Carelon (Behavioral Health)","888-204-5581","855-378-8309","","Appeals Department","8:00 AM-8:00PM","365 Calendar","45 Business","PO Box 1856 Hicksville NY, 11802"]
 ];
 
-const tpaData = [
+let tpaData = [
   ["32BJ Health Fund","800-551-3225","","","","","","",""],
   ["All State Benefits Group Health","800-392-4561","","","","","","",""],
   ["Allegiance Benefit Plan Management","800-877-1122","866-201-0522 / 406-523-3111","[Rep's Name]@askallegiance.com","Appeals Department","9:00 AM-8:00 PM","180 Calendar","curtsey","PO Box 21222 Eagan, MN 55121 / *Ask help from rep to send APL via secured email* | Press 7, APL inquiry"],
@@ -1889,7 +1880,7 @@ const SEARCH_SOURCES = [
   { section: 'tpas',     label: '🏢 TPAs', data: () => tpaData },
 ];
 
-const FACILITY_DATA = [
+let FACILITY_DATA = [
   ["Boston Rehabilitation Center","934253949","1013725910","2523 Cranberry Hwy. Wareham, MA 02571"],
   ["California Detox and Recovery Center","993252067","1215758438","1237 South Wilton Pl., Los Angeles, CA 90019-3542"],
   ["Choicepoint, LLC","823644902","1831702562","23-00 Route 208 Ste. 2-9 Fair Lawn, NJ 07410-1558"],
@@ -2002,13 +1993,206 @@ function alphaFilter(tableId, letter, btn) {
   });
 }
 
+// ===================== GOOGLE SHEET SYNC =====================
+// The app reads its data from this Google Sheet.
+// Requirements: the sheet is shared "Anyone with the link -> Viewer", with one tab
+// per section (names below) and a header row on each.
+//   Contacts tabs headers: Name, Phone, Fax, Email, Department, Hours, TFL, TAT, Notes
+//   Facility tab headers : Name, TIN, NPI, Address
+// To point at a different sheet, replace the ID in sheetId (the long code from the
+// sheet's URL between /d/ and /edit). Leave sheetId blank to use the built-in data.
+const SHEET_CONFIG = {
+  sheetId: "1FQk-3JJBbM-dOnVbqBCOw4jIRtFjatTMCHwTl01dLUg",  // <-- your Google Sheet ID
+  tabs: {
+    facility: "Facility",
+    carriers: "Carriers",
+    pricing:  "Pricing Vendors",
+    tpas:     "TPAs"
+  }
+};
+
+const CACHE_PREFIX = 'insapp_cache_v1_';
+
+// --- CSV parser (handles quotes, commas & newlines inside fields) ---
+function parseCSV(text){
+  const rows=[]; let row=[], field='', i=0, inQ=false;
+  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inQ=false;i++;continue; }
+      field+=c;i++;continue;
+    }
+    if(c==='"'){inQ=true;i++;continue;}
+    if(c===','){row.push(field);field='';i++;continue;}
+    if(c==='\n'){row.push(field);rows.push(row);row=[];field='';i++;continue;}
+    field+=c;i++;
+  }
+  row.push(field); rows.push(row);
+  // drop trailing empty row
+  if(rows.length && rows[rows.length-1].every(x=>x.trim()==='')) rows.pop();
+  return rows;
+}
+
+const CONTACT_ALIASES = {
+  name:['name','carrier','tpa','vendor','pricing vendor','company','payer'],
+  phone:['phone','phone number','tel','telephone','phone/fax','phone / fax'],
+  fax:['fax'],
+  email:['email','e-mail'],
+  dept:['department','dept'],
+  hours:['hours','operation','operating hours','operating','hours (est)','operation hours'],
+  tfl:['tfl','timely filing'],
+  tat:['tat','turnaround','turn around'],
+  notes:['notes','address','address / notes','notes/mail','mail','address/notes','notes / mail','address / note']
+};
+const CONTACT_ORDER = ['name','phone','fax','email','dept','hours','tfl','tat','notes'];
+const FAC_ALIASES = {
+  name:['name','facility','facility name','company'],
+  tin:['tin','tax id','ein'],
+  npi:['npi'],
+  address:['address','mail','location']
+};
+const FAC_ORDER = ['name','tin','npi','address'];
+
+function normalize(s){ return String(s==null?'':s).trim().toLowerCase(); }
+
+// Map a raw CSV grid to canonical row arrays.
+function mapGrid(grid, order, aliases){
+  if(!grid || !grid.length) return [];
+  const header = grid[0].map(normalize);
+  // Which canonical field does each header column map to?
+  const colField = header.map(h=>{
+    for(const f of order){ if(aliases[f].includes(h)) return f; }
+    return null;
+  });
+  const matched = colField.filter(Boolean).length;
+  const hasHeader = colField.includes('name') || matched >= 2;
+  let dataRows, fieldIndex={};
+  if(hasHeader){
+    order.forEach(f=>{ fieldIndex[f] = colField.indexOf(f); });
+    dataRows = grid.slice(1);
+  } else {
+    // No recognizable header -> assume columns already in canonical order
+    order.forEach((f,idx)=>{ fieldIndex[f]=idx; });
+    dataRows = grid;
+  }
+  const out=[];
+  for(const r of dataRows){
+    if(r.every(x=>String(x).trim()==='')) continue;
+    const rec = order.map(f=>{ const idx=fieldIndex[f]; return (idx>=0 && idx<r.length)? String(r[idx]).trim() : ''; });
+    if(!rec[0]) continue; // skip rows with no name
+    out.push(rec);
+  }
+  return out;
+}
+
+// --- apply parsed data to the live app ---
+function applyData(key, arr){
+  if(!arr || !arr.length) return;
+  if(key==='carriers'){ carriers = arr; buildTable('carrier-tbody', carriers, true); }
+  else if(key==='pricing'){ pvData = arr; buildTable('pv-tbody', pvData, true); }
+  else if(key==='tpas'){ tpaData = arr; buildTable('tpa-tbody', tpaData, true); }
+  else if(key==='facility'){ FACILITY_DATA = arr; buildFacility(); }
+  updateCounts();
+}
+
+function updateCounts(){
+  const set=(id,n)=>{ const e=document.getElementById(id); if(e) e.textContent=n; };
+  set('carrier-count', carriers.length);
+  set('pv-count', pvData.length);
+  set('tpa-count', tpaData.length);
+}
+
+// --- offline cache ---
+function cacheSave(key, arr){ try{ localStorage.setItem(CACHE_PREFIX+key, JSON.stringify(arr)); }catch(e){} }
+function cacheLoad(key){ try{ const v=localStorage.getItem(CACHE_PREFIX+key); return v?JSON.parse(v):null; }catch(e){ return null; } }
+
+function sheetUrl(tabName){
+  const id = SHEET_CONFIG.sheetId.trim();
+  return 'https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(tabName)+'&_='+Date.now();
+}
+
+async function fetchTab(key){
+  const tab = SHEET_CONFIG.tabs[key];
+  const res = await fetch(sheetUrl(tab), {cache:'no-store'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const text = await res.text();
+  if(/<html|<!DOCTYPE/i.test(text.slice(0,200))) throw new Error('not-csv'); // permission/redirect page
+  const grid = parseCSV(text);
+  const order = (key==='facility')? FAC_ORDER : CONTACT_ORDER;
+  const aliases = (key==='facility')? FAC_ALIASES : CONTACT_ALIASES;
+  return mapGrid(grid, order, aliases);
+}
+
+let SYNC_IN_PROGRESS = false;
+async function syncAll(manual){
+  if(SYNC_IN_PROGRESS) return;
+  if(!SHEET_CONFIG.sheetId.trim()){
+    setSync('idle', 'Built-in data (Sheet not set up)');
+    return;
+  }
+  SYNC_IN_PROGRESS = true;
+  setSync('syncing', 'Syncing…');
+  const keys = ['facility','carriers','pricing','tpas'];
+  const results = await Promise.allSettled(keys.map(async k=>{
+    const arr = await fetchTab(k);
+    applyData(k, arr);
+    cacheSave(k, arr);
+    return k;
+  }));
+  const ok = results.filter(r=>r.status==='fulfilled').length;
+  const t = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  if(ok===0){ setSync('offline', 'Offline — showing saved data'); }
+  else if(ok<keys.length){ setSync('offline', 'Partly synced '+t+' ('+ok+'/'+keys.length+')'); }
+  else { setSync('ok', 'Synced '+t); }
+  SYNC_IN_PROGRESS = false;
+}
+
+function setSync(state, msg){
+  const bar=document.getElementById('sync-bar'); if(!bar) return;
+  bar.className='state-'+state;
+  const txt=bar.querySelector('.sync-text'); if(txt) txt.textContent=msg;
+  const btn=bar.querySelector('button'); if(btn) btn.disabled=(state==='syncing');
+}
+
+function injectSyncBar(){
+  const bar=document.createElement('div');
+  bar.id='sync-bar'; bar.className='state-idle';
+  bar.innerHTML='<span class="sync-dot"></span><span class="sync-text">Built-in data</span><button onclick="syncAll(true)">Refresh</button>';
+  document.body.appendChild(bar);
+}
+
+// Build facility rows from data (was previously static HTML)
+function buildFacility(){
+  const tb=document.getElementById('facility-tbody'); if(!tb) return;
+  tb.innerHTML = FACILITY_DATA.map(r=>{
+    const name=r[0]||'', tin=r[1]||'', npi=r[2]||'', addr=r[3]||'';
+    const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const num=(v,lbl)=> v? esc(v)+' <button class="copy-num-btn" onclick="copyNum(this, '+"'"+esc(v)+"'"+')" title="Copy '+lbl+'">📋</button>' : '';
+    return '<tr><td>'+esc(name)+'</td><td>'+num(tin,'TIN')+'</td><td>'+num(npi,'NPI')+'</td><td>'+esc(addr)+'</td></tr>';
+  }).join('');
+}
+
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded', () => {
   buildTable('carrier-tbody', carriers, true);
   buildTable('pv-tbody', pvData, true);
   buildTable('tpa-tbody', tpaData, true);
+  buildFacility();
   buildLinks();
   buildChangelog();
+  updateCounts();
+  injectSyncBar();
+
+  // If a sheet is configured, show any cached data instantly, then refresh from the sheet.
+  if(SHEET_CONFIG.sheetId.trim()){
+    ['facility','carriers','pricing','tpas'].forEach(k=>{
+      const cached=cacheLoad(k); if(cached && cached.length) applyData(k, cached);
+    });
+    syncAll(false);
+  } else {
+    setSync('idle', 'Built-in data (Sheet not set up)');
+  }
 });
 </script>
 </body>
