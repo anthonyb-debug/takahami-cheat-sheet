@@ -1511,7 +1511,7 @@ let tpaData = [
 // To log a new update, add an entry to the TOP of this array.
 // type: 'added' | 'updated' | 'fixed'
 // items: array of strings (HTML allowed, e.g. <strong>…</strong>)
-const changelog = [
+let changelog = [
   {
     date: "2026-08-06",
     type: "updated",
@@ -2007,7 +2007,8 @@ const SHEET_CONFIG = {
     facility: "Facility",
     carriers: "Carriers",
     pricing:  "Pricing Vendors",
-    tpas:     "TPAs"
+    tpas:     "TPAs",
+    updates:  "Updates"
   }
 };
 
@@ -2086,6 +2087,35 @@ function mapGrid(grid, order, aliases){
   return out;
 }
 
+function escapeHtml(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Updates tab -> Update Log entries. Columns: Date Added | Type | Description
+const UPDATE_ALIASES = {
+  date:['date added','date','added','when'],
+  type:['type','kind','action'],
+  description:['description','desc','details','note','notes','change','what']
+};
+function mapUpdates(grid){
+  if(!grid || !grid.length) return [];
+  const header = grid[0].map(normalize);
+  const idx={date:-1,type:-1,description:-1};
+  header.forEach((h,i)=>{ for(const f in UPDATE_ALIASES){ if(idx[f]===-1 && UPDATE_ALIASES[f].includes(h)) idx[f]=i; } });
+  const matched=Object.values(idx).filter(x=>x>=0).length;
+  let rows, useIdx;
+  if(matched>=2){ rows=grid.slice(1); useIdx=idx; }
+  else { rows=grid; useIdx={date:0,type:1,description:2}; }   // no header -> positional
+  const out=[];
+  for(const r of rows){
+    const get=i=> (i>=0 && i<r.length)? String(r[i]).trim() : '';
+    const date=get(useIdx.date), rawType=get(useIdx.type), desc=get(useIdx.description);
+    if(!date && !desc) continue;
+    const t=rawType.toLowerCase();
+    const type = t.startsWith('add') ? 'added' : (t.startsWith('fix') ? 'fixed' : 'updated');
+    out.push({ date: date, type: type, items: [ escapeHtml(desc) ] });
+  }
+  return out.reverse();   // bottom row of the sheet = newest, shown first
+}
+
 // --- apply parsed data to the live app ---
 function applyData(key, arr){
   if(!arr || !arr.length) return;
@@ -2093,6 +2123,7 @@ function applyData(key, arr){
   else if(key==='pricing'){ pvData = arr; buildTable('pv-tbody', pvData, true); }
   else if(key==='tpas'){ tpaData = arr; buildTable('tpa-tbody', tpaData, true); }
   else if(key==='facility'){ FACILITY_DATA = arr; buildFacility(); }
+  else if(key==='updates'){ changelog = arr; buildChangelog(); }
   updateCounts();
 }
 
@@ -2119,6 +2150,7 @@ async function fetchTab(key){
   const text = await res.text();
   if(/<html|<!DOCTYPE/i.test(text.slice(0,200))) throw new Error('not-csv'); // permission/redirect page
   const grid = parseCSV(text);
+  if(key==='updates') return mapUpdates(grid);
   const order = (key==='facility')? FAC_ORDER : CONTACT_ORDER;
   const aliases = (key==='facility')? FAC_ALIASES : CONTACT_ALIASES;
   return mapGrid(grid, order, aliases);
@@ -2133,7 +2165,7 @@ async function syncAll(manual){
   }
   SYNC_IN_PROGRESS = true;
   setSync('syncing', 'Syncing…');
-  const keys = ['facility','carriers','pricing','tpas'];
+  const keys = ['facility','carriers','pricing','tpas','updates'];
   const results = await Promise.allSettled(keys.map(async k=>{
     const arr = await fetchTab(k);
     applyData(k, arr);
@@ -2186,7 +2218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // If a sheet is configured, show any cached data instantly, then refresh from the sheet.
   if(SHEET_CONFIG.sheetId.trim()){
-    ['facility','carriers','pricing','tpas'].forEach(k=>{
+    ['facility','carriers','pricing','tpas','updates'].forEach(k=>{
       const cached=cacheLoad(k); if(cached && cached.length) applyData(k, cached);
     });
     syncAll(false);
