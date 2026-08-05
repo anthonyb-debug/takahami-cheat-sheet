@@ -497,6 +497,32 @@
   /* COUNT BADGE */
   .count { background: var(--tag); color: var(--accent); border-radius: 20px; padding: 2px 9px; font-size: 11px; font-family: 'Inter', sans-serif; margin-left: 8px; }
 
+  /* CHANGELOG */
+  .changelog-list { display: flex; flex-direction: column; gap: 14px; }
+  .cl-entry {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px 20px;
+    transition: border-color 0.2s;
+  }
+  .cl-entry:hover { border-color: var(--accent); }
+  .cl-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .cl-date { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); white-space: nowrap; }
+  .cl-tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+    padding: 2px 9px; border-radius: 20px; background: var(--tag); color: var(--accent);
+  }
+  .cl-tag.added { background: rgba(79,247,168,0.14); color: var(--accent3); }
+  .cl-tag.updated { background: rgba(247,179,79,0.14); color: var(--accent2); }
+  .cl-tag.fixed { background: rgba(247,79,123,0.14); color: var(--accent4); }
+  .cl-author { font-size: 11px; color: var(--muted); margin-left: auto; font-family: 'DM Mono', monospace; }
+  .cl-body { font-size: 13px; line-height: 1.7; color: var(--text); }
+  .cl-body ul { margin: 6px 0 0 18px; }
+  .cl-body li { font-size: 13px; color: var(--muted); margin-bottom: 3px; }
+  .cl-body li strong { color: var(--text); }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .header { flex-direction: column; gap: 16px; padding: 20px; }
@@ -673,6 +699,7 @@
     <button class="nav-tab" onclick="showSection('templates')">📝 Templates</button>
     <button class="nav-tab" onclick="showSection('links')">🔗 Links</button>
     <button class="nav-tab" onclick="showSection('hipaa')">🔒 HIPAA</button>
+    <button class="nav-tab" onclick="showSection('changelog')">🗒️ Update Log</button>
   </nav>
   </div>
 </header>
@@ -1237,6 +1264,12 @@ Fax Number:</div>
     </div>
   </div>
 
+  <div class="section" id="changelog">
+    <div class="section-title">Update Log <span class="count" id="changelog-count">0</span></div>
+    <div class="section-desc">// Running history of what's been added, updated, or fixed on this cheat sheet — newest first</div>
+    <div class="changelog-list" id="changelog-list"></div>
+  </div>
+
 </div>
 
 <script>
@@ -1466,6 +1499,7 @@ const tpaData = [
   ["Personify Health","833-838-8062","","","","","","","Consociate has been acquired by Personify starting Plan Year 2026"],
   ["PHP Freedom","800-551-7334","","tpaservices@phpni.com","","","","",""],
   ["Populytics","484-862-3505","484-862-3502","","Appeals Department","?","180 Calendar","20 Calendar","PO Box 1830 Allentown, PA 18105-1830"],
+  ["Prudential","800-981-7405","461-417-1960","IDR-negotiations@webtpa.com","Appeals Department","","","","PO Box 1808 Grapevine, TX 76099 | Formal Letter | AOR not required"],
   ["Reflect / Angle Health","855-937-1811","855-938-4540","appeals@anglehealth.com","Appeals Department","8:30 AM-7:00 PM","180 Calendar","30 Business","2261 Market St #4265 San Francisco, CA 94114 | 3 Claims per call"],
   ["Reliant HP","877-294-2064","888-628-8301","appeals@relianthp.com","Appeals Department","","","",""],
   ["S & S Healthcare","888-201-1795","513-772-9174","","Claims Department","8:00 AM-8:00 PM","180 Calendar","30 Business","PO Box 46511 Cincinnati, OH 45246"],
@@ -1480,6 +1514,89 @@ const tpaData = [
   ["Welfare & Pension Administration Service, Inc.","800-735-7053 / 800-544-5085","206-441-9110","claimsappeals@wpas-inc.com","Appeals Department","11:00 AM-8:00 PM","180 Calendar","n/a","PO Box 981106 El Paso, TX 79998"],
   ["Yuzu Health Inc (Securus Benefits)","877-420-0785","","claims@yuzu.health","Claims Department","8:00 AM-5:00/4:00 PM","180 Calendar","30 Calendar","n/a"],
   ["Zenith / Teamster","855-354-4057","","","","","","",""]
+];
+
+// ===================== CHANGELOG =====================
+// To log a new update, add an entry to the TOP of this array.
+// type: 'added' | 'updated' | 'fixed'
+// items: array of strings (HTML allowed, e.g. <strong>…</strong>)
+const changelog = [
+  {
+    date: "2026-08-05",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>Prudential</strong> to the TPAs table — phone 800-981-7405, fax 461-417-1960, email IDR-negotiations@webtpa.com, Appeals Dept, PO Box 1808 Grapevine, TX 76099. Formal letter required; AOR not required.",
+      "Added this <strong>Update Log</strong> tab so agents can see what's been added, updated, or fixed."
+    ]
+  },
+  {
+    date: "2026-07-22",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>IBEW-NECA SW Health Fund</strong> — Fax 972-341-8097, email ibewnecaclaims@zenith-american.com, ATTN: Claims Department, PO Box 819015 Dallas, TX 75381. TFL: 365 from DOS · TAT: 30 calendar days · Hours: 8:00 AM–4:30 PM CST · Portal: edge.zenith-american.com."
+    ]
+  },
+  {
+    date: "2026-06-27",
+    type: "updated",
+    author: "",
+    items: [
+      "Updated <strong>Medica Health Plan</strong> — 800-458-5512, PO Box 30757 Salt Lake City, UT 84130. Payer ID 87726 · Portal: mo-central.medica.com · TFL: 365 calendar days · Hours: 8:00 AM–5:00 PM EST."
+    ]
+  },
+  {
+    date: "2026-06-25",
+    type: "added",
+    author: "",
+    items: [
+      "Added portal link — <strong>Key Benefits</strong>.",
+      "Added portal link — <strong>Magnacare</strong>."
+    ]
+  },
+  {
+    date: "2026-06-22",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>Health Choice Oklahoma</strong> (Carriers) — phone 800-323-4314, Dept: Health Choice Appeals Department, TFL: 180 Calendar · TAT: 45 Calendar · PO Box 30546 Salt Lake City, UT 84130-0546."
+    ]
+  },
+  {
+    date: "2026-06-18",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>MODA Health</strong> — phone 888-217-2363, fax 855-260-4527, email ebt@modahealth.com, ATTN: Provider Appeal Unit, PO Box 40384 Portland, OR 97240. TFL: 180 calendar days · TAT: 90 business days."
+    ]
+  },
+  {
+    date: "2026-06-17",
+    type: "updated",
+    author: "",
+    items: [
+      "Added <strong>Optum Behavioral Health (PWC)</strong> — 800-557-5745.",
+      "Updated <strong>HST</strong> (TPA) — Appeals Department · TFL: 180 calendar days from last process · TAT: 60 calendar days."
+    ]
+  },
+  {
+    date: "2026-06-11",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>AMPS</strong> (Pricing Vendor) — fax 866-861-9227, email info@amps.com. TFL: 180 calendar days · TAT: 10 business days.",
+      "Updated <strong>Valenz</strong> (TPA) — fax 602-865-7766, email claimappeals@valenzhealth.com, mail n/a."
+    ]
+  },
+  {
+    date: "2026-06-10",
+    type: "added",
+    author: "",
+    items: [
+      "Added <strong>Valenz</strong> (TPA) — fax 602-865-7766, email claimappeals@valenzhealth.com, mail n/a · TFL: n/a · TAT: n/a."
+    ]
+  }
 ];
 
 const appealLinks = [
@@ -1556,7 +1673,7 @@ function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const tabMap = {home:'🏠 Home',flows:'🔄 Flows',facility:'🏥 Facility',carriers:'📞 Carriers',pricing:'💲 Pricing Vendors',tpas:'🏢 TPAs',threshold:'📊 Threshold',templates:'📝 Templates',links:'🔗 Links'};
+  const tabMap = {home:'🏠 Home',flows:'🔄 Flows',facility:'🏥 Facility',carriers:'📞 Carriers',pricing:'💲 Pricing Vendors',tpas:'🏢 TPAs',threshold:'📊 Threshold',templates:'📝 Templates',links:'🔗 Links',hipaa:'🔒 HIPAA',changelog:'🗒️ Update Log'};
   document.querySelectorAll('.nav-tab').forEach(t => { if(t.textContent.trim() === tabMap[id]) t.classList.add('active'); });
   window.scrollTo(0,0);
 }
@@ -1692,6 +1809,27 @@ function buildLinks() {
       `<div class="shortcut-card"><span class="shortcut-word">${s[0]}</span><span class="shortcut-abbr">${s[1]}</span></div>`
     ).join('');
   }
+}
+
+function buildChangelog() {
+  const el = document.getElementById('changelog-list');
+  if (!el) return;
+  el.innerHTML = changelog.map(e => {
+    const type = (e.type || 'updated').toLowerCase();
+    const label = type.charAt(0).toUpperCase() + type.slice(1);
+    const items = (e.items || []).map(i => `<li>${i}</li>`).join('');
+    const author = e.author ? `<span class="cl-author">${e.author}</span>` : '';
+    return `<div class="cl-entry">
+      <div class="cl-head">
+        <span class="cl-date">${e.date}</span>
+        <span class="cl-tag ${type}">${label}</span>
+        ${author}
+      </div>
+      <div class="cl-body"><ul>${items}</ul></div>
+    </div>`;
+  }).join('');
+  const countEl = document.getElementById('changelog-count');
+  if (countEl) countEl.textContent = changelog.length;
 }
 
 // ===================== THEME =====================
@@ -1862,6 +2000,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTable('pv-tbody', pvData, true);
   buildTable('tpa-tbody', tpaData, true);
   buildLinks();
+  buildChangelog();
 });
 </script>
 </body>
