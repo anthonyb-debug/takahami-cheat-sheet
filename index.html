@@ -328,34 +328,36 @@
   /* LINKS GRID */
   .links-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
   }
   .link-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
+    border-radius: 10px;
+    padding: 10px 12px;
     display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    transition: border-color 0.2s, transform 0.15s;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    text-decoration: none;
+    cursor: pointer;
   }
-  .link-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .link-card:hover { border-color: var(--accent); transform: translateY(-1px); background: var(--tag); }
   .link-icon {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     background: var(--tag);
-    border-radius: 8px;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 13px;
     flex-shrink: 0;
   }
   .link-body { flex: 1; min-width: 0; }
-  .link-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .link-url { font-size: 11px; color: var(--accent); font-family: 'Inter', sans-serif; word-break: break-all; line-height: 1.4; }
+  .link-label { font-size: 12.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .link-external { font-size: 11px; color: var(--muted); flex-shrink: 0; }
 
   /* TEMPLATES */
   .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -1624,7 +1626,7 @@ const portalLinks = [
   {label:"Data iSight", url:"https://action.dataisight.com/create-inquiries-login"},
   {label:"Allegiance Benefit Plan Management", url:"https://www.askallegiance.com/Account/Auth/Login"},
   {label:"Allied Benefits System (NSR only)", url:"https://www.alliedbenefit.com/providers/"},
-  {label:"Angle Health (Claim Status)", url:"https://www.anglehealth.com/providers"},
+  {label:"Angle Health (Claim Status)", url:"https://provider.anglehealth.com/"},
   {label:"Auxiant", url:"https://auxiant.com/"},
   {label:"Benefit Plan Administrators Inc (BPA)", url:"https://www.hap.org/providers"},
   {label:"BeneSys (Cigna)", url:"https://memberbenefitsonline.com/"},
@@ -1634,6 +1636,7 @@ const portalLinks = [
   {label:"Consociate Health", url:"https://consociate.veriben.net/portal/Framework3/Login.aspx"},
   {label:"Diversified Group", url:"https://portal.dgb-online.com/providerportal"},
   {label:"Emblem Health / NYCE PPO", url:"https://provider.nyceppo.com/"},
+  {label:"NYCE PPO", url:"https://provider.nyceppo.com/"},
   {label:"Harvard Pilgrim", url:"https://point32health.org/provider"},
   {label:"Healthscope Benefits", url:"https://hsb.tpa.com/tpa-ap-web/?navDeepDive=HSB_publicHomeDefaultContentMenu"},
   {label:"Lucent Health", url:"https://mylucenthealth.com/v3app/publicservice/loginv1/login.aspx"},
@@ -1794,12 +1797,12 @@ function buildLinks() {
   const portalEl = document.getElementById('portal-links');
   if (appealEl) {
     appealEl.innerHTML = appealLinks.map(l =>
-      `<div class="link-card"><div class="link-icon">📄</div><div class="link-body"><div class="link-label">${l.label}</div><a class="link-url" href="${l.url}" target="_blank">${l.url}</a></div></div>`
+      `<a class="link-card" href="${l.url}" target="_blank" rel="noopener" title="${l.url}"><div class="link-icon">📄</div><div class="link-body"><div class="link-label">${l.label}</div></div><span class="link-external">↗</span></a>`
     ).join('');
   }
   if (portalEl) {
     portalEl.innerHTML = portalLinks.map(l =>
-      `<div class="link-card"><div class="link-icon">🌐</div><div class="link-body"><div class="link-label">${l.label}</div><a class="link-url" href="${l.url}" target="_blank">${l.url}</a></div></div>`
+      `<a class="link-card" href="${l.url}" target="_blank" rel="noopener" title="${l.url}"><div class="link-icon">🌐</div><div class="link-body"><div class="link-label">${l.label}</div></div><span class="link-external">↗</span></a>`
     ).join('');
   }
   const scEl = document.getElementById('shortcut-grid');
