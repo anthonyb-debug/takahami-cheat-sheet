@@ -337,7 +337,7 @@
     border-radius: 10px;
     padding: 10px 12px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     transition: border-color 0.2s, transform 0.15s, background 0.2s;
     text-decoration: none;
@@ -356,7 +356,7 @@
     flex-shrink: 0;
   }
   .link-body { flex: 1; min-width: 0; }
-  .link-label { font-size: 12.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .link-label { font-size: 12.5px; font-weight: 700; color: var(--text); white-space: normal; overflow-wrap: anywhere; word-break: break-word; line-height: 1.35; }
   .link-external { font-size: 11px; color: var(--muted); flex-shrink: 0; }
 
   /* TEMPLATES */
@@ -1169,7 +1169,12 @@ Fax Number:</div>
     <div class="links-grid" style="margin-bottom:28px" id="appeal-links"></div>
 
     <h3 style="font-size:15px;font-weight:700;color:var(--accent3);margin-bottom:14px">🌐 Portals &amp; Other Links</h3>
+    <div class="alpha-filter" id="portal-links-alpha"></div>
+    <div class="search-wrap">
+      <input type="text" id="portal-search" placeholder="Search portals &amp; links…" oninput="filterPortals()" autocomplete="off">
+    </div>
     <div class="links-grid" style="margin-bottom:28px" id="portal-links"></div>
+    <div class="portal-empty" id="portal-empty" style="display:none;color:var(--muted);font-size:13px;margin:-14px 0 28px;font-family:'Inter',sans-serif">No portals match your search.</div>
 
     <h3 style="font-size:15px;font-weight:700;color:var(--muted);margin-bottom:14px">⌨️ Shortcut Words / Abbreviations</h3>
     <div class="shortcut-grid" id="shortcut-grid"></div>
@@ -1790,6 +1795,7 @@ function buildTable(tbodyId, data, showCopyPhone) {
 
     tbody.appendChild(tr);
   });
+  refreshAlphaBar(tbodyId.replace('-tbody', '-table'));
 }
 
 function buildLinks() {
@@ -1801,9 +1807,15 @@ function buildLinks() {
     ).join('');
   }
   if (portalEl) {
-    portalEl.innerHTML = portalLinks.map(l =>
-      `<a class="link-card" href="${l.url}" target="_blank" rel="noopener" title="${l.url}"><div class="link-icon">🌐</div><div class="link-body"><div class="link-label">${l.label}</div></div><span class="link-external">↗</span></a>`
-    ).join('');
+    // Sort alphabetically by label (case-insensitive)
+    const sorted = [...portalLinks].sort((a, b) =>
+      a.label.localeCompare(b.label, undefined, { sensitivity: 'base' })
+    );
+    portalEl.innerHTML = sorted.map(l => {
+      const first = (l.label.match(/[a-zA-Z]/) || ['#'])[0].toUpperCase();
+      return `<a class="link-card" data-letter="${first}" data-label="${l.label.toLowerCase()}" href="${l.url}" target="_blank" rel="noopener" title="${l.url}"><div class="link-icon">🌐</div><div class="link-body"><div class="link-label">${l.label}</div></div><span class="link-external">↗</span></a>`;
+    }).join('');
+    buildPortalAlpha(sorted);
   }
   const scEl = document.getElementById('shortcut-grid');
   if (scEl) {
@@ -1811,6 +1823,67 @@ function buildLinks() {
       `<div class="shortcut-card"><span class="shortcut-word">${s[0]}</span><span class="shortcut-abbr">${s[1]}</span></div>`
     ).join('');
   }
+}
+
+// ===================== PORTAL LINKS A–Z + SEARCH =====================
+let portalActiveLetter = 'ALL';
+
+// Build the A–Z bar; letters with no links are shown disabled/greyed out.
+function buildPortalAlpha(sorted) {
+  const bar = document.getElementById('portal-links-alpha');
+  if (!bar) return;
+  const present = new Set(
+    sorted.map(l => (l.label.match(/[a-zA-Z]/) || ['#'])[0].toUpperCase())
+  );
+  let html = `<button class="alpha-btn all-btn active" data-letter="ALL" onclick="portalAlpha('ALL', this)">All</button>`;
+  for (let i = 0; i < 26; i++) {
+    const L = String.fromCharCode(65 + i);
+    const has = present.has(L);
+    html += `<button class="alpha-btn${has ? '' : ' disabled'}" data-letter="${L}"${has ? ` onclick="portalAlpha('${L}', this)"` : ''}>${L}</button>`;
+  }
+  bar.innerHTML = html;
+}
+
+// Clicking a letter filters to that group and clears the search box.
+function portalAlpha(letter, btn) {
+  portalActiveLetter = letter;
+  const bar = document.getElementById('portal-links-alpha');
+  if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const search = document.getElementById('portal-search');
+  if (search) search.value = '';
+  applyPortalFilter();
+}
+
+// Typing in the search box searches across all letters (resets active letter to All).
+function filterPortals() {
+  portalActiveLetter = 'ALL';
+  const bar = document.getElementById('portal-links-alpha');
+  if (bar) {
+    bar.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+    const allBtn = bar.querySelector('.alpha-btn[data-letter="ALL"]');
+    if (allBtn) allBtn.classList.add('active');
+  }
+  applyPortalFilter();
+}
+
+// Apply the active letter + search query to the link cards.
+function applyPortalFilter() {
+  const search = document.getElementById('portal-search');
+  const q = search ? search.value.trim().toLowerCase() : '';
+  const cards = document.querySelectorAll('#portal-links .link-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const letter = card.getAttribute('data-letter') || '';
+    const label = card.getAttribute('data-label') || '';
+    const matchLetter = portalActiveLetter === 'ALL' || letter === portalActiveLetter;
+    const matchQuery = q === '' || label.includes(q);
+    const show = matchLetter && matchQuery;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const empty = document.getElementById('portal-empty');
+  if (empty) empty.style.display = visible === 0 ? '' : 'none';
 }
 
 function buildChangelog() {
@@ -1979,6 +2052,35 @@ document.addEventListener('click', function(e) {
 
 
 // ===================== ALPHA FILTER =====================
+// Grey out A–Z letters that have no matching rows in the given table.
+// Called after every (re)build so it stays correct after a sheet sync.
+function refreshAlphaBar(tableId) {
+  const bar = document.getElementById(tableId + '-alpha');
+  if (!bar) return;
+  const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+  const present = new Set();
+  rows.forEach(row => {
+    const name = row.cells[0] ? row.cells[0].textContent.trim().toUpperCase() : '';
+    const first = name.charAt(0);
+    if (first >= 'A' && first <= 'Z') present.add(first);
+  });
+  let activeDisabled = false;
+  bar.querySelectorAll('.alpha-btn').forEach(btn => {
+    if (btn.classList.contains('all-btn')) return; // never disable "All"
+    const letter = btn.textContent.trim().toUpperCase();
+    if (present.has(letter)) {
+      btn.classList.remove('disabled');
+    } else {
+      btn.classList.add('disabled');
+      if (btn.classList.contains('active')) activeDisabled = true;
+    }
+  });
+  // If the active letter no longer has any rows, fall back to "All".
+  if (activeDisabled) {
+    alphaFilter(tableId, 'ALL', bar.querySelector('.alpha-btn.all-btn'));
+  }
+}
+
 function alphaFilter(tableId, letter, btn) {
   // Update active button
   const bar = document.getElementById(tableId + '-alpha');
@@ -2206,6 +2308,7 @@ function buildFacility(){
     const num=(v,lbl)=> v? esc(v)+' <button class="copy-num-btn" onclick="copyNum(this, '+"'"+esc(v)+"'"+')" title="Copy '+lbl+'">📋</button>' : '';
     return '<tr><td>'+esc(name)+'</td><td>'+num(tin,'TIN')+'</td><td>'+num(npi,'NPI')+'</td><td>'+esc(addr)+'</td></tr>';
   }).join('');
+  refreshAlphaBar('facility-table');
 }
 
 // ===================== INIT =====================
