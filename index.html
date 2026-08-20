@@ -142,6 +142,13 @@
   .sidebar-collapsed .sidebar-footer-text { display: none; }
   .sidebar-collapsed .nav-item { justify-content: center; padding: .55rem; }
   .sidebar-collapsed .nav-item.active::before { display: none; }
+
+  /* Edge collapse handle */
+  #collapseBtn { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--text-2); cursor: pointer; transition: color .15s, border-color .15s, box-shadow .15s, background .15s, transform .15s; }
+  #collapseBtn:hover { color: #fff; background: var(--green); border-color: var(--green); box-shadow: var(--shadow-lg); }
+  #collapseBtn:hover i { color: #fff; }
+  #collapseBtn:active { transform: translateY(-50%) scale(.92); }
+  #collapseBtn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
   .nav-section-label {
     font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
     color: var(--text-3); padding: 1rem .7rem .35rem;
@@ -301,6 +308,20 @@
   .dash-card h3 { font-family:'Poppins',sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 3px; color: var(--text); }
   .dash-card p { font-size: 12.5px; color: var(--text-3); margin: 0; }
 
+  /* External tool launchers (Docket, Agent Dashboard) */
+  .tools-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin: 2px 2px 12px; }
+  .tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  @media (max-width: 640px) { .tools-row { grid-template-columns: 1fr; } }
+  .tool-card { display: flex; align-items: center; gap: 15px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 17px 18px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--pale); }
+  .tool-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: linear-gradient(140deg, var(--green-mid), var(--green-dark)); }
+  .tool-icon i { width: 23px; height: 23px; color: #fff; }
+  .tool-body { flex: 1; min-width: 0; }
+  .tool-title { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .tool-desc { font-size: 12.5px; color: var(--text-3); margin-top: 3px; }
+  .tool-arrow { width: 18px; height: 18px; color: var(--text-3); flex-shrink: 0; transition: transform .2s, color .2s; }
+  .tool-card:hover .tool-arrow { color: var(--green); transform: translate(2px, -2px); }
+
   /* FLOW cards */
   .flow-grid { display: flex; flex-direction: column; gap: 14px; }
   .flow-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; box-shadow: var(--shadow); transition: border-color .2s; }
@@ -313,6 +334,57 @@
   html.dark .flow-sub-section h4 { color: var(--green); }
   .flow-sub-section p { font-size: 12.5px; color: var(--text-2); line-height: 1.6; margin: 0; }
   .flow-fork { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+
+  /* Process flowchart (mirrors the official Takahami process map) */
+  .flow-legend { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 14px; padding: 16px 20px; margin-bottom: 18px; box-shadow: var(--shadow); }
+  .flow-legend p { font-size: 13px; color: var(--text-2); line-height: 1.7; margin: 0; }
+  .flow-legend strong { color: var(--text); }
+  .flow-keys { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; }
+  .flow-key { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); font-weight: 500; }
+  .flow-key .k-shape { width: 16px; height: 14px; border: 1.5px solid var(--text-3); background: var(--surface-2); flex-shrink: 0; }
+  .flow-key .k-shape.step { border-radius: 4px; }
+  .flow-key .k-shape.dec { transform: rotate(45deg); width: 12px; height: 12px; border-color: var(--pale); }
+  .flow-key .k-shape.term { border-radius: 999px; background: var(--green); border-color: var(--green); }
+  .flow-key .k-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+  .flow-key .k-dot.legacy { background: var(--accent3); }
+  .flow-key .k-dot.outside { background: var(--accent2); }
+
+  .fc-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 18px; overflow-x: auto; margin-bottom: 22px; }
+  .fc-svg { display: block; width: 100%; min-width: 620px; max-width: 940px; height: auto; margin: 0 auto; }
+  .fc-node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; transition: stroke .2s; }
+  .fc-dec polygon { fill: var(--surface-2); stroke: var(--pale); stroke-width: 1.5; }
+  .fc-term rect { fill: var(--green); }
+  .fc-accent rect { fill: var(--green-soft); stroke: var(--pale); }
+  .fc-doc rect { fill: var(--green-soft); stroke: var(--green); stroke-width: 2; }
+  .b-legacy rect, .b-legacy polygon { stroke: var(--accent3); }
+  .b-outside rect, .b-outside polygon { stroke: var(--accent2); }
+  .fc-t { fill: var(--text); font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
+  .fc-t-term { fill: #fff; font-weight: 700; }
+  .fc-edge { fill: none; stroke: var(--text-3); stroke-width: 1.6; }
+  .fc-arrowhead { fill: var(--text-3); }
+  .fc-elabel { fill: var(--text-2); font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; text-anchor: middle; }
+
+  .flow-phase { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin: 22px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .flow-phase::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+  .flow-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .flow-steps > li { position: relative; padding-left: 26px; font-size: 13px; color: var(--text-2); line-height: 1.55; }
+  .flow-steps > li::before { content: ''; position: absolute; left: 0; top: 1px; width: 17px; height: 17px; border-radius: 5px; background: var(--green-soft); }
+  .flow-steps > li::after { content: ''; position: absolute; left: 4px; top: 5px; width: 9px; height: 9px; background: var(--green); -webkit-mask: var(--ic-check) center/contain no-repeat; mask: var(--ic-check) center/contain no-repeat; }
+  .flow-steps strong { color: var(--text); font-weight: 600; }
+
+  .flow-branch h4 { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+  .flow-branch.legacy h4 { color: var(--accent3); }
+  .flow-branch.outside h4 { color: var(--accent2); }
+  .flow-branch h4 .tag-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .flow-branch.legacy h4 .tag-dot { background: var(--accent3); }
+  .flow-branch.outside h4 .tag-dot { background: var(--accent2); }
+
+  .flow-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--green-dark); background: var(--green-soft); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; transition: border-color .15s, background .15s; }
+  html.dark .flow-link { color: var(--green); }
+  .flow-link:hover { border-color: var(--pale); }
+  .flow-link i { width: 14px; height: 14px; }
+  .flow-links-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 
   /* SHORTCUT grid */
   .shortcut-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
@@ -456,7 +528,7 @@
 <div class="flex min-h-screen">
 
   <!-- ---------- LEFT SIDEBAR ---------- -->
-  <aside id="sidebar" class="w-[264px] shrink-0 flex flex-col border-r lg:sticky lg:top-0 lg:h-screen"
+  <aside id="sidebar" class="w-[264px] shrink-0 flex flex-col border-r relative lg:sticky lg:top-0 lg:h-screen"
          style="background:var(--surface); border-color:var(--line);">
     <!-- Brand -->
     <div class="flex items-center gap-2.5 px-4 h-16 shrink-0 border-b" style="border-color:var(--line);">
@@ -481,10 +553,14 @@
         <div class="text-xs font-semibold truncate" style="color:var(--text)">Internal Reference</div>
         <div class="text-[10px] truncate" style="color:var(--text-3)">Billing &amp; Appeals</div>
       </div>
-      <button onclick="toggleSidebar()" class="p-1.5 rounded-lg hover:bg-black/5" title="Collapse sidebar">
-        <i data-lucide="panel-left-close" id="collapseIcon" class="w-4 h-4" style="color:var(--text-3)"></i>
-      </button>
     </div>
+
+    <!-- Edge collapse handle — centered on the sidebar's right border (desktop) -->
+    <button onclick="toggleSidebar()" id="collapseBtn" type="button"
+            class="hidden lg:flex items-center justify-center absolute top-1/2 -translate-y-1/2 -right-3.5 w-7 h-7 rounded-full z-20"
+            title="Collapse sidebar" aria-label="Toggle sidebar">
+      <i data-lucide="chevron-left" id="collapseIcon" class="w-4 h-4"></i>
+    </button>
   </aside>
 
   <!-- backdrop for mobile drawer -->
@@ -554,6 +630,28 @@
       </div>
     </div>
 
+    <!-- External tools -->
+    <div class="tools-label">Your tools</div>
+    <div class="tools-row">
+      <a class="tool-card" href="https://takahami-account-logger.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <div class="tool-icon"><i data-lucide="clipboard-check"></i></div>
+        <div class="tool-body">
+          <div class="tool-title">Docket</div>
+          <div class="tool-desc">Log &amp; track claims</div>
+        </div>
+        <i data-lucide="arrow-up-right" class="tool-arrow"></i>
+      </a>
+      <a class="tool-card" href="https://takahami-agent-dashboard.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <div class="tool-icon"><i data-lucide="layout-dashboard"></i></div>
+        <div class="tool-body">
+          <div class="tool-title">Agent Dashboard</div>
+          <div class="tool-desc">Your performance &amp; queue</div>
+        </div>
+        <i data-lucide="arrow-up-right" class="tool-arrow"></i>
+      </a>
+    </div>
+
+    <div class="tools-label">Reference</div>
     <div class="dash-grid">
       <div class="dash-card" onclick="showSection('flows')">
         <div class="dash-icon"><i data-lucide="refresh-cw"></i></div>
@@ -594,54 +692,147 @@
     </div>
   </div>
   <div class="section" id="flows">
-    <div class="section-title">Process & Work Flows</div>
-    <div class="section-desc">// Follow these steps for every claim review and action</div>
-    <div class="flow-grid">
-      <div class="flow-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <div class="flow-number">1</div>
-          <h3>Access the Spreadsheet or Account</h3>
-        </div>
-        <p>You will be advised to access a spreadsheet or an account will be given to you directly by the Onshore Manager.</p>
+    <div class="section-title">Process &amp; Work Flows</div>
+    <div class="section-desc">// The official Takahami claim process — from account assignment to documentation</div>
+
+    <div class="flow-legend">
+      <p>Every account follows this flow. The <strong>first decision is the facility type</strong> — Legacy vs Outside — and the <strong>claim's negotiability</strong> decides the rest. All paths end in <strong>Documentation</strong>.</p>
+      <div class="flow-keys">
+        <span class="flow-key"><span class="k-shape term"></span> Start / End</span>
+        <span class="flow-key"><span class="k-shape step"></span> Step</span>
+        <span class="flow-key"><span class="k-shape dec"></span> Decision</span>
+        <span class="flow-key"><span class="k-dot legacy"></span> Legacy facility</span>
+        <span class="flow-key"><span class="k-dot outside"></span> Outside facility</span>
       </div>
-      <div class="flow-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <div class="flow-number">2</div>
-          <h3>Review ALL Claims</h3>
-        </div>
-        <p>ALL CLAIMS need to be reviewed — Status, Claim Notes, Appeal Documents, Signed Contracts, Web Portals.</p>
+    </div>
+
+    <div class="fc-wrap">
+        <svg class="fc-svg" viewBox="0 0 940 960" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Takahami claim process flowchart">
+        <defs>
+          <marker id="fc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="fc-arrowhead"/>
+          </marker>
+        </defs>
+        <path class="fc-edge" d="M 470,58 L 470,85" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 470,139 L 470,162" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 366,214 L 250,214 L 250,295" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="250" y="206">Legacy</text>
+        <path class="fc-edge" d="M 574,214 L 690,214 L 690,295" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="690" y="206">Outside</text>
+        <path class="fc-edge" d="M 250,349 L 250,379" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 690,349 L 690,379" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 250,433 L 250,454" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 690,433 L 690,454" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 146,506 L 150,506 L 150,605" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="132" y="498">Yes</text>
+        <path class="fc-edge" d="M 354,506 L 348,506 L 348,605" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="370" y="498">No</text>
+        <path class="fc-edge" d="M 586,506 L 592,506 L 592,605" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="570" y="498">No</text>
+        <path class="fc-edge" d="M 794,506 L 792,506 L 792,605" marker-end="url(#fc-arrow)"/>
+        <text class="fc-elabel" x="808" y="498">Yes</text>
+        <path class="fc-edge" d="M 150,659 L 150,694 L 470,694 L 470,743" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 348,659 L 348,694 L 470,694 L 470,743" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 592,659 L 592,694 L 470,694 L 470,743" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 792,659 L 792,694 L 470,694 L 470,743" marker-end="url(#fc-arrow)"/>
+        <path class="fc-edge" d="M 470,797 L 470,848" marker-end="url(#fc-arrow)"/>
+        <g class="fc-term"><rect x="410" y="10" width="120" height="48" rx="24"/><text class="fc-t fc-t-term" x="470" y="34">Start</text></g>
+        <g class="fc-node">
+        <rect x="382" y="85" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="470" y="105">Get Account</text>
+        <text class="fc-t" x="470" y="120">(Judy / POC)</text>
+        </g>
+        <g class="fc-dec"><polygon points="470,162 574,214 470,266 366,214"/>
+        <text class="fc-t" x="470" y="207">Legacy or Outside</text>
+        <text class="fc-t" x="470" y="222">facility?</text>
+        </g>
+        <g class="fc-node b-legacy">
+        <rect x="162" y="295" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="250" y="322">Review Account</text>
+        </g>
+        <g class="fc-node b-outside">
+        <rect x="602" y="295" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="690" y="322">Review Account</text>
+        </g>
+        <g class="fc-node b-legacy">
+        <rect x="162" y="379" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="250" y="406">Contact right Entity</text>
+        </g>
+        <g class="fc-node b-outside">
+        <rect x="602" y="379" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="690" y="406">Contact right Entity</text>
+        </g>
+        <g class="fc-dec b-legacy"><polygon points="250,456 342,506 250,556 158,506"/>
+        <text class="fc-t" x="250" y="499">Claim</text>
+        <text class="fc-t" x="250" y="514">negotiable?</text>
+        </g>
+        <g class="fc-dec b-outside"><polygon points="690,456 782,506 690,556 598,506"/>
+        <text class="fc-t" x="690" y="499">Claim</text>
+        <text class="fc-t" x="690" y="514">negotiable?</text>
+        </g>
+        <g class="fc-node fc-accent">
+        <rect x="62" y="605" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="150" y="625">Negotiation</text>
+        <text class="fc-t" x="150" y="640">Process</text>
+        </g>
+        <g class="fc-node">
+        <rect x="260" y="605" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="348" y="625">Endorse to Judy</text>
+        <text class="fc-t" x="348" y="640">(status change)</text>
+        </g>
+        <g class="fc-node">
+        <rect x="504" y="605" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="592" y="625">Appeal Submission</text>
+        <text class="fc-t" x="592" y="640">/ Appeal FFUP</text>
+        </g>
+        <g class="fc-node fc-accent">
+        <rect x="704" y="605" width="176" height="54" rx="11"/>
+        <text class="fc-t" x="792" y="625">Negotiation</text>
+        <text class="fc-t" x="792" y="640">Process</text>
+        </g>
+        <g class="fc-node fc-doc">
+        <rect x="370" y="743" width="200" height="54" rx="11"/>
+        <text class="fc-t" x="470" y="770">Documentation</text>
+        </g>
+        <g class="fc-term"><rect x="410" y="848" width="120" height="48" rx="24"/><text class="fc-t fc-t-term" x="470" y="872">End</text></g>
+        </svg>
+    </div>
+
+    <div class="flow-phase">Step by step</div>
+    <ul class="flow-steps" style="margin-bottom:18px">
+      <li><strong>Get the account</strong> from Judy / POC.</li>
+      <li><strong>Determine the facility type</strong> — is the account for a Legacy facility or an Outside facility? This sets the path below.</li>
+    </ul>
+
+    <div class="flow-fork">
+      <div class="flow-sub-section flow-branch legacy">
+        <h4><span class="tag-dot"></span> Legacy Facility</h4>
+        <ul class="flow-steps">
+          <li>Review the account.</li>
+          <li>Contact the right entity.</li>
+          <li><strong>Is the claim negotiable?</strong></li>
+          <li><strong>Yes</strong> → run the <strong>Negotiation Process</strong>.</li>
+          <li><strong>No</strong> → <strong>Endorse to Judy</strong> for status change.</li>
+          <li>Complete <strong>Documentation</strong>, then you're done.</li>
+        </ul>
       </div>
-      <div class="flow-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <div class="flow-number">3</div>
-          <h3>Check Claim Statuses</h3>
-        </div>
-        <p>If status of all claims are correct, jump to Step 5 to choose which process you're about to do. Otherwise, proceed with the next step.</p>
+      <div class="flow-sub-section flow-branch outside">
+        <h4><span class="tag-dot"></span> Outside Facility</h4>
+        <ul class="flow-steps">
+          <li>Review the account.</li>
+          <li>Contact the right entity.</li>
+          <li><strong>Is the claim negotiable?</strong></li>
+          <li><strong>Yes</strong> → run the <strong>Negotiation Process</strong>.</li>
+          <li><strong>No</strong> → <strong>Appeal Submission / Appeal FFUP</strong>.</li>
+          <li>Complete <strong>Documentation</strong>, then you're done.</li>
+        </ul>
       </div>
-      <div class="flow-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <div class="flow-number">4</div>
-          <h3>Request Onshore Approval</h3>
-        </div>
-        <p>Request approval from the onshore manager which claims you will be changing and for what reason. Once approved, proceed to Step 5. If not, endorse the claims to the Onshore Manager.</p>
-      </div>
-      <div class="flow-card">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <div class="flow-number">5</div>
-          <h3>Choose Your Process</h3>
-        </div>
-        <p>Your process will depend on whether negotiation is allowed, especially if there is a Pricing Vendor (TPA).</p>
-        <div class="flow-fork">
-          <div class="flow-sub-section">
-            <h4>5.A — NEGOTIATIONS</h4>
-            <p>Identify which Pricing Vendor to contact and how to submit the negotiation inquiry. See the Pricing Vendors tab for contact info.</p>
-          </div>
-          <div class="flow-sub-section">
-            <h4>5.B — APPEALS</h4>
-            <p>View the list of carriers and workflow in creating the appeal. See the Carriers tab for contact info including Appeal TFL and TAT.</p>
-          </div>
-        </div>
-      </div>
+    </div>
+
+    <div class="flow-links-row">
+      <button class="flow-link" onclick="showSection('pricing')"><i data-lucide="badge-dollar-sign"></i> Negotiation → Pricing Vendors</button>
+      <button class="flow-link" onclick="showSection('carriers')"><i data-lucide="phone"></i> Appeals → Carriers</button>
+      <button class="flow-link" onclick="showSection('templates')"><i data-lucide="clipboard-list"></i> Documentation → CMD template</button>
     </div>
   </div>
 
@@ -2203,7 +2394,9 @@ function toggleSidebar() {
   $('#sidebar').classList.toggle('sidebar-collapsed', state.collapsed);
   $('#sidebar').style.width = state.collapsed ? '76px' : '264px';
   const ci = $('#collapseIcon');
-  if (ci) ci.setAttribute('data-lucide', state.collapsed ? 'panel-left-open' : 'panel-left-close');
+  if (ci) ci.setAttribute('data-lucide', state.collapsed ? 'chevron-right' : 'chevron-left');
+  const cb = $('#collapseBtn');
+  if (cb) { cb.title = state.collapsed ? 'Expand sidebar' : 'Collapse sidebar'; cb.setAttribute('aria-label', cb.title); }
   icons();
 }
 function openDrawer()  { $('#sidebar').classList.add('drawer-open'); $('#drawerBackdrop').classList.remove('view-hidden'); }
