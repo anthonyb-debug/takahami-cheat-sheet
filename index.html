@@ -1601,7 +1601,10 @@ const appealLinks = [
   {label:"Negotiation Form - Horizon", url:"https://www.horizonblue.com/sites/default/files/2020-10/32435_OONSurpriseBill.pdf"}
 ];
 
-const portalLinks = [
+// NOTE: this is the built-in / fallback list. When a "Portals" tab exists in the
+// linked Google Sheet, this list is replaced at sync time (see applyData below),
+// so you can add or edit portals in the sheet without touching the app.
+let portalLinks = [
   {label:"Availity", url:"https://apps.availity.com/"},
   {label:"United Healthcare", url:"https://secure.uhcprovider.com"},
   {label:"Cigna", url:"https://cignaforhcp.cigna.com/"},
@@ -2121,6 +2124,7 @@ function alphaFilter(tableId, letter, btn) {
 // per section (names below) and a header row on each.
 //   Contacts tabs headers: Name, Phone, Fax, Email, Department, Hours, TFL, TAT, Notes
 //   Facility tab headers : Name, TIN, NPI, Address
+//   Portals tab headers  : Label, URL   (add one row per portal / link)
 // To point at a different sheet, replace the ID in sheetId (the long code from the
 // sheet's URL between /d/ and /edit). Leave sheetId blank to use the built-in data.
 const SHEET_CONFIG = {
@@ -2129,7 +2133,8 @@ const SHEET_CONFIG = {
     facility: "Facility",
     carriers: "Carriers",
     pricing:  "Pricing Vendors",
-    tpas:     "TPAs"
+    tpas:     "TPAs",
+    portals:  "Portals"
   }
 };
 
@@ -2175,6 +2180,12 @@ const FAC_ALIASES = {
   address:['address','mail','location']
 };
 const FAC_ORDER = ['name','tin','npi','address'];
+// Portals tab: two columns -> the button label and the link it opens.
+const PORTAL_ALIASES = {
+  label:['label','name','portal','portal name','site','link name','title'],
+  url:['url','link','link url','website','web','address','href','site url']
+};
+const PORTAL_ORDER = ['label','url'];
 
 function normalize(s){ return String(s==null?'':s).trim().toLowerCase(); }
 
@@ -2217,6 +2228,15 @@ function applyData(key, arr){
   else if(key==='pricing'){ pvData = arr; buildTable('pv-tbody', pvData, true); }
   else if(key==='tpas'){ tpaData = arr; buildTable('tpa-tbody', tpaData, true); }
   else if(key==='facility'){ FACILITY_DATA = arr; buildFacility(); }
+  else if(key==='portals'){
+    // arr rows are [label, url]; turn into the {label,url} objects buildLinks expects.
+    const cleaned = arr.map(r=>{
+      let url = String(r[1]==null?'':r[1]).trim();
+      if(url && !/^https?:\/\//i.test(url)) url = 'https://'+url; // allow bare domains in the sheet
+      return { label: String(r[0]==null?'':r[0]).trim(), url };
+    }).filter(o=>o.label && o.url);
+    if(cleaned.length){ portalLinks = cleaned; buildLinks(); }
+  }
   updateCounts();
 }
 
@@ -2243,8 +2263,9 @@ async function fetchTab(key){
   const text = await res.text();
   if(/<html|<!DOCTYPE/i.test(text.slice(0,200))) throw new Error('not-csv'); // permission/redirect page
   const grid = parseCSV(text);
-  const order = (key==='facility')? FAC_ORDER : CONTACT_ORDER;
-  const aliases = (key==='facility')? FAC_ALIASES : CONTACT_ALIASES;
+  let order = CONTACT_ORDER, aliases = CONTACT_ALIASES;
+  if(key==='facility'){ order = FAC_ORDER; aliases = FAC_ALIASES; }
+  else if(key==='portals'){ order = PORTAL_ORDER; aliases = PORTAL_ALIASES; }
   return mapGrid(grid, order, aliases);
 }
 
@@ -2261,7 +2282,7 @@ async function syncAll(manual){
   SYNC_IN_PROGRESS = true;
   LAST_SYNC_ATTEMPT = Date.now();
   setSync('syncing', 'Syncing…');
-  const keys = ['facility','carriers','pricing','tpas'];
+  const keys = ['facility','carriers','pricing','tpas','portals'];
   const results = await Promise.allSettled(keys.map(async k=>{
     const arr = await fetchTab(k);
     applyData(k, arr);
