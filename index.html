@@ -1860,11 +1860,13 @@ function buildPortalAlpha(sorted) {
   const present = new Set(
     sorted.map(l => (l.label.match(/[a-zA-Z]/) || ['#'])[0].toUpperCase())
   );
-  let html = `<button class="alpha-btn all-btn active" data-letter="ALL" onclick="portalAlpha('ALL', this)">All</button>`;
+  const activeLetter = (typeof portalActiveLetter !== 'undefined') ? portalActiveLetter : 'ALL';
+  let html = `<button class="alpha-btn all-btn${activeLetter === 'ALL' ? ' active' : ''}" data-letter="ALL" onclick="portalAlpha('ALL', this)">All</button>`;
   for (let i = 0; i < 26; i++) {
     const L = String.fromCharCode(65 + i);
     const has = present.has(L);
-    html += `<button class="alpha-btn${has ? '' : ' disabled'}" data-letter="${L}"${has ? ` onclick="portalAlpha('${L}', this)"` : ''}>${L}</button>`;
+    const isActive = has && activeLetter === L;
+    html += `<button class="alpha-btn${has ? '' : ' disabled'}${isActive ? ' active' : ''}" data-letter="${L}"${has ? ` onclick="portalAlpha('${L}', this)"` : ''}>${L}</button>`;
   }
   bar.innerHTML = html;
 }
@@ -2223,7 +2225,14 @@ function escapeHtml(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replac
 
 // --- apply parsed data to the live app ---
 function applyData(key, arr){
-  if(!arr || !arr.length) return;
+  if(!arr || !arr.length) return false;
+  // Skip the rebuild when the incoming data is identical to what's already
+  // displayed. This keeps a background sync from needlessly wiping the table
+  // (and the user's active search/filter/scroll) when nothing has changed.
+  const sig = JSON.stringify(arr);
+  applyData._sig = applyData._sig || {};
+  if(applyData._sig[key] === sig) return false;
+  applyData._sig[key] = sig;
   if(key==='carriers'){ carriers = arr; buildTable('carrier-tbody', carriers, true); }
   else if(key==='pricing'){ pvData = arr; buildTable('pv-tbody', pvData, true); }
   else if(key==='tpas'){ tpaData = arr; buildTable('tpa-tbody', tpaData, true); }
@@ -2238,6 +2247,7 @@ function applyData(key, arr){
     if(cleaned.length){ portalLinks = cleaned; buildLinks(); }
   }
   updateCounts();
+  return true;
 }
 
 function updateCounts(){
@@ -2282,10 +2292,13 @@ async function syncAll(manual){
   SYNC_IN_PROGRESS = true;
   LAST_SYNC_ATTEMPT = Date.now();
   setSync('syncing', 'Syncing…');
+  // Remember where the user is so a background rebuild doesn't yank the page.
+  const scrollX0 = window.scrollX, scrollY0 = window.scrollY;
+  let anyChanged = false;
   const keys = ['facility','carriers','pricing','tpas','portals'];
   const results = await Promise.allSettled(keys.map(async k=>{
     const arr = await fetchTab(k);
-    applyData(k, arr);
+    if(applyData(k, arr)) anyChanged = true;
     cacheSave(k, arr);
     return k;
   }));
@@ -2294,7 +2307,30 @@ async function syncAll(manual){
   if(ok===0){ setSync('offline', 'Offline — showing saved data'); }
   else if(ok<keys.length){ setSync('offline', 'Partly synced '+t+' ('+ok+'/'+keys.length+')'); }
   else { setSync('ok', 'Synced '+t); }
+  // Only touch the view if a table was actually rebuilt; then put the user's
+  // search / filter / scroll back exactly where it was.
+  if(anyChanged) restoreUIState(scrollX0, scrollY0);
   SYNC_IN_PROGRESS = false;
+}
+
+// Re-apply the user's active search boxes, portal letter filter and scroll
+// position after a background rebuild, so a refresh is invisible to them.
+function restoreUIState(x, y){
+  try{
+    const searches = [
+      ['facility-search', 'facility-table', null],
+      ['carrier-search',  'carrier-table',  'carrier-count'],
+      ['pv-search',       'pv-table',       'pv-count'],
+      ['tpa-search',      'tpa-table',      'tpa-count'],
+    ];
+    searches.forEach(([inputId, tableId, countId])=>{
+      const el = document.getElementById(inputId);
+      if(el && el.value.trim()) filterTable(tableId, el.value, countId || undefined);
+    });
+    if(typeof applyPortalFilter === 'function') applyPortalFilter();
+    icons();
+    if(typeof x === 'number' && typeof y === 'number') window.scrollTo(x, y);
+  }catch(e){}
 }
 
 // Keep data fresh in the background: re-sync on an interval while the tab is
