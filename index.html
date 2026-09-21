@@ -2191,9 +2191,86 @@ const PORTAL_ORDER = ['label','url'];
 
 function normalize(s){ return String(s==null?'':s).trim().toLowerCase(); }
 
+// One sheet cell -> one clean single-line value.
+// Line breaks inside a cell are flattened to spaces so a stray Alt+Enter in the
+// sheet can never stretch a table row.
+function cleanCell(v){ return String(v==null?'':v).replace(/\s+/g,' ').trim(); }
+
+// --- repair "stacked" rows -------------------------------------------------
+// If a whole block of the sheet gets pasted while a cell is in edit mode,
+// Google Sheets drops every value into ONE row of cells, each cell holding many
+// line-separated values. The CSV that comes back is then a single row of
+// multi-line fields, which used to render as one giant facility. Split any such
+// row back out into the real rows it contains.
+function explodeStackedRows(rows){
+  const out = [];
+  for(const r of rows){
+    const cells = (Array.isArray(r) ? r : [r]).map(c => String(c==null?'':c).split('\n'));
+    const multi = cells.map(l => l.length).filter(n => n > 1);
+    const max = cells.reduce((m,l) => Math.max(m, l.length), 1);
+    // Only treat it as stacked when at least two columns carry the same number
+    // of stacked values (3+). A single multi-line cell is left alone.
+    const uniform = multi.length >= 2 && multi.every(n => n === max);
+    if(uniform && max >= 3){
+      for(let i = 0; i < max; i++){
+        const rec = cells.map(l => l.length > 1 ? (l[i] !== undefined ? l[i] : '') : (i === 0 ? l[0] : ''));
+        if(rec.some(x => String(x).trim() !== '')) out.push(rec);
+      }
+    } else {
+      out.push(r);
+    }
+  }
+  return out;
+}
+
+// Does this row look like a repeated header ("Name | TIN | NPI | Address")
+// that slipped into the data? Two or more cells matching their own column's
+// header names is the giveaway.
+function looksLikeHeaderRow(rec, order, aliases){
+  let hits = 0;
+  order.forEach((f, i) => { if(aliases[f] && aliases[f].includes(normalize(rec[i]))) hits++; });
+  return hits >= 2;
+}
+
+// A TIN or NPI is a digit string, but if one cell in the column is typed as a
+// number Google may hand it back as 9.34253949E8 or 934,253,949. Put it back.
+function cleanId(v){
+  let s = cleanCell(v);
+  if(/^\d+(\.\d+)?[eE]\+?\d+$/.test(s)){
+    const n = Number(s);
+    if(isFinite(n) && Math.abs(n) < 1e18) s = Math.round(n).toString();
+  }
+  if(/^\d{1,3}(,\d{3})+(\.0+)?$/.test(s)) s = s.replace(/,/g,'').replace(/\.0+$/,'');
+  s = s.replace(/\.0+$/,'');
+  return s;
+}
+
+// Last gate before anything reaches a table: repair stacked rows, drop stray
+// header rows, and throw away records that are still obviously malformed
+// (e.g. an entire column crammed into one cell). Runs on freshly fetched data
+// AND on the offline cache, so one bad sync can't keep haunting the app.
+function sanitizeRecords(key, arr){
+  const order   = key === 'facility' ? FAC_ORDER   : key === 'portals' ? PORTAL_ORDER   : CONTACT_ORDER;
+  const aliases = key === 'facility' ? FAC_ALIASES : key === 'portals' ? PORTAL_ALIASES : CONTACT_ALIASES;
+  const out = []; let dropped = 0;
+  for(const r of explodeStackedRows(arr || [])){
+    const rec = order.map((f, i) => {
+      const raw = Array.isArray(r) ? r[i] : (i === 0 ? r : '');
+      return (key === 'facility' && (f === 'tin' || f === 'npi')) ? cleanId(raw) : cleanCell(raw);
+    });
+    if(!rec[0]) continue;
+    if(looksLikeHeaderRow(rec, order, aliases)) continue;
+    if(rec[0].length > 120){ dropped++; continue; }
+    out.push(rec);
+  }
+  if(dropped) console.warn('Sheet sync ('+key+'): skipped '+dropped+' malformed row(s). Check the sheet for a cell holding several values at once.');
+  return out;
+}
+
 // Map a raw CSV grid to canonical row arrays.
 function mapGrid(grid, order, aliases){
   if(!grid || !grid.length) return [];
+  grid = explodeStackedRows(grid);
   const header = grid[0].map(normalize);
   // Which canonical field does each header column map to?
   const colField = header.map(h=>{
@@ -2214,8 +2291,9 @@ function mapGrid(grid, order, aliases){
   const out=[];
   for(const r of dataRows){
     if(r.every(x=>String(x).trim()==='')) continue;
-    const rec = order.map(f=>{ const idx=fieldIndex[f]; return (idx>=0 && idx<r.length)? String(r[idx]).trim() : ''; });
+    const rec = order.map(f=>{ const idx=fieldIndex[f]; return (idx>=0 && idx<r.length)? cleanCell(r[idx]) : ''; });
     if(!rec[0]) continue; // skip rows with no name
+    if(looksLikeHeaderRow(rec, order, aliases)) continue; // a header row sitting in the data
     out.push(rec);
   }
   return out;
@@ -2226,6 +2304,8 @@ function escapeHtml(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replac
 // --- apply parsed data to the live app ---
 function applyData(key, arr){
   if(!arr || !arr.length) return false;
+  if(key !== 'portals') arr = sanitizeRecords(key, arr);
+  if(!arr.length) return false; // nothing usable — keep what's already on screen
   // Skip the rebuild when the incoming data is identical to what's already
   // displayed. This keeps a background sync from needlessly wiping the table
   // (and the user's active search/filter/scroll) when nothing has changed.
@@ -2263,7 +2343,13 @@ function cacheLoad(key){ try{ const v=localStorage.getItem(CACHE_PREFIX+key); re
 
 function sheetUrl(tabName){
   const id = SHEET_CONFIG.sheetId.trim();
-  return 'https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(tabName)+'&_='+Date.now();
+  // headers=1 is important. Without it Google guesses how many header rows the
+  // tab has, and that guess changes as soon as one column holds mixed types
+  // (e.g. 20 TINs stored as text plus one typed as a number). When it guesses
+  // wrong it folds every text row into the header, returning one row whose
+  // cells each hold the whole column joined by newlines — which is what made
+  // the table collapse into a single giant facility.
+  return 'https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:csv&headers=1&sheet='+encodeURIComponent(tabName)+'&_='+Date.now();
 }
 
 async function fetchTab(key){
