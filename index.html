@@ -200,19 +200,6 @@
   .lrow-acts { display:flex; gap:7px; flex-wrap:wrap; }
   .lrow-empty { padding:22px 0; text-align:center; color:var(--text-2); font-size:13px; }
 
-  .setup-steps { counter-reset:st; padding:0; margin:0 0 14px; list-style:none; }
-  .setup-steps li { position:relative; padding-left:30px; margin-bottom:11px; font-size:13px; line-height:1.6; color:var(--text-2); }
-  .setup-steps li::before {
-    counter-increment:st; content:counter(st); position:absolute; left:0; top:1px;
-    width:20px; height:20px; border-radius:50%; background:var(--green-soft); color:var(--green);
-    font:800 11px 'Nunito',sans-serif; display:flex; align-items:center; justify-content:center;
-  }
-  .setup-steps strong { color:var(--text); }
-  .code-box {
-    background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:13px;
-    font:500 11px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--text);
-    max-height:210px; overflow:auto; white-space:pre; margin:0;
-  }
   @media (max-width:640px){
     .fgrid { grid-template-columns:1fr; }
     .modal-ov { padding:2vh 10px 30px; }
@@ -943,7 +930,6 @@
     <div class="sec-toolbar">
       <button class="btn-add" onclick="openAdd('facility')"><i data-lucide="plus"></i> Add facility</button>
       <span class="local-flag view-hidden" id="local-flag-facility" onclick="openLocalMgr('facility')"></span>
-      <button class="btn-ghost icon-only" onclick="openSetup()" title="Sheet saving setup" aria-label="Sheet saving setup"><i data-lucide="settings-2"></i></button>
     </div>
     <div class="alpha-filter" id="facility-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('facility-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('facility-table', 'Z', this)">Z</button></div>
     <div class="search-wrap">
@@ -971,7 +957,6 @@
     <div class="sec-toolbar">
       <button class="btn-add" onclick="openAdd('carriers')"><i data-lucide="plus"></i> Add carrier</button>
       <span class="local-flag view-hidden" id="local-flag-carriers" onclick="openLocalMgr('carriers')"></span>
-      <button class="btn-ghost icon-only" onclick="openSetup()" title="Sheet saving setup" aria-label="Sheet saving setup"><i data-lucide="settings-2"></i></button>
     </div>
     <div class="alpha-filter" id="carrier-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('carrier-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('carrier-table', 'Z', this)">Z</button></div>
     <div class="search-wrap">
@@ -1003,7 +988,6 @@
     <div class="sec-toolbar">
       <button class="btn-add" onclick="openAdd('pricing')"><i data-lucide="plus"></i> Add pricing vendor</button>
       <span class="local-flag view-hidden" id="local-flag-pricing" onclick="openLocalMgr('pricing')"></span>
-      <button class="btn-ghost icon-only" onclick="openSetup()" title="Sheet saving setup" aria-label="Sheet saving setup"><i data-lucide="settings-2"></i></button>
     </div>
     <div class="alpha-filter" id="pv-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('pv-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('pv-table', 'Z', this)">Z</button></div>
     <div class="search-wrap">
@@ -1034,7 +1018,6 @@
     <div class="sec-toolbar">
       <button class="btn-add" onclick="openAdd('tpas')"><i data-lucide="plus"></i> Add TPA</button>
       <span class="local-flag view-hidden" id="local-flag-tpas" onclick="openLocalMgr('tpas')"></span>
-      <button class="btn-ghost icon-only" onclick="openSetup()" title="Sheet saving setup" aria-label="Sheet saving setup"><i data-lucide="settings-2"></i></button>
     </div>
     <div class="alpha-filter" id="tpa-table-alpha"><button class="alpha-btn all-btn active" onclick="alphaFilter('tpa-table', 'ALL', this)">All</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'A', this)">A</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'B', this)">B</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'C', this)">C</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'D', this)">D</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'E', this)">E</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'F', this)">F</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'G', this)">G</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'H', this)">H</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'I', this)">I</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'J', this)">J</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'K', this)">K</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'L', this)">L</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'M', this)">M</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'N', this)">N</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'O', this)">O</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'P', this)">P</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Q', this)">Q</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'R', this)">R</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'S', this)">S</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'T', this)">T</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'U', this)">U</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'V', this)">V</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'W', this)">W</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'X', this)">X</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Y', this)">Y</button><button class="alpha-btn" onclick="alphaFilter('tpa-table', 'Z', this)">Z</button></div>
     <div class="search-wrap">
@@ -1337,7 +1320,6 @@ Fax Number:</div>
     <div class="sec-toolbar">
       <button class="btn-add" onclick="openAdd('portals')"><i data-lucide="plus"></i> Add portal / link</button>
       <span class="local-flag view-hidden" id="local-flag-portals" onclick="openLocalMgr('portals')"></span>
-      <button class="btn-ghost icon-only" onclick="openSetup()" title="Sheet saving setup" aria-label="Sheet saving setup"><i data-lucide="settings-2"></i></button>
     </div>
     <div class="alpha-filter" id="portal-links-alpha"></div>
     <div class="search-wrap">
@@ -1454,15 +1436,115 @@ Fax Number:</div>
 </div>
 
 <!-- ============ COMMAND-K SEARCH ============ -->
-<!-- ADD ENTRY / PENDING ENTRIES / SHEET-SAVING SETUP -->
+<!--
+  ============================================================================
+  REFERENCE ONLY - the Google Apps Script that lets this app add rows.
+  It is already deployed; the endpoint is in SHEET_CONFIG.webAppUrl below.
+  Kept here so it is never lost. To change it: open the Sheet, Extensions ->
+  Apps Script, edit, then Deploy -> Manage deployments -> pencil -> Deploy
+  (editing an existing deployment keeps the same URL; a NEW deployment issues
+  a new URL, which would then have to be pasted into SHEET_CONFIG.webAppUrl).
+
+/** Takahami Cheat Sheet - add-entry endpoint (Google Apps Script) */
+var SHEET_ID = '1FQk-3JJBbM-dOnVbqBCOw4jIRtFjatTMCHwTl01dLUg';
+
+var ALIASES = {
+  name:    ['name','carrier','tpa','vendor','pricing vendor','company','payer','facility','facility name'],
+  phone:   ['phone','phone number','tel','telephone'],
+  fax:     ['fax'],
+  email:   ['email','e-mail'],
+  dept:    ['department','dept'],
+  hours:   ['hours','operation','operating hours','operating','hours (est)','operation hours'],
+  tfl:     ['tfl','timely filing'],
+  tat:     ['tat','turnaround','turn around'],
+  notes:   ['notes','address','address / notes','notes/mail','mail','address/notes','notes / mail','address / note'],
+  tin:     ['tin','tax id','ein'],
+  npi:     ['npi'],
+  address: ['address','mail','location'],
+  label:   ['label','name','portal','portal name','site','link name','title'],
+  url:     ['url','link','link url','website','web','href','site url']
+};
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+    var body  = JSON.parse(e.postData.contents);
+    var props = PropertiesService.getScriptProperties();
+    var uid   = String(body.uid || '');
+    var seen  = props.getProperty('uids') || '';
+    if (uid && seen.indexOf('|' + uid + '|') >= 0) return json({ ok: true, duplicate: true });
+
+    var sh = SpreadsheetApp.openById(SHEET_ID).getSheetByName(body.tab);
+    if (!sh) return json({ ok: false, error: 'No tab named ' + body.tab });
+
+    var TEXT_COLS = { tin: 1, npi: 1, phone: 1, fax: 1 };
+    var order   = body.order || [];
+    var width   = Math.max(sh.getLastColumn(), order.length);
+    var headers = sh.getRange(1, 1, 1, width).getValues()[0];
+    var row = [], asText = [], i, j, matched = false;
+    for (i = 0; i < width; i++) { row.push(''); asText.push(false); }
+    for (i = 0; i < width; i++) {
+      var h = String(headers[i] || '').trim().toLowerCase();
+      if (!h) continue;
+      for (j = 0; j < order.length; j++) {
+        var list = ALIASES[order[j]] || [order[j]];
+        if (list.indexOf(h) >= 0) {
+          row[i]    = body.record[order[j]] || '';
+          asText[i] = !!TEXT_COLS[order[j]];
+          matched   = true;
+          break;
+        }
+      }
+    }
+    if (!matched) {
+      for (i = 0; i < order.length; i++) {
+        row[i]    = body.record[order[i]] || '';
+        asText[i] = !!TEXT_COLS[order[i]];
+      }
+    }
+
+    var r = sh.getLastRow() + 1;
+    var rng = sh.getRange(r, 1, 1, width);
+    // TIN / NPI / phone / fax are forced to plain text so Sheets can't turn
+    // them into 9.34E8 or a date. Every other column keeps its own format,
+    // which is what lets a new Portals URL stay a clickable link.
+    var fmt = rng.getNumberFormats()[0];
+    for (i = 0; i < width; i++) if (asText[i]) fmt[i] = '@';
+    rng.setNumberFormats([fmt]);
+    rng.setValues([row]);
+
+    if (uid) {
+      var s = seen + '|' + uid + '|';
+      if (s.length > 4000) s = s.substring(s.length - 4000);
+      props.setProperty('uids', s);
+    }
+    return json({ ok: true, row: r });
+  } catch (err) {
+    return json({ ok: false, error: String(err) });
+  } finally {
+    try { lock.releaseLock(); } catch (e2) {}
+  }
+}
+
+function doGet() {
+  return json({ ok: true, service: 'Takahami add-entry' });
+}
+
+function json(o) {
+  return ContentService.createTextOutput(JSON.stringify(o))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+  ============================================================================
+-->
+
+<!-- ADD ENTRY / PENDING ENTRIES -->
 <div id="entry-modal" class="modal-ov view-hidden" onclick="if(event.target===this)closeEntryModal()">
   <div class="modal-box" id="entry-box"></div>
 </div>
 <div id="local-modal" class="modal-ov view-hidden" onclick="if(event.target===this)closeLocalMgr()">
   <div class="modal-box" id="local-box"></div>
-</div>
-<div id="setup-modal" class="modal-ov view-hidden" style="z-index:95" onclick="if(event.target===this)closeSetup()">
-  <div class="modal-box" id="setup-box" style="max-width:780px"></div>
 </div>
 
 <div id="cmdk-overlay" class="view-hidden fixed inset-0 z-[80] flex items-start justify-center pt-[10vh] px-4" style="background:rgba(0,0,0,.4);backdrop-filter:blur(4px)">
@@ -2726,7 +2808,7 @@ window.addEventListener('scroll', updateReadProgress, { passive: true });
 
 // ===================== ADD ENTRY =====================
 // Rows the user adds in the app. They are saved to the Google Sheet through an
-// Apps Script Web App (see openSetup() for the one-time setup). Until a new row
+// Apps Script Web App; its endpoint is SHEET_CONFIG.webAppUrl. Until a new row
 // comes back down from the sheet it also lives in localStorage, so it shows up
 // instantly and survives a reload even if the sheet write failed.
 //
@@ -2740,8 +2822,6 @@ window.addEventListener('scroll', updateReadProgress, { passive: true });
 const ENTRY_KEYS  = ['facility','carriers','pricing','tpas','portals'];
 const SHEET_ROWS  = {};
 const LOCAL_PREFIX = 'insapp_local_v1_';
-const WEBAPP_KEY   = 'insapp_webapp_url_v1';
-const OFF_SENTINEL = 'off';   // stored when someone switches sheet saving off on their own device
 let LOCAL_ADDS = {};
 
 function contactForm(title, nameLabel, noun){
@@ -2781,18 +2861,8 @@ function fixUrl(u){
   if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
   return u;
 }
-function webAppUrl(){
-  let stored = '';
-  try{ stored = localStorage.getItem(WEBAPP_KEY) || ''; }catch(e){}
-  if(stored === OFF_SENTINEL) return '';   // switched off on this device
-  return (stored || SHEET_CONFIG.webAppUrl || '').trim();
-}
-// Is the URL in use the one baked into the file, or one set on this device?
-function webAppIsOverride(){
-  let stored = '';
-  try{ stored = localStorage.getItem(WEBAPP_KEY) || ''; }catch(e){}
-  return !!stored && stored !== OFF_SENTINEL && stored !== SHEET_CONFIG.webAppUrl.trim();
-}
+// The endpoint is baked into SHEET_CONFIG at the top of this script.
+function webAppUrl(){ return (SHEET_CONFIG.webAppUrl || '').trim(); }
 
 // --- local store ---
 function localLoad(){
@@ -2898,7 +2968,7 @@ function openAdd(key){
   const url = webAppUrl();
   const where = url
     ? 'Saves straight into the <strong>' + escapeHtml(SHEET_CONFIG.tabs[key]) + '</strong> tab of the Google Sheet, so everyone sees it.'
-    : 'Sheet saving isn\u2019t set up yet, so this is kept <strong>on this device only</strong>. <button class="linkish" onclick="openSetup()">Set it up</button> (about 3 minutes, once) to save entries to the sheet for the whole team.';
+    : 'Sheet saving is switched off, so this is kept <strong>on this device only</strong>.';
 
   const fields = form.fields.map(fd=>{
     const ph = escapeHtml(fd.ph || '');
@@ -3039,7 +3109,9 @@ function finishEntry(key, entry, res){
   } else if(res.unconfirmed){
     entry.status = 'sent'; entry.error = '';
     toast('Sent to the sheet — checking…');
+    // Check twice: the row sometimes takes a few seconds to appear in the feed.
     setTimeout(() => syncAll(false), 3000);
+    setTimeout(() => syncAll(false), 12000);
   } else {
     entry.status = 'failed'; entry.error = res.error || 'Unknown error';
     toast('Couldn\u2019t reach the sheet — kept on this device');
@@ -3084,15 +3156,24 @@ function renderLocalMgr(){
 
   const note = canRetry
     ? 'These were added in the app but haven\u2019t shown up in the Google Sheet yet. They disappear from this list on their own once a sync finds them there.'
-    : 'Sheet saving isn\u2019t set up, so these live in this browser only — other people won\u2019t see them, and clearing site data removes them. ' +
-      '<button class="linkish" onclick="openSetup()">Set up sheet saving</button>, or use <strong>Copy row</strong> to paste one straight into the sheet.';
+    : 'Sheet saving is off, so these live in this browser only — other people won\u2019t see them. ' +
+      'Use <strong>Copy row</strong> to paste one straight into the sheet.';
+
+  const stuck = pend.filter(e => e.status === 'sent' || e.status === 'failed').length;
+  const stuckNote = stuck
+    ? '<div class="form-msg" style="margin:0 0 4px">' +
+      '<strong>Stuck here?</strong> The rows were sent but the sheet never confirmed them. That is nearly always the ' +
+      'Apps Script deployment\u2019s access setting. In Apps Script: <strong>Deploy \u2192 Manage deployments \u2192</strong> pencil icon \u2192 ' +
+      '<strong>Execute as: Me</strong>, <strong>Who has access: Anyone</strong> \u2192 <strong>Deploy</strong>. ' +
+      'Check the sheet first \u2014 if the row is already there, just press Remove. Otherwise press Retry.</div>'
+    : '';
 
   document.getElementById('local-box').innerHTML =
     '<div class="modal-head"><div>' +
       '<div class="modal-title">Waiting to reach the sheet</div>' +
       '<div class="modal-sub">' + escapeHtml(form.title.replace(/^Add /, '')) + ' · ' + note + '</div>' +
     '</div><button class="modal-x" onclick="closeLocalMgr()" aria-label="Close">&times;</button></div>' +
-    '<div class="modal-body">' + list + '</div>' +
+    '<div class="modal-body">' + stuckNote + list + '</div>' +
     '<div class="modal-foot">' +
       (canRetry && pend.length ? '<button class="btn-ghost" onclick="retryAll()"><i data-lucide="refresh-cw"></i> Retry all</button>' : '') +
       '<button class="btn-add" onclick="closeLocalMgr()"><span>Done</span></button>' +
@@ -3129,221 +3210,9 @@ function copyEntryRow(id){
   copyToClipboard(found.entry.row.join('\t')).then(() => toast('Row copied — paste it into the sheet'));
 }
 
-/* ---------------- ONE-TIME SETUP: saving to the sheet ---------------- */
-const APPS_SCRIPT_CODE = [
-"/** Takahami Cheat Sheet - add-entry endpoint (Google Apps Script) */",
-"var SHEET_ID = 'PASTE_SHEET_ID_HERE';",
-"",
-"var ALIASES = {",
-"  name:    ['name','carrier','tpa','vendor','pricing vendor','company','payer','facility','facility name'],",
-"  phone:   ['phone','phone number','tel','telephone'],",
-"  fax:     ['fax'],",
-"  email:   ['email','e-mail'],",
-"  dept:    ['department','dept'],",
-"  hours:   ['hours','operation','operating hours','operating','hours (est)','operation hours'],",
-"  tfl:     ['tfl','timely filing'],",
-"  tat:     ['tat','turnaround','turn around'],",
-"  notes:   ['notes','address','address / notes','notes/mail','mail','address/notes','notes / mail','address / note'],",
-"  tin:     ['tin','tax id','ein'],",
-"  npi:     ['npi'],",
-"  address: ['address','mail','location'],",
-"  label:   ['label','name','portal','portal name','site','link name','title'],",
-"  url:     ['url','link','link url','website','web','href','site url']",
-"};",
-"",
-"function doPost(e) {",
-"  var lock = LockService.getScriptLock();",
-"  try {",
-"    lock.waitLock(20000);",
-"    var body  = JSON.parse(e.postData.contents);",
-"    var props = PropertiesService.getScriptProperties();",
-"    var uid   = String(body.uid || '');",
-"    var seen  = props.getProperty('uids') || '';",
-"    if (uid && seen.indexOf('|' + uid + '|') >= 0) return json({ ok: true, duplicate: true });",
-"",
-"    var sh = SpreadsheetApp.openById(SHEET_ID).getSheetByName(body.tab);",
-"    if (!sh) return json({ ok: false, error: 'No tab named ' + body.tab });",
-"",
-"    var TEXT_COLS = { tin: 1, npi: 1, phone: 1, fax: 1 };",
-"    var order   = body.order || [];",
-"    var width   = Math.max(sh.getLastColumn(), order.length);",
-"    var headers = sh.getRange(1, 1, 1, width).getValues()[0];",
-"    var row = [], asText = [], i, j, matched = false;",
-"    for (i = 0; i < width; i++) { row.push(''); asText.push(false); }",
-"    for (i = 0; i < width; i++) {",
-"      var h = String(headers[i] || '').trim().toLowerCase();",
-"      if (!h) continue;",
-"      for (j = 0; j < order.length; j++) {",
-"        var list = ALIASES[order[j]] || [order[j]];",
-"        if (list.indexOf(h) >= 0) {",
-"          row[i]    = body.record[order[j]] || '';",
-"          asText[i] = !!TEXT_COLS[order[j]];",
-"          matched   = true;",
-"          break;",
-"        }",
-"      }",
-"    }",
-"    if (!matched) {",
-"      for (i = 0; i < order.length; i++) {",
-"        row[i]    = body.record[order[i]] || '';",
-"        asText[i] = !!TEXT_COLS[order[i]];",
-"      }",
-"    }",
-"",
-"    var r = sh.getLastRow() + 1;",
-"    var rng = sh.getRange(r, 1, 1, width);",
-"    // TIN / NPI / phone / fax are forced to plain text so Sheets can't turn",
-"    // them into 9.34E8 or a date. Every other column keeps its own format,",
-"    // which is what lets a new Portals URL stay a clickable link.",
-"    var fmt = rng.getNumberFormats()[0];",
-"    for (i = 0; i < width; i++) if (asText[i]) fmt[i] = '@';",
-"    rng.setNumberFormats([fmt]);",
-"    rng.setValues([row]);",
-"",
-"    if (uid) {",
-"      var s = seen + '|' + uid + '|';",
-"      if (s.length > 4000) s = s.substring(s.length - 4000);",
-"      props.setProperty('uids', s);",
-"    }",
-"    return json({ ok: true, row: r });",
-"  } catch (err) {",
-"    return json({ ok: false, error: String(err) });",
-"  } finally {",
-"    try { lock.releaseLock(); } catch (e2) {}",
-"  }",
-"}",
-"",
-"function doGet() {",
-"  return json({ ok: true, service: 'Takahami add-entry' });",
-"}",
-"",
-"function json(o) {",
-"  return ContentService.createTextOutput(JSON.stringify(o))",
-"    .setMimeType(ContentService.MimeType.JSON);",
-"}"
-].join('\n');
-
-function openSetup(){
-  const current  = webAppUrl();
-  const override = webAppIsOverride();
-  const offHere  = !current && !!SHEET_CONFIG.webAppUrl.trim();
-
-  const banner = current
-    ? '<div class="form-msg" style="margin:0 0 16px;background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.35);color:var(--accent3)">' +
-      '<strong>Connected.</strong> Entries you add go straight into the Google Sheet for everyone. ' +
-      (override ? 'This device is pointed at a URL of its own rather than the one built into the app.' : 'Nothing to set up \u2014 this is already built into the app.') +
-      '</div>'
-    : offHere
-      ? '<div class="form-msg" style="margin:0 0 16px"><strong>Switched off on this device.</strong> Entries are being kept in this browser only. ' +
-        '<button class="linkish" onclick="restoreWebAppUrl()">Turn it back on</button></div>'
-      : '';
-
-  const steps =
-    '<details' + (current ? '' : ' open') + ' style="margin-bottom:6px">' +
-      '<summary style="cursor:pointer;font:700 12px \'Inter\',sans-serif;color:var(--text-2);margin-bottom:10px">' +
-        (current ? 'Re-deploying the script? Setup steps and code' : 'One-time setup') + '</summary>' +
-      '<ol class="setup-steps">' +
-        '<li>Open the Google Sheet, then <strong>Extensions &rarr; Apps Script</strong>.</li>' +
-        '<li>Delete whatever is in the editor and paste the code below (the sheet ID is already filled in).</li>' +
-        '<li>Click <strong>Deploy &rarr; New deployment</strong>, choose type <strong>Web app</strong>.</li>' +
-        '<li>Set <strong>Execute as: Me</strong> and <strong>Who has access: Anyone</strong>, then <strong>Deploy</strong> and authorise it.</li>' +
-        '<li>Copy the <strong>Web app URL</strong> it gives you (it ends in <code>/exec</code>) and paste it below.</li>' +
-      '</ol>' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px">' +
-        '<div style="font:700 10.5px \'Inter\',sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3)">Apps Script code</div>' +
-        '<button class="btn-ghost" onclick="copyAppsScript(this)"><i data-lucide="copy"></i> Copy code</button>' +
-      '</div>' +
-      '<pre class="code-box" id="gs-code"></pre>' +
-    '</details>';
-
-  document.getElementById('setup-box').innerHTML =
-    '<div class="modal-head"><div>' +
-      '<div class="modal-title">Saving new entries to the Google Sheet</div>' +
-      '<div class="modal-sub">Google\u2019s read-only feed can\u2019t accept new rows, so the sheet has a small script of its own that does the writing.</div>' +
-    '</div><button class="modal-x" onclick="closeSetup()" aria-label="Close">&times;</button></div>' +
-    '<div class="modal-body">' + banner + steps +
-      '<div class="field full" style="margin-top:16px">' +
-        '<label for="gs-url">Web app URL</label>' +
-        '<input id="gs-url" type="text" placeholder="https://script.google.com/macros/s/…/exec" value="' + escapeHtml(current) + '" autocomplete="off">' +
-      '</div>' +
-      '<div id="setup-msg" class="form-msg view-hidden"></div>' +
-    '</div>' +
-    '<div class="modal-foot">' +
-      (override ? '<button class="btn-ghost" onclick="restoreWebAppUrl()">Use the built-in URL</button>' : '') +
-      (current ? '<button class="btn-ghost danger" onclick="clearWebAppUrl()">Turn off here</button>' : '') +
-      '<button class="btn-ghost" onclick="testWebApp()"><i data-lucide="plug"></i> Test</button>' +
-      '<button class="btn-add" onclick="saveWebAppUrl()"><i data-lucide="check"></i> <span>Save</span></button>' +
-    '</div>';
-  document.getElementById('gs-code').textContent =
-    APPS_SCRIPT_CODE.replace('PASTE_SHEET_ID_HERE', SHEET_CONFIG.sheetId.trim());
-  document.getElementById('setup-modal').classList.remove('view-hidden');
-  icons();
-}
-function closeSetup(){ document.getElementById('setup-modal').classList.add('view-hidden'); }
-function setupMsg(text, bad){
-  const el = document.getElementById('setup-msg'); if(!el) return;
-  if(!text){ el.classList.add('view-hidden'); el.innerHTML = ''; return; }
-  el.className = 'form-msg' + (bad ? ' bad' : '');
-  el.innerHTML = text;
-}
-function copyAppsScript(btn){
-  copyToClipboard(APPS_SCRIPT_CODE.replace('PASTE_SHEET_ID_HERE', SHEET_CONFIG.sheetId.trim()))
-    .then(()=>{ toast('Apps Script code copied'); });
-}
-function saveWebAppUrl(){
-  const el = document.getElementById('gs-url');
-  const url = (el ? el.value : '').trim();
-  if(url && !/^https:\/\/script\.google\.com\/.+\/exec(\?.*)?$/.test(url)){
-    setupMsg('That doesn\u2019t look like a deployment URL. It should start with <strong>https://script.google.com/macros/s/</strong> and end with <strong>/exec</strong>.', true);
-    return;
-  }
-  try{
-    if(!url){
-      // Emptying the box means "off here", which has to be recorded explicitly
-      // so it can override the URL built into the file.
-      SHEET_CONFIG.webAppUrl.trim() ? localStorage.setItem(WEBAPP_KEY, OFF_SENTINEL) : localStorage.removeItem(WEBAPP_KEY);
-    } else if(url === SHEET_CONFIG.webAppUrl.trim()){
-      localStorage.removeItem(WEBAPP_KEY);   // same as the built-in one: just use that
-    } else {
-      localStorage.setItem(WEBAPP_KEY, url);
-    }
-  }catch(e){}
-  closeSetup();
-  updateLocalFlags();
-  toast(url ? 'Sheet saving is on' : 'Sheet saving turned off here');
-}
-function clearWebAppUrl(){
-  try{ localStorage.setItem(WEBAPP_KEY, OFF_SENTINEL); }catch(e){}
-  closeSetup();
-  updateLocalFlags();
-  toast('Sheet saving turned off on this device');
-}
-function restoreWebAppUrl(){
-  try{ localStorage.removeItem(WEBAPP_KEY); }catch(e){}
-  closeSetup();
-  updateLocalFlags();
-  toast('Back to the built-in connection');
-}
-async function testWebApp(){
-  const el = document.getElementById('gs-url');
-  const url = (el ? el.value : '').trim();
-  if(!url){ setupMsg('Paste the web app URL first.', true); return; }
-  setupMsg('Testing…', false);
-  try{
-    const res = await fetch(url, { method:'GET', redirect:'follow' });
-    const txt = await res.text();
-    let data = null; try{ data = JSON.parse(txt); }catch(e){}
-    if(data && data.ok) setupMsg('Connected. Press <strong>Save</strong> and new entries will go into the sheet.', false);
-    else setupMsg('Reached it, but the reply wasn\u2019t what the app expected. Check that the code was pasted in full and that access is set to <strong>Anyone</strong>.', true);
-  }catch(err){
-    setupMsg('Couldn\u2019t check it from the browser \u2014 that\u2019s often just the deployment\u2019s access setting. Save it anyway and add one test entry; the app will tell you if the row didn\u2019t land.', true);
-  }
-}
-
-/* Close the add/review/setup dialogs with Escape */
+/* Close the add / review dialogs with Escape */
 document.addEventListener('keydown', e=>{
   if(e.key === 'Escape'){
-    if(!document.getElementById('setup-modal').classList.contains('view-hidden')) return closeSetup();
     if(!document.getElementById('local-modal').classList.contains('view-hidden')) return closeLocalMgr();
     if(!document.getElementById('entry-modal').classList.contains('view-hidden')) return closeEntryModal();
   }
